@@ -172,6 +172,19 @@ Contacts
 Tato část popisuje práci s kontakty
 --
 
+Služba pro ověření dostupnosti domény.
+POST /contacts/check
+{"contact":{"id":"FRANTA_DRZITEL"}}
+< 200
+{"request":{
+  "registry_object_name":"FRANTA_DRZITEL",
+  "registry_object_type":"Contact",
+  "id":1,
+  "content":null,
+  "status":"processing",
+  "request_type":"check"}
+}
+
 Služba pro vytvoření nového kontaktu
 
 Parametry:
@@ -207,11 +220,31 @@ POST /contacts/
   "request_type":"create"}
 }
 
+Změna registrátora kontaktu na 1X.
+
+Parametry:
+
+* __id__ - identifikátor kontaktu
+* __authorization_key__ - autorizační klíč pro převod konktatu
+
+POST /contacts/transfer
+'{"contact":{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}}'
+< 202
+{"request":{
+  "registry_object_name":"FRANTA_DRZITEL",
+  "registry_object_type":"Contact",
+  "id":1,
+  "content":{
+    "authorization_key":"1234abcd"},
+  "status":"processing",
+  "request_type":"transfer"}
+}
+
 Služba pro změnu kontaktu
 
 Parametry:
 
-* __id__ - id kontaktu
+* __id__ - identifikátor kontaktu
 
 * __type__ - druh kontaktu
 * __email__ - email
