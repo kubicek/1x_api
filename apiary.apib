@@ -55,7 +55,7 @@ Parametry:
 * __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů
 
 POST /domains/register
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"novadomena.cz",
@@ -77,7 +77,7 @@ Parametry:
 
 POST /domains/transfer
 '{"domain":{"fqdn":"novadomena.cz","authorization_key":"1234abcd"}}'
-< 201
+< 202
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -97,7 +97,7 @@ Parametry:
 
 POST /domains/renew
 {"domain":{"fqdn":"novadomena.cz","current_expiration_date":"2011-01-01"}}
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"novadomena.cz",
@@ -120,7 +120,7 @@ Parametry:
 
 POST /domains/change_dns
 {"domain":{"fqdn":"novadomena.cz","nsset":"KRAXNET"}}
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"novadomena.cz",
@@ -180,13 +180,13 @@ Parametry:
 
 Hodnoty odpovědi:
 
-* **processing** - požadavek je ve zpracování 
-* **failed** - požadavek nebyl zpracován kvůli chybě 
-* **registered** - (pouze pro požadavek na registraci domény) - doména úspěšně zaregistrována 
-* **transferred** - (pouze pro požadavek na transfer domény) - doména úspěšně převedena 
-* **available** - (pouze pro požadavek na ověření dostupnosti domény) - doména je volná 
-* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény) - doména není volná 
-* **successful** - požadavek byl úspěšně zpracován 
+* **processing** - požadavek je ve zpracování
+* **failed** - požadavek nebyl zpracován kvůli chybě
+* **registered** - (pouze pro požadavek na registraci domény) - doména úspěšně zaregistrována
+* **transferred** - (pouze pro požadavek na transfer domény) - doména úspěšně převedena
+* **available** - (pouze pro požadavek na ověření dostupnosti domény) - doména je volná
+* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény) - doména není volná
+* **successful** - požadavek byl úspěšně zpracován
 
 GET /requests/{id}/status
 < 200
@@ -257,7 +257,7 @@ Parametry:
 * __phone__ - telefon
 
 POST /contacts/
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"DRZITEL",
@@ -294,13 +294,14 @@ Parametry:
 * __phone__ - telefon
 
 PUT /contacts/{id}
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
   "id":1,
   "content":{
+    "id":"DRZITEL",
     "type":"registrant",
     "address": "Hlinská 97",
     "city": "Zlín"
@@ -316,14 +317,101 @@ Parametry:
 * **id** - identifikátor kontaktu
 
 DELETE /contacts/{id}
-< 201
+< 202
 < Location: http://endpoint.1x/requests/1
 {"request":{
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
   "id":1,
   "content":{
-    "id":"DRZITEL"},
+    "id":"DRZITEL"
+    },
   "status":"processing",
   "request_type":"delete"}
 }
+
+
+--
+Nssets
+Tato část popisuje práci s nssety
+--
+
+Služba pro vytvoření nového nssetu
+
+Parametry:
+
+* __name__ - jméno nssetu
+* __nameservers__ - výčet nameserverů
+* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+
+POST /nssets/
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "name": "NOVY-NSSET",
+    "nameservers": [
+        {"host": "ns.example.com"},
+        {"host": "ns1.example.com"},
+        {"host": "ns2.example.com"}
+    ],
+    "admin_ids": [
+        {"id": "ADMIN1"},
+        {"id": "ADMIN2"}
+    ]
+    },
+  "status":"processing",
+  "request_type":"create"}
+}
+
+Služba pro aktualizaci nssetu
+
+Parametry:
+
+* __id__ - id nssetu
+
+* __name__ - jméno nssetu
+* __nameservers__ - výčet nameserverů
+* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+
+PUT /nssets/{id}
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "id":"NOVY-NSSET",
+    "name": "JINY-NSSET",
+    "admin_ids": [
+        {"id": "ADMIN3"}
+    ]
+    },
+  "status":"processing",
+  "request_type":"update"}
+}
+
+Služba pro odstranění nssetu.
+
+Parametry:
+
+* **id** - identifikátor nssetu
+
+DELETE /nssets/{id}
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "id":"NOVY-NSSET"
+    },
+  "status":"processing",
+  "request_type":"delete"}
+}
+
