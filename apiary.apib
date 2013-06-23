@@ -232,3 +232,98 @@ GET /requests/{id}
   "status":"processing",
   "request_type":"register"}
 }
+
+
+--
+Contacts
+Tato část popisuje práci s kontakty
+--
+
+Služba pro vytvoření nového kontaktu
+
+Parametry:
+
+* __type__ - druh kontaktu
+* __email__ - email
+* __name__ - jméno a příjmení
+* __organization__ - firma
+* __address__ - ulice, číslo popisné
+* __city__ - město
+* __zip__ - poštovní směrovací číslo
+* __state__ - region
+* __country__ - stát
+* __country\_code__ - kód státu
+* __fax__ - fax
+* __phone__ - telefon
+
+POST /contacts/
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"DRZITEL",
+  "registry_object_type":"Contact",
+  "id":1,
+  "content":{
+    "type":"registrant",
+    "email": "mirek.dohnal@seznam.cz",
+    "name": "Miroslav Dohnal",
+    "address": "Stavovská 20",
+    "city": "Prague"
+    },
+  "status":"processing",
+  "request_type":"create"}
+}
+
+Služba pro změnu kontaktu
+
+Parametry:
+
+* __id__ - id kontaktu
+
+* __type__ - druh kontaktu
+* __email__ - email
+* __name__ - jméno a příjmení
+* __organization__ - firma
+* __address__ - ulice, číslo popisné
+* __city__ - město
+* __zip__ - poštovní směrovací číslo
+* __state__ - region
+* __country__ - stát
+* __country\_code__ - kód státu
+* __fax__ - fax
+* __phone__ - telefon
+
+PUT /contacts/{id}
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"DRZITEL",
+  "registry_object_type":"Contact",
+  "id":1,
+  "content":{
+    "type":"registrant",
+    "address": "Hlinská 97",
+    "city": "Zlín"
+    },
+  "status":"processing",
+  "request_type":"update"}
+}
+
+Služba pro odstranění kontaktu.
+
+Parametry:
+
+* **id** - identifikátor kontaktu
+
+DELETE /contacts/{id}
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"DRZITEL",
+  "registry_object_type":"Contact",
+  "id":1,
+  "content":{
+    "id":"DRZITEL"},
+  "status":"processing",
+  "request_type":"delete"}
+}
