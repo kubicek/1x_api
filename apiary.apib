@@ -168,73 +168,6 @@ GET /domains/expiring
 }
 
 --
-Requests
-Tato číst popisuje práci s odpověďmi na požadavky
---
-
-Zjištění aktuálního stavu požadavku
-
-Parametry:
-
-* **id** - identifikátor požadavku
-
-Hodnoty odpovědi:
-
-* **processing** - požadavek je ve zpracování
-* **failed** - požadavek nebyl zpracován kvůli chybě
-* **registered** - (pouze pro požadavek na registraci domény) - doména úspěšně zaregistrována
-* **transferred** - (pouze pro požadavek na transfer domény) - doména úspěšně převedena
-* **available** - (pouze pro požadavek na ověření dostupnosti domény) - doména je volná
-* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény) - doména není volná
-* **successful** - požadavek byl úspěšně zpracován
-
-GET /requests/{id}/status
-< 200
-{"request":{
-  "id":1,
-  "status":"registered",
-  "message":"Domain registered successfull"}
-}
-
-Služba pro získání všech odpovědí na zaslaný požadavek.
-
-Parametry:
-
-* **id** - identifikační číslo požadavku
-
-GET /requests/{id}/responses
-< 200
-{
-  "responses":[
-    {
-      "code":200,
-      "id":1,
-      "status":"Domain is available"
-    }
-  ]
-}
-
-Služba pro získání obsahu odeslaného požadavku.
-
-Parametry:
-
-* **id** - identifikátor požadavku
-
-GET /requests/{id}
-< 200
-{"request":{
-  "registry_object_name":"kubicek.cz",
-  "registry_object_type":"Domain",
-  "id":1,
-  "content":{
-    "dns_zone_template_id":"1",
-    "registrant_handle":"KUBICEK"},
-  "status":"processing",
-  "request_type":"register"}
-}
-
-
---
 Contacts
 Tato část popisuje práci s kontakty
 --
@@ -413,5 +346,71 @@ DELETE /nssets/{id}
     },
   "status":"processing",
   "request_type":"delete"}
+}
+
+--
+Requests
+Tato číst popisuje práci s odpověďmi na požadavky
+--
+
+Zjištění aktuálního stavu požadavku
+
+Parametry:
+
+* **id** - identifikátor požadavku
+
+Hodnoty odpovědi:
+
+* **processing** - požadavek je ve zpracování
+* **failed** - požadavek nebyl zpracován kvůli chybě
+* **registered** - (pouze pro požadavek na registraci domény) - doména úspěšně zaregistrována
+* **transferred** - (pouze pro požadavek na transfer domény) - doména úspěšně převedena
+* **available** - (pouze pro požadavek na ověření dostupnosti domény) - doména je volná
+* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény) - doména není volná
+* **successful** - požadavek byl úspěšně zpracován
+
+GET /requests/{id}/status
+< 200
+{"request":{
+  "id":1,
+  "status":"registered",
+  "message":"Domain registered successfull"}
+}
+
+Služba pro získání všech odpovědí na zaslaný požadavek.
+
+Parametry:
+
+* **id** - identifikační číslo požadavku
+
+GET /requests/{id}/responses
+< 200
+{
+  "responses":[
+    {
+      "code":200,
+      "id":1,
+      "status":"Domain is available"
+    }
+  ]
+}
+
+Služba pro získání obsahu odeslaného požadavku.
+
+Parametry:
+
+* **id** - identifikátor požadavku
+
+GET /requests/{id}
+< 200
+{"request":{
+  "registry_object_name":"kubicek.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "dns_zone_template_id":"1",
+    "registrant_handle":"KUBICEK"},
+  "status":"processing",
+  "request_type":"register"}
 }
 
