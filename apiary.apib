@@ -308,7 +308,7 @@ Parametry:
 
 * __name__ - jméno nssetu
 * __nameservers__ - výčet nameserverů
-* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+* __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
 POST /nssets/
 < 202
@@ -324,7 +324,7 @@ POST /nssets/
         {"host": "ns1.example.com"},
         {"host": "ns2.example.com"}
     ],
-    "admin_ids": [
+    "admins": [
         {"id": "ADMIN1"},
         {"id": "ADMIN2"}
     ]
@@ -341,7 +341,7 @@ Parametry:
 
 * __name__ - jméno nssetu
 * __nameservers__ - výčet nameserverů
-* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+* __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
 PUT /nssets/{id}
 < 202
@@ -353,7 +353,7 @@ PUT /nssets/{id}
   "content":{
     "id":"NOVY-NSSET",
     "name": "JINY-NSSET",
-    "admin_ids": [
+    "admins": [
         {"id": "ADMIN3"}
     ]
     },
