@@ -35,8 +35,11 @@ GET /domains/{fqdnu}
 
 Služba pro ověření dostupnosti domény.
 POST /domains/check
+> Content-Type: application/json
+> Accept: application/json
 {"domain":{"fqdn":"novadomena.cz"}}
 < 200
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -55,8 +58,11 @@ Parametry:
 * __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů
 
 POST /domains/register
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -76,8 +82,11 @@ Parametry:
 * __authorization_key__ - autorizační klíč pro převod domény
 
 POST /domains/transfer
+> Content-Type: application/json
+> Accept: application/json
 '{"domain":{"fqdn":"novadomena.cz","authorization_key":"1234abcd"}}'
 < 202
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -96,9 +105,12 @@ Parametry:
 * __current\_expiration\_date__ - datum expirace domény
 
 POST /domains/renew
+> Content-Type: application/json
+> Accept: application/json
 {"domain":{"fqdn":"novadomena.cz","current_expiration_date":"2011-01-01"}}
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -119,9 +131,12 @@ Parametry:
 * __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/change_dns
+> Content-Type: application/json
+> Accept: application/json
 {"domain":{"fqdn":"novadomena.cz","nsset":"KRAXNET"}}
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
   "registry_object_type":"Domain",
@@ -174,6 +189,8 @@ Tato část popisuje práci s kontakty
 
 Služba pro ověření dostupnosti domény.
 POST /contacts/check
+> Content-Type: application/json
+> Accept: application/json
 {"contact":{"id":"FRANTA_DRZITEL"}}
 < 200
 {"request":{
@@ -203,8 +220,11 @@ Parametry:
 * __phone__ - telefon
 
 POST /contacts/
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
@@ -228,8 +248,12 @@ Parametry:
 * __authorization_key__ - autorizační klíč pro převod konktatu
 
 POST /contacts/transfer
+> Content-Type: application/json
+> Accept: application/json
 '{"contact":{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}}'
 < 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
   "registry_object_type":"Contact",
@@ -260,8 +284,11 @@ Parametry:
 * __phone__ - telefon
 
 PUT /contacts/{id}
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
@@ -283,8 +310,11 @@ Parametry:
 * **id** - identifikátor kontaktu
 
 DELETE /contacts/{id}
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
@@ -310,9 +340,12 @@ Parametry:
 * __nameservers__ - výčet nameserverů
 * __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
-POST /nssets/
+POST /nssets
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
   "registry_object_type":"Nsset",
@@ -344,8 +377,11 @@ Parametry:
 * __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
 PUT /nssets/{id}
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
   "registry_object_type":"Nsset",
@@ -368,8 +404,11 @@ Parametry:
 * **id** - identifikátor nssetu
 
 DELETE /nssets/{id}
+> Content-Type: application/json
+> Accept: application/json
 < 202
 < Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
   "registry_object_type":"Nsset",
