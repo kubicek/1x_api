@@ -324,7 +324,94 @@ DELETE /contacts/{id}
   "registry_object_type":"Contact",
   "id":1,
   "content":{
-    "id":"DRZITEL"},
+    "id":"DRZITEL"
+    },
   "status":"processing",
   "request_type":"delete"}
 }
+
+
+--
+Nssets
+Tato část popisuje práci s nssety
+--
+
+Služba pro vytvoření nového nssetu
+
+Parametry:
+
+* __name__ - jméno nssetu
+* __nameservers__ - výčet nameserverů
+* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+
+POST /nssets/
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "name": "NOVY-NSSET",
+    "nameservers": [
+        {"host": "ns.example.com"},
+        {"host": "ns1.example.com"},
+        {"host": "ns2.example.com"}
+    ],
+    "admin_ids": [
+        {"id": "ADMIN1"},
+        {"id": "ADMIN2"}
+    ]
+    },
+  "status":"processing",
+  "request_type":"create"}
+}
+
+Služba pro aktualizaci nssetu
+
+Parametry:
+
+* __id__ - id nssetu
+
+* __name__ - jméno nssetu
+* __nameservers__ - výčet nameserverů
+* __admin_ids__ - identifikátory kontaktů oprávněných ke správě nssetu
+
+PUT /nssets/{id}
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "id":"NOVY-NSSET",
+    "name": "JINY-NSSET",
+    "admin_ids": [
+        {"id": "ADMIN3"}
+    ]
+    },
+  "status":"processing",
+  "request_type":"update"}
+}
+
+Služba pro odstranění nssetu.
+
+Parametry:
+
+* **id** - identifikátor nssetu
+
+DELETE /nssets/{id}
+< 202
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":{
+    "id":"NOVY-NSSET"
+    },
+  "status":"processing",
+  "request_type":"delete"}
+}
+
