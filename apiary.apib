@@ -1,0 +1,234 @@
+HOST: http://api.1x.sk/
+
+--- 1X public API ---
+---
+## Zabezpečení
+
+Pro úspěšné volání funkce API je potřeba zaslat přidělené uživatelské jméno a heslo prostřednictvím HTTP Basic Auth.
+
+## Požadavky
+
+Požadavky se zasílají metodou POST na příslušné URL, informační zdroje jsou dotazovány metodou GET.
+
+## Vyřizování požadavků
+
+Systém každý přijatý požadavek ihned uloží a v odpovědi odešle přidělený unikátní identifikátor. Klient nečeká na odpověď o vyřízení a může odesílat další požadavky. Kdykoliv se pak může pomocí API volání dotázat na aktuální stav vyřizování požadavku. Převážně z tohoto důvodu jsou implementované odpovědi ve formátu JSON, kdy v klientské aplikaci je možné na pozadí např. pomocí JavaScriptu průběžně dotazovat server na stav vyřizování požadavků a tento v reálném čase v aplikaci zobrazovat. Tento způsob komunikace odstraňuje i problémy při nedostupnosti registrů nebo prodlevou v jejich odpovědích. Klienta zasílající požadavek neblokujeme a jeho požadavek zpracujeme, jakmile to bude možné.
+---
+--
+Domains
+Tato část popisuje práci s doménami
+--
+
+Detail domény
+
+Parametry:
+
+* __fqdnu__ - název domény s tečkou (.) nahrazenou podtržítkem (_)
+
+GET /domains/{fqdnu}
+{"fqdnu":"1x_sk"}
+< 200
+{"domain":{
+  "name":"1x.sk",
+  "expires_on":"2011-08-28"}
+}
+
+Služba pro ověření dostupnosti domény.
+POST /domains/check
+{"domain":{"fqdn":"novadomena.cz"}}
+< 200
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":null,
+  "status":"processing",
+  "request_type":"check"}
+}
+
+Registrace nového doménového jména
+
+Parametry:
+
+* __fqdn__ - jméno domény
+* __registrant_handle__ - identifikátor kontaktu držitele
+* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů
+
+POST /domains/register
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "dns_zone_template_id":"1",
+    "registrant_handle":"DRZITEL"},
+  "status":"processing",
+  "request_type":"register"}
+}
+
+Změna registrátora domény na 1X.
+
+Parametry:
+
+* __fqdn__ - jméno domény
+* __authorization_key__ - autorizační klíč pro převod domény
+
+POST /domains/transfer
+'{"domain":{"fqdn":"novadomena.cz","authorization_key":"1234abcd"}}'
+< 201
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "authorization_key":"1234abcd"},
+  "status":"processing",
+  "request_type":"transfer"}
+}
+
+Služba pro prodloužení registrace doménového jména.
+
+Parametry:
+
+* __fqdn__ - jméno domény
+* __current\_expiration\_date__ - datum expirace domény
+
+POST /domains/renew
+{"domain":{"fqdn":"novadomena.cz","current_expiration_date":"2011-01-01"}}
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "current_expiration_date":"2011-01-01"},
+  "status":"processing",
+  "request_type":"renew"}
+}
+
+Služba pro redelegaci domény na jiné jmenné servery.
+
+Parametry:
+
+* __fqdn__ - jméno domény
+* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
+* __nameserver_1__ - jméno primárního jmenného serveru (pro ostatní domény)
+* __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+
+POST /domains/change_dns
+{"domain":{"fqdn":"novadomena.cz","nsset":"KRAXNET"}}
+< 201
+< Location: http://endpoint.1x/requests/1
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "nsset":"KRAXNET"},
+  "status":"processing",
+  "request_type":"change_dns"}
+}
+
+
+Služba pro získání seznamu všech domén.
+
+GET /domains
+< 200
+{
+  "domains":[
+    {
+      "name":"1x.sk",
+      "expires_on":"2011-08-28"
+    },
+    {
+      "name":"kraxnet.sk",
+      "expires_on":"2011-08-28"
+    }
+  ]
+}
+
+Služba pro získání seznamu expirujících domén.
+
+GET /domains/expiring
+< 200
+{
+  "domains":[
+    {
+      "name":"1x.sk",
+      "expires_on":"2011-08-28"
+    },
+    {
+      "name":"kraxnet.sk",
+      "expires_on":"2011-08-28"
+    }
+  ]
+}
+
+--
+Requests
+Tato číst popisuje práci s odpověďmi na požadavky
+--
+
+Zjištění aktuálního stavu požadavku
+
+Parametry:
+
+* **id** - identifikátor požadavku
+
+Hodnoty odpovědi:
+
+* **processing** - požadavek je ve zpracování 
+* **failed** - požadavek nebyl zpracován kvůli chybě 
+* **registered** - (pouze pro požadavek na registraci domény) - doména úspěšně zaregistrována 
+* **transferred** - (pouze pro požadavek na transfer domény) - doména úspěšně převedena 
+* **available** - (pouze pro požadavek na ověření dostupnosti domény) - doména je volná 
+* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény) - doména není volná 
+* **successful** - požadavek byl úspěšně zpracován 
+
+GET /requests/{id}/status
+< 200
+{"request":{
+  "id":1,
+  "status":"registered",
+  "message":"Domain registered successfull"}
+}
+
+Služba pro získání všech odpovědí na zaslaný požadavek.
+
+Parametry:
+
+* **id** - identifikační číslo požadavku
+
+GET /requests/{id}/responses
+< 200
+{
+  "responses":[
+    {
+      "code":200,
+      "id":1,
+      "status":"Domain is available"
+    }
+  ]
+}
+
+Služba pro získání obsahu odeslaného požadavku.
+
+Parametry:
+
+* **id** - identifikátor požadavku
+
+GET /requests/{id}
+< 200
+{"request":{
+  "registry_object_name":"kubicek.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "dns_zone_template_id":"1",
+    "registrant_handle":"KUBICEK"},
+  "status":"processing",
+  "request_type":"register"}
+}
