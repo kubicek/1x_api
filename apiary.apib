@@ -28,16 +28,16 @@ Parametry:
 GET /domains/{fqdnu}
 {"fqdnu":"1x_sk"}
 < 200
-{"domain":{
+{"domains":[{
   "name":"1x.sk",
   "expires_on":"2011-08-28"}
-}
+]}
 
 Služba pro ověření dostupnosti domény.
 POST /domains/check
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"name":"novadomena.cz"}}
+{"domains":[{"name":"novadomena.cz"}]}
 < 200
 < Content-Type: application/json
 {"request":{
@@ -84,7 +84,7 @@ Parametry:
 POST /domains/transfer
 > Content-Type: application/json
 > Accept: application/json
-'{"domain":{"name":"novadomena.cz","authorization_key":"1234abcd"}}'
+{"domains":[{"name":"novadomena.cz","authorization_key":"1234abcd"}]}
 < 202
 < Content-Type: application/json
 {"request":{
@@ -107,7 +107,7 @@ Parametry:
 POST /domains/renew
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}}
+{"domains":[{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -133,7 +133,7 @@ Parametry:
 POST /domains/change_dns
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"name":"novadomena.cz","nsset":"KRAXNET"}}
+{"domains":[{"name":"novadomena.cz","nsset":"KRAXNET"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -191,7 +191,7 @@ Služba pro ověření dostupnosti domény.
 POST /contacts/check
 > Content-Type: application/json
 > Accept: application/json
-{"contact":{"id":"FRANTA_DRZITEL"}}
+{"contacts":[{"id":"FRANTA_DRZITEL"}]}
 < 200
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
@@ -250,7 +250,7 @@ Parametry:
 POST /contacts/transfer
 > Content-Type: application/json
 > Accept: application/json
-'{"contact":{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}}'
+{"contacts":[{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
