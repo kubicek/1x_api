@@ -187,12 +187,12 @@ Contacts
 Tato část popisuje práci s kontakty
 --
 
-Služba pro ověření dostupnosti domény.
+Služba pro ověření dostupnosti kontaktu.
 POST /contacts/check
 > Content-Type: application/json
 > Accept: application/json
 {"contacts":[{"id":"FRANTA_DRZITEL"}]}
-< 200
+< 202
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
   "registry_object_type":"Contact",
@@ -331,6 +331,22 @@ DELETE /contacts/{id}
 Nssets
 Tato část popisuje práci s nssety
 --
+
+Služba pro ověření dostupnosti nssetu.
+POST /nssets/check
+> Content-Type: application/json
+> Accept: application/json
+{"nssets":[{"id":"NOVY-NSSET"}]}
+< 202
+{"request":{
+  "registry_object_name":"NOVY-NSSET",
+  "registry_object_type":"Nsset",
+  "id":1,
+  "content":null,
+  "status":"processing",
+  "request_type":"check"}
+}
+
 
 Služba pro vytvoření nového nssetu
 
