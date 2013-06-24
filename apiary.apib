@@ -430,6 +430,20 @@ Parametry:
 POST /nssets/update
 > Content-Type: application/json
 > Accept: application/json
+
+{
+  "nssets": [{
+    "id": "NOVY-NSSET",
+    "nameservers": [
+        {"host": "ns1.example.com"},
+        {"host": "ns2.example.com"}
+    ],
+    "admins": [
+        {"id": "ADMIN3"},
+    ]
+  }]
+}
+
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -439,8 +453,12 @@ POST /nssets/update
   "id":1,
   "content":{
     "id":"NOVY-NSSET",
+    "nameservers": [
+        {"host": "ns1.example.com"},
+        {"host": "ns2.example.com"}
+    ],
     "admins": [
-        {"id": "ADMIN3"}
+        {"id": "ADMIN3"},
     ]
   },
   "status":"processing",
