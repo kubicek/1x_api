@@ -55,7 +55,10 @@ Parametry:
 
 * __name__ - jméno domény
 * __registrant_handle__ - identifikátor kontaktu držitele
-* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů
+* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
+* __nameserver\_1__ - jméno primárního jmenného serveru (pro ostatní domény)
+* __nameserver\_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/register
 > Content-Type: application/json
