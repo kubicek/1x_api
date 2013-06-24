@@ -147,6 +147,46 @@ POST /domains/change_dns
   "request_type":"change_dns"}
 }
 
+Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele domény.
+
+Parametry:
+
+* __name__ - jméno domény
+* __admins__ - administrativní kontakty domény
+* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
+* __nameserver_1__ - jméno primárního jmenného serveru (pro ostatní domény)
+* __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+
+POST /domains/update
+> Content-Type: application/json
+> Accept: application/json
+{"domains":[
+  {
+    "name":"novadomena.cz",
+    "admins": [
+      {"id": "ADMIN1"},
+      {"id": "ADMIN2"}
+    ],
+    "nsset":"KRAXNET"
+  }
+]}
+< 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "admins": [
+      {"id": "ADMIN1"},
+      {"id": "ADMIN2"}
+    ],
+    "nsset":"KRAXNET"},
+  "status":"processing",
+  "request_type":"UDPATE"}
+}
+
 Služba pro odpojení domény z účtu subregistrátora (zánik vztahu se zákazníkem).
 
 Parametry:
