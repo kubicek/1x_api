@@ -268,10 +268,9 @@ Služba pro vytvoření nového kontaktu
 
 Parametry:
 
-* __type__ - druh kontaktu
-* __email__ - email
 * __name__ - jméno a příjmení
 * __organization__ - firma
+* __email__ - email
 * __address__ - ulice, číslo popisné
 * __city__ - město
 * __zip__ - poštovní směrovací číslo
@@ -280,6 +279,8 @@ Parametry:
 * __country\_code__ - kód státu
 * __fax__ - fax
 * __phone__ - telefon
+* __ident\_type__ - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
+* __ident\_value__ - hodnota identifikátoru
 
 POST /contacts/register
 > Content-Type: application/json
@@ -292,10 +293,9 @@ POST /contacts/register
   "registry_object_type":"Contact",
   "id":1,
   "content":{
-    "type":"registrant",
-    "email": "mirek.dohnal@seznam.cz",
-    "name": "Miroslav Dohnal",
-    "address": "Stavovská 20",
+    "email": "nejaky.email@seznam.cz",
+    "name": "Miroslav Novák",
+    "address": "Barevná 20",
     "city": "Prague"
     },
   "status":"processing",
@@ -332,10 +332,9 @@ Parametry:
 
 * __id__ - identifikátor kontaktu
 
-* __type__ - druh kontaktu
-* __email__ - email
 * __name__ - jméno a příjmení
 * __organization__ - firma
+* __email__ - email
 * __address__ - ulice, číslo popisné
 * __city__ - město
 * __zip__ - poštovní směrovací číslo
@@ -344,6 +343,8 @@ Parametry:
 * __country\_code__ - kód státu
 * __fax__ - fax
 * __phone__ - telefon
+* __ident\_type__ - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
+* __ident\_value__ - hodnota identifikátoru
 
 POST /contacts/update
 > Content-Type: application/json
@@ -357,7 +358,6 @@ POST /contacts/update
   "id":1,
   "content":{
     "id":"DRZITEL",
-    "type":"registrant",
     "address": "Hlinská 97",
     "city": "Zlín"
     },
