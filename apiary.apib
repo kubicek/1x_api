@@ -283,7 +283,7 @@ Parametry:
 * __fax__ - fax
 * __phone__ - telefon
 
-PUT /contacts/{id}
+POST /contacts/update
 > Content-Type: application/json
 > Accept: application/json
 < 202
@@ -406,7 +406,7 @@ Parametry:
 * __nameservers__ - výčet nameserverů
 * __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
-PUT /nssets/{id}
+POST /nssets/update
 > Content-Type: application/json
 > Accept: application/json
 < 202
