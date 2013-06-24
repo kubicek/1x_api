@@ -486,7 +486,7 @@ POST /nssets/delete
 
 --
 Requests
-Tato číst popisuje práci s odpověďmi na požadavky
+Tato část popisuje práci s odpověďmi na požadavky
 --
 
 Zjištění aktuálního stavu požadavku
@@ -550,3 +550,16 @@ GET /requests/{id}
   "request_type":"register"}
 }
 
+--
+Account
+Tato část popisuje práci se subregistrátorským účtem
+--
+
+Zjištění aktuálního stavu kreditu
+
+GET /account/balance
+< 200
+{"balance":{
+  "currency":"CZK,
+  "amount":"200"
+}
