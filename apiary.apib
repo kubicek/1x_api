@@ -206,7 +206,6 @@ Služba pro vytvoření nového kontaktu
 
 Parametry:
 
-* __type__ - druh kontaktu
 * __email__ - email
 * __name__ - jméno a příjmení
 * __organization__ - firma
@@ -230,7 +229,6 @@ POST /contacts/register
   "registry_object_type":"Contact",
   "id":1,
   "content":{
-    "type":"registrant",
     "email": "mirek.dohnal@seznam.cz",
     "name": "Miroslav Dohnal",
     "address": "Stavovská 20",
@@ -270,7 +268,6 @@ Parametry:
 
 * __id__ - identifikátor kontaktu
 
-* __type__ - druh kontaktu
 * __email__ - email
 * __name__ - jméno a příjmení
 * __organization__ - firma
@@ -295,7 +292,6 @@ POST /contacts/update
   "id":1,
   "content":{
     "id":"DRZITEL",
-    "type":"registrant",
     "address": "Hlinská 97",
     "city": "Zlín"
     },
