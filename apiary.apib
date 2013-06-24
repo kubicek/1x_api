@@ -151,6 +151,30 @@ POST /domains/change_dns
   "request_type":"change_dns"}
 }
 
+Služba pro změnu držitele doménového jména
+
+Parametry:
+
+* __name__ - jméno domény
+* __registrant\_handle__ - identifikátor kontaktu nového držitele
+
+POST /domains/registrant_change
+> Content-Type: application/json
+> Accept: application/json
+{"domains":[{"name":"novadomena.cz","registrant_handle":"KRAXNET"}]}
+< 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
+{"request":{
+  "registry_object_name":"novadomena.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content":{
+    "registrant_handle":"NOVY_DRZITEL"},
+  "status":"processing",
+  "request_type":"registrant_change"}
+}
+
 Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele domény.
 
 Parametry:
