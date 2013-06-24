@@ -147,6 +147,28 @@ POST /domains/change_dns
   "request_type":"change_dns"}
 }
 
+Služba pro odpojení domény z účtu subregistrátora (zánik vztahu se zákazníkem).
+
+Parametry:
+
+* **name** - jméno domény
+
+POST /domains/release
+> Content-Type: application/json
+> Accept: application/json
+{"domains": [{ "name": "prvni.cz" }]}
+< 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
+{"request":{
+  "registry_object_name":"prvni.cz",
+  "registry_object_type":"Domain",
+  "id":1,
+  "content": null
+  "status":"processing",
+  "request_type":"release"}
+}
+
 
 Služba pro získání seznamu všech domén.
 
@@ -303,15 +325,16 @@ POST /contacts/update
   "request_type":"update"}
 }
 
-Služba pro odstranění kontaktu.
+Služba pro zrušení kontaktu, který není navázán na žádný objekt (doména, nsset, keyset).
 
 Parametry:
 
 * **id** - identifikátor kontaktu
 
-DELETE /contacts/{id}
+POST /contacts/delete
 > Content-Type: application/json
 > Accept: application/json
+{"nssets": [{ "id": "DRZITEL" }]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -319,9 +342,7 @@ DELETE /contacts/{id}
   "registry_object_name":"DRZITEL",
   "registry_object_type":"Contact",
   "id":1,
-  "content":{
-    "id":"DRZITEL"
-    },
+  "content": null
   "status":"processing",
   "request_type":"delete"}
 }
@@ -426,15 +447,16 @@ POST /nssets/update
   "request_type":"update"}
 }
 
-Služba pro odstranění nssetu.
+Služba pro zrušení nssetu. Pouze pokud není navázán na doménu.
 
 Parametry:
 
 * **id** - identifikátor nssetu
 
-DELETE /nssets/{id}
+POST /nssets/delete
 > Content-Type: application/json
 > Accept: application/json
+{"nssets": [{ "id": "NOVY-NSSET" }]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
