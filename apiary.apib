@@ -37,7 +37,7 @@ Služba pro ověření dostupnosti domény.
 POST /domains/check
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"fqdn":"novadomena.cz"}}
+{"domain":{"name":"novadomena.cz"}}
 < 200
 < Content-Type: application/json
 {"request":{
@@ -53,7 +53,7 @@ Registrace nového doménového jména
 
 Parametry:
 
-* __fqdn__ - jméno domény
+* __name__ - jméno domény
 * __registrant_handle__ - identifikátor kontaktu držitele
 * __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů
 
@@ -78,13 +78,13 @@ Změna registrátora domény na 1X.
 
 Parametry:
 
-* __fqdn__ - jméno domény
+* __name__ - jméno domény
 * __authorization_key__ - autorizační klíč pro převod domény
 
 POST /domains/transfer
 > Content-Type: application/json
 > Accept: application/json
-'{"domain":{"fqdn":"novadomena.cz","authorization_key":"1234abcd"}}'
+'{"domain":{"name":"novadomena.cz","authorization_key":"1234abcd"}}'
 < 202
 < Content-Type: application/json
 {"request":{
@@ -101,13 +101,13 @@ Služba pro prodloužení registrace doménového jména.
 
 Parametry:
 
-* __fqdn__ - jméno domény
+* __name__ - jméno domény
 * __current\_expiration\_date__ - datum expirace domény
 
 POST /domains/renew
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"fqdn":"novadomena.cz","current_expiration_date":"2011-01-01"}}
+{"domain":{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -125,7 +125,7 @@ Služba pro redelegaci domény na jiné jmenné servery.
 
 Parametry:
 
-* __fqdn__ - jméno domény
+* __name__ - jméno domény
 * __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
 * __nameserver_1__ - jméno primárního jmenného serveru (pro ostatní domény)
 * __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
@@ -133,7 +133,7 @@ Parametry:
 POST /domains/change_dns
 > Content-Type: application/json
 > Accept: application/json
-{"domain":{"fqdn":"novadomena.cz","nsset":"KRAXNET"}}
+{"domain":{"name":"novadomena.cz","nsset":"KRAXNET"}}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
