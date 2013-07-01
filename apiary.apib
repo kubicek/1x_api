@@ -381,7 +381,6 @@ Služba pro změnu kontaktu.
 Parametry:
 
 * __id__ - identifikátor kontaktu
-
 * __name__ - jméno a příjmení
 * __organization__ - firma
 * __email__ - email
@@ -399,6 +398,14 @@ Parametry:
 POST /contacts/update
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
+{"contacts":[
+  {
+    "id": "DRZITEL",
+    "name": "Miroslav Novák",
+    "address": "Hlinská 97",
+    "city": "Zlín"
+  }
+]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
