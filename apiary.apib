@@ -34,6 +34,7 @@ GET /domains/{fqdnu}
 ]}
 
 Služba pro ověření dostupnosti domény.
+
 POST /domains/check
 > Content-Type: application/json
 > Accept: application/json
@@ -49,7 +50,7 @@ POST /domains/check
   "request_type":"check"}
 }
 
-Registrace nového doménového jména
+Služba pro registraci nového doménového jména.
 
 Parametry:
 
@@ -90,7 +91,7 @@ POST /domains/register
   "request_type":"register"}
 }
 
-Změna registrátora domény na 1X.
+Služba pro změnu registrátora domény na 1X.
 
 Parametry:
 
@@ -163,7 +164,7 @@ POST /domains/change_dns
   "request_type":"change_dns"}
 }
 
-Služba pro změnu držitele doménového jména
+Služba pro změnu držitele doménového jména.
 
 Parametry:
 
@@ -290,6 +291,7 @@ Tato část popisuje práci s kontakty
 --
 
 Služba pro ověření dostupnosti kontaktu.
+
 POST /contacts/check
 > Content-Type: application/json
 > Accept: application/json
@@ -304,7 +306,7 @@ POST /contacts/check
   "request_type":"check"}
 }
 
-Služba pro vytvoření nového kontaktu
+Služba pro vytvoření nového kontaktu.
 
 Parametry:
 
@@ -342,7 +344,7 @@ POST /contacts/register
   "request_type":"create"}
 }
 
-Změna registrátora kontaktu na 1X.
+Služba pro změnu registrátora kontaktu na 1X.
 
 Parametry:
 
@@ -366,7 +368,7 @@ POST /contacts/transfer
   "request_type":"transfer"}
 }
 
-Služba pro změnu kontaktu
+Služba pro změnu kontaktu.
 
 Parametry:
 
@@ -434,6 +436,7 @@ Tato část popisuje práci s nssety
 --
 
 Služba pro ověření dostupnosti nssetu.
+
 POST /nssets/check
 > Content-Type: application/json
 > Accept: application/json
@@ -449,7 +452,7 @@ POST /nssets/check
 }
 
 
-Služba pro vytvoření nového nssetu
+Služba pro vytvoření nového nssetu.
 
 Parametry:
 
@@ -497,7 +500,7 @@ POST /nssets/register
   "request_type":"create"}
 }
 
-Služba pro aktualizaci nssetu
+Služba pro aktualizaci nssetu.
 
 Parametry:
 
@@ -569,7 +572,7 @@ Requests
 Tato část popisuje práci s odpověďmi na požadavky
 --
 
-Zjištění aktuálního stavu požadavku
+Služba pro zjištění aktuálního stavu požadavku.
 
 Parametry:
 
@@ -635,7 +638,7 @@ Account
 Tato část popisuje práci se subregistrátorským účtem
 --
 
-Zjištění aktuálního stavu kreditu
+Zjištění aktuálního stavu kreditu.
 
 GET /account/balance
 < 200
