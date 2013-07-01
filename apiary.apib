@@ -37,7 +37,7 @@ Služba pro ověření dostupnosti domény.
 
 POST /domains/check
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz"}]}
 < 200
 < Content-Type: application/json
@@ -64,7 +64,7 @@ Parametry:
 
 POST /domains/register
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[
   {
     "name":"novadomena.cz",
@@ -100,7 +100,7 @@ Parametry:
 
 POST /domains/transfer
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","authorization_key":"1234abcd"}]}
 < 202
 < Content-Type: application/json
@@ -123,7 +123,7 @@ Parametry:
 
 POST /domains/renew
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -149,7 +149,7 @@ Parametry:
 
 POST /domains/change_dns
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","nsset":"KRAXNET"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -173,7 +173,7 @@ Parametry:
 
 POST /domains/registrant_change
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","registrant_handle":"KRAXNET"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -200,7 +200,7 @@ Parametry:
 
 POST /domains/update
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains":[
   {
     "name":"novadomena.cz",
@@ -236,7 +236,7 @@ Parametry:
 
 POST /domains/release
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"domains": [{ "name": "prvni.cz" }]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -294,7 +294,7 @@ Služba pro ověření dostupnosti kontaktu.
 
 POST /contacts/check
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"contacts":[{"id":"FRANTA_DRZITEL"}]}
 < 202
 {"request":{
@@ -326,7 +326,7 @@ Parametry:
 
 POST /contacts/register
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -353,7 +353,7 @@ Parametry:
 
 POST /contacts/transfer
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"contacts":[{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -390,7 +390,7 @@ Parametry:
 
 POST /contacts/update
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
@@ -415,7 +415,7 @@ Parametry:
 
 POST /contacts/delete
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"nssets": [{ "id": "DRZITEL" }]}
 < 202
 < Location: http://endpoint.1x/requests/1
@@ -439,7 +439,7 @@ Služba pro ověření dostupnosti nssetu.
 
 POST /nssets/check
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"nssets":[{"id":"NOVY-NSSET"}]}
 < 202
 {"request":{
@@ -462,7 +462,7 @@ Parametry:
 
 POST /nssets/register
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {
   "nssets": [{
     "id": "NOVY-NSSET",
@@ -511,7 +511,7 @@ Parametry:
 
 POST /nssets/update
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {
   "nssets": [{
     "id": "NOVY-NSSET",
@@ -553,7 +553,7 @@ Parametry:
 
 POST /nssets/delete
 > Content-Type: application/json
-> Accept: application/json
+> Accept: application/vnd.1x.common_v1+json
 {"nssets": [{ "id": "NOVY-NSSET" }]}
 < 202
 < Location: http://endpoint.1x/requests/1
