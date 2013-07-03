@@ -26,8 +26,10 @@ Parametry:
 * __fqdnu__ - název domény s tečkou (.) nahrazenou podtržítkem (_)
 
 GET /domains/{fqdnu}
+> Content-Type: application/vnd.1x.common_v1+json
 > Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {"domains":[{
   "name":"1x.sk",
   "expires_on":"2011-08-28"}
@@ -40,6 +42,7 @@ POST /domains/check
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz"}]}
 < 202
+< Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
@@ -103,6 +106,7 @@ POST /domains/transfer
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","authorization_key":"1234abcd"}]}
 < 202
+< Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
@@ -254,7 +258,10 @@ POST /domains/release
 Služba pro získání seznamu všech domén.
 
 GET /domains
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {
   "domains":[
     {
@@ -271,7 +278,10 @@ GET /domains
 Služba pro získání seznamu expirujících domén.
 
 GET /domains/expiring
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {
   "domains":[
     {
@@ -297,6 +307,8 @@ POST /contacts/check
 > Accept: application/vnd.1x.common_v1+json
 {"contacts":[{"id":"FRANTA_DRZITEL"}]}
 < 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
   "registry_object_type":"Contact",
@@ -456,6 +468,8 @@ POST /nssets/check
 > Accept: application/vnd.1x.common_v1+json
 {"nssets":[{"id":"NOVY-NSSET"}]}
 < 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
   "registry_object_type":"Nsset",
@@ -602,7 +616,10 @@ Hodnoty odpovědi:
 * **successful** - požadavek byl úspěšně zpracován
 
 GET /requests/{id}/status
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {"request":{
   "id":1,
   "status":"registered",
@@ -616,7 +633,10 @@ Parametry:
 * **id** - identifikační číslo požadavku
 
 GET /requests/{id}/responses
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {
   "responses":[
     {
@@ -635,7 +655,10 @@ Parametry:
 * **id** - identifikátor požadavku
 
 GET /requests/{id}
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {"request":{
   "registry_object_name":"kubicek.cz",
   "registry_object_type":"Domain",
@@ -655,7 +678,10 @@ Tato část popisuje práci se subregistrátorským účtem
 Zjištění aktuálního stavu kreditu.
 
 GET /account/balance
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
 < 200
+< Content-Type: application/json
 {"balance":{
   "currency":"CZK",
   "amount":"200.00"}
