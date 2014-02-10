@@ -96,21 +96,13 @@ POST /domains/register
 
 Služba pro registraci více nových doménových jmen.
 
-Parametry:
-
-* __name__ - jméno domény
-* __registrant_handle__ - identifikátor kontaktu držitele
-* __admins__ - administrativní kontakty domény
-* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
-* __nameserver\_1__ - jméno primárního jmenného serveru (pro ostatní domény)
-* __nameserver\_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
-
-POST /domains/register
+POST /orders
 > Content-Type: application/vnd.1x.common_v1+json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[
+{"requests":[
   {
+    "request_type":"register",
+    "registry_object_type":"Domain",
     "name":"novadomena.cz",
     "registrant_handle":"DRZITEL",
     "dns_zone_template_id":"1",
@@ -122,6 +114,8 @@ POST /domains/register
   }
 ],[
   {
+    "request_type":"register",
+    "registry_object_type":"Domain",
     "name":"novadomena2.cz",
     "registrant_handle":"DRZITEL2",
     "dns_zone_template_id":"1",
