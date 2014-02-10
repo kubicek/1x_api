@@ -94,6 +94,74 @@ POST /domains/register
   "request_type":"register"}
 }
 
+Služba pro registraci více nových doménových jmen.
+
+Parametry:
+
+* __name__ - jméno domény
+* __registrant_handle__ - identifikátor kontaktu držitele
+* __admins__ - administrativní kontakty domény
+* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
+* __nameserver\_1__ - jméno primárního jmenného serveru (pro ostatní domény)
+* __nameserver\_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+
+POST /domains/register
+> Content-Type: application/vnd.1x.common_v1+json
+> Accept: application/vnd.1x.common_v1+json
+{"domains":[
+  {
+    "name":"novadomena.cz",
+    "registrant_handle":"DRZITEL",
+    "dns_zone_template_id":"1",
+    "admins": [
+      {"id": "ADMIN1"},
+      {"id": "ADMIN2"}
+    ],
+    "nsset":"KRAXNET"
+  }
+],[
+  {
+    "name":"novadomena2.cz",
+    "registrant_handle":"DRZITEL2",
+    "dns_zone_template_id":"1",
+    "admins": [
+      {"id": "ADMIN3"},
+      {"id": "ADMIN4"}
+    ],
+    "nsset":"KRAXNET"
+  }
+]}
+< 202
+< Location: http://endpoint.1x/requests/1
+< Content-Type: application/json
+{"order":{
+  "id":1,
+  "registry_object_type":"Domain",
+  "request_type":"register",
+  "created_at":"2014-02-10T00:00:00+01:00",
+  "requests":[
+  {
+    "registry_object_name":"novadomena.cz",
+    "registry_object_type":"Domain",
+    "id":1,
+    "content":{
+      "dns_zone_template_id":"1",
+      "registrant_handle":"DRZITEL"},
+    "status":"processing",
+    "request_type":"register"},
+  {
+    "registry_object_name":"novadomena2.cz",
+    "registry_object_type":"Domain",
+    "id":2,
+    "content":{
+      "dns_zone_template_id":"1",
+      "registrant_handle":"DRZITEL2"},
+    "status":"processing",
+    "request_type":"register"}
+]}}
+
+
 Služba pro změnu registrátora domény na 1X.
 
 Parametry:
