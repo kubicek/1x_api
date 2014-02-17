@@ -697,58 +697,86 @@ Služba pro registraci více nových doménových jmen.
 POST /orders
 > Content-Type: application/vnd.1x.common_v1+json
 > Accept: application/vnd.1x.common_v1+json
-{"requests":[
+{"requests": [
   {
-    "request_type":"register",
-    "registry_object_type":"Domain",
-    "name":"novadomena.cz",
-    "registrant_handle":"DRZITEL",
-    "dns_zone_template_id":"1",
+    "request_type": "register",
+    "registry_object_type": "Domain",
+    "name": "novadomena.cz",
+    "registrant_handle": "DRZITEL",
+    "dns_zone_template_id": "1",
     "admins": [
-      {"id": "ADMIN1"},
-      {"id": "ADMIN2"}
+      {
+        "id": "ADMIN1"
+      },
+      {
+        "id": "ADMIN2"
+      }
     ],
-    "nsset":"KRAXNET"
-  }
-],[
+    "nsset": "KRAXNET"
+  },
   {
-    "request_type":"register",
-    "registry_object_type":"Domain",
-    "name":"novadomena2.cz",
-    "registrant_handle":"DRZITEL2",
-    "dns_zone_template_id":"1",
+    "request_type": "register",
+    "registry_object_type": "Domain",
+    "name": "novadomena2.cz",
+    "registrant_handle": "DRZITEL2",
+    "dns_zone_template_id": "1",
     "admins": [
-      {"id": "ADMIN3"},
-      {"id": "ADMIN4"}
+      {
+        "id": "ADMIN3"
+      },
+      {
+        "id": "ADMIN4"
+      }
     ],
-    "nsset":"KRAXNET"
+    "nsset": "KRAXNET"
   }
 ]}
 < 202
 < Location: http://endpoint.1x/orders/1
 < Content-Type: application/json
-{"order":{
-  "id":1,
-  "registry_object_type":"Domain",
-  "request_type":"register",
-  "created_at":"2014-02-10T00:00:00+01:00",
-  "requests":[
-  {
-    "registry_object_name":"novadomena.cz",
-    "registry_object_type":"Domain",
-    "id":1,
-    "content":{
-      "dns_zone_template_id":"1",
-      "registrant_handle":"DRZITEL"},
-    "status":"processing",
-    "request_type":"register"},
-  {
-    "registry_object_name":"novadomena2.cz",
-    "registry_object_type":"Domain",
-    "id":2,
-    "content":{
-      "dns_zone_template_id":"1",
-      "registrant_handle":"DRZITEL2"},
-    "status":"processing",
-    "request_type":"register"}
-]}}
+{"order": {
+  "id": 1,
+  "created_at": "2014-02-10T00:00:00+01:00",
+  "requests": [
+    {
+      "id": 1,
+      "registry_object_name": "novadomena.cz",
+      "registry_object_type": "Domain",
+      "content": {
+        "registrant_handle": "DRZITEL",
+        "dns_zone_template_id": "1",
+        "admins": [
+          {
+            "id": "ADMIN1"
+          },
+          {
+            "id": "ADMIN2"
+          }
+        ],
+        "nsset": "KRAXNET"
+      },
+      "status": "processing",
+      "request_type": "register"
+    },
+    {
+      "id": 2,
+      "registry_object_name": "novadomena2.cz",
+      "registry_object_type": "Domain",
+      "content": {
+        "registrant_handle": "DRZITEL2",
+        "dns_zone_template_id": "1",
+        "admins": [
+          {
+            "id": "ADMIN3"
+          },
+          {
+            "id": "ADMIN4"
+          }
+        ],
+        "nsset": "KRAXNET"
+      },
+      "status": "processing",
+      "request_type": "register"
+    }
+  ]
+}}
