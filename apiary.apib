@@ -692,7 +692,42 @@ Order
 Tato část popisuje zadávání objednávek s více požadavky
 --
 
-Služba pro registraci více nových doménových jmen.
+Služba pro zadání objednávky s více požadavky naráz.
+
+Základní parametry jednotlivých požadavků:
+
+* **request_type** - typ požadavku
+* **registry_object_type** - typ objektu, kterého se požadavek týká
+* **name** - název objektu, které se požadavek týká (pouze pro domény)
+* **id** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
+
+Další parametry jsou shodné jako u příslušného typu requestu - viz výše.
+
+Povolené hodnoty **registry_object_type**:
+
+* Domain
+* Contact
+* Nsset
+* Keyset
+
+Povolené hodnoty **request_type**:
+
+* check
+* register
+* update
+* authinfo
+* transfer
+
+Pro domény navíc:
+
+* renew
+* change_dns
+* registrant_change
+
+Pro ostatní objekty navíc:
+
+* delete
+
 
 POST /orders
 > Content-Type: application/vnd.1x.common_v1+json
