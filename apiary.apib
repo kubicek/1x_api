@@ -697,18 +697,18 @@ Služba pro zadání objednávky s více požadavky naráz.
 Základní parametry jednotlivých požadavků:
 
 * **request_type** - typ požadavku
-* **registry_object_type** - typ objektu, kterého se požadavek týká
+* **object_type** - typ objektu, kterého se požadavek týká
 * **name** - název objektu, které se požadavek týká (pouze pro domény)
 * **id** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
 
 Další parametry jsou shodné jako u příslušného typu requestu - viz výše.
 
-Povolené hodnoty **registry_object_type**:
+Povolené hodnoty **object_type**:
 
-* Domain
-* Contact
-* Nsset
-* Keyset
+* domain
+* contact
+* nsset
+* keyset
 
 Povolené hodnoty **request_type**:
 
@@ -735,34 +735,20 @@ POST /orders
 {"requests": [
   {
     "request_type": "register",
-    "registry_object_type": "Domain",
+    "object_type": "domain",
     "name": "novadomena.cz",
-    "registrant_handle": "DRZITEL",
+    "registrant": "DRZITEL",
     "dns_zone_template_id": "1",
-    "admins": [
-      {
-        "id": "ADMIN1"
-      },
-      {
-        "id": "ADMIN2"
-      }
-    ],
+    "admins": ["ADMIN1", "ADMIN2"],
     "nsset": "KRAXNET"
   },
   {
     "request_type": "register",
-    "registry_object_type": "Domain",
+    "object_type": "domain",
     "name": "novadomena2.cz",
-    "registrant_handle": "DRZITEL2",
+    "registrant": "DRZITEL2",
     "dns_zone_template_id": "1",
-    "admins": [
-      {
-        "id": "ADMIN3"
-      },
-      {
-        "id": "ADMIN4"
-      }
-    ],
+    "admins": ["ADMIN3", "ADMIN4"],
     "nsset": "KRAXNET"
   }
 ]}
@@ -776,18 +762,11 @@ POST /orders
     {
       "id": 1,
       "registry_object_name": "novadomena.cz",
-      "registry_object_type": "Domain",
+      "object_type": "domain",
       "content": {
-        "registrant_handle": "DRZITEL",
+        "registrant": "DRZITEL",
         "dns_zone_template_id": "1",
-        "admins": [
-          {
-            "id": "ADMIN1"
-          },
-          {
-            "id": "ADMIN2"
-          }
-        ],
+        "admins": ["ADMIN1", "ADMIN2"],
         "nsset": "KRAXNET"
       },
       "status": "processing",
@@ -796,18 +775,11 @@ POST /orders
     {
       "id": 2,
       "registry_object_name": "novadomena2.cz",
-      "registry_object_type": "Domain",
+      "object_type": "domain",
       "content": {
-        "registrant_handle": "DRZITEL2",
+        "registrant": "DRZITEL2",
         "dns_zone_template_id": "1",
-        "admins": [
-          {
-            "id": "ADMIN3"
-          },
-          {
-            "id": "ADMIN4"
-          }
-        ],
+        "admins": ["ADMIN3", "ADMIN4"],
         "nsset": "KRAXNET"
       },
       "status": "processing",
