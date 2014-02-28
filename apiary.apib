@@ -46,7 +46,7 @@ POST /domains/check
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":null,
   "status":"processing",
@@ -58,7 +58,7 @@ Služba pro registraci nového doménového jména.
 Parametry:
 
 * __name__ - jméno domény
-* __registrant_handle__ - identifikátor kontaktu držitele
+* __registrant__ - identifikátor kontaktu držitele
 * __admins__ - administrativní kontakty domény
 * __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
 * __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
@@ -71,7 +71,7 @@ POST /domains/register
 {"domains":[
   {
     "name":"novadomena.cz",
-    "registrant_handle":"DRZITEL",
+    "registrant":"DRZITEL",
     "dns_zone_template_id":"1",
     "admins": [
       {"id": "ADMIN1"},
@@ -85,11 +85,11 @@ POST /domains/register
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "dns_zone_template_id":"1",
-    "registrant_handle":"DRZITEL"},
+    "registrant":"DRZITEL"},
   "status":"processing",
   "request_type":"register"}
 }
@@ -110,7 +110,7 @@ POST /domains/transfer
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "authorization_key":"1234abcd"},
@@ -134,7 +134,7 @@ POST /domains/renew
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "current_expiration_date":"2011-01-01"},
@@ -160,7 +160,7 @@ POST /domains/change_dns
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "nsset":"KRAXNET"},
@@ -173,21 +173,21 @@ Služba pro změnu držitele doménového jména.
 Parametry:
 
 * __name__ - jméno domény
-* __registrant\_handle__ - identifikátor kontaktu nového držitele
+* __registrant__ - identifikátor kontaktu nového držitele
 
 POST /domains/registrant_change
 > Content-Type: application/vnd.1x.common_v1+json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz","registrant_handle":"KRAXNET"}]}
+{"domains":[{"name":"novadomena.cz","registrant":"KRAXNET"}]}
 < 202
 < Location: http://endpoint.1x/requests/1
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
-    "registrant_handle":"NOVY_DRZITEL"},
+    "registrant":"NOVY_DRZITEL"},
   "status":"processing",
   "request_type":"registrant_change"}
 }
@@ -220,7 +220,7 @@ POST /domains/update
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"novadomena.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "admins": [
@@ -247,7 +247,7 @@ POST /domains/release
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"prvni.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content": null
   "status":"processing",
@@ -311,7 +311,7 @@ POST /contacts/check
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
-  "registry_object_type":"Contact",
+  "object_type":"contact",
   "id":1,
   "content":null,
   "status":"processing",
@@ -352,7 +352,7 @@ POST /contacts/register
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
-  "registry_object_type":"Contact",
+  "object_type":"contact",
   "id":1,
   "content":{
     "email": "nejaky.email@seznam.cz",
@@ -380,7 +380,7 @@ POST /contacts/transfer
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"FRANTA_DRZITEL",
-  "registry_object_type":"Contact",
+  "object_type":"contact",
   "id":1,
   "content":{
     "authorization_key":"1234abcd"},
@@ -423,7 +423,7 @@ POST /contacts/update
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
-  "registry_object_type":"Contact",
+  "object_type":"contact",
   "id":1,
   "content":{
     "address": "Hlinská 97",
@@ -448,7 +448,7 @@ POST /contacts/delete
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"DRZITEL",
-  "registry_object_type":"Contact",
+  "object_type":"contact",
   "id":1,
   "content": null
   "status":"processing",
@@ -472,7 +472,7 @@ POST /nssets/check
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
-  "registry_object_type":"Nsset",
+  "object_type":"nsset",
   "id":1,
   "content":null,
   "status":"processing",
@@ -510,7 +510,7 @@ POST /nssets/register
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
-  "registry_object_type":"Nsset",
+  "object_type":"nsset",
   "id":1,
   "content":{
     "name": "NOVY-NSSET",
@@ -557,7 +557,7 @@ POST /nssets/update
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
-  "registry_object_type":"Nsset",
+  "object_type":"nsset",
   "id":1,
   "content":{
     "nameservers": [
@@ -587,7 +587,7 @@ POST /nssets/delete
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"NOVY-NSSET",
-  "registry_object_type":"Nsset",
+  "object_type":"nsset",
   "id":1,
   "content": null,
   "status":"processing",
@@ -661,11 +661,11 @@ GET /requests/{id}
 < Content-Type: application/json
 {"request":{
   "registry_object_name":"kubicek.cz",
-  "registry_object_type":"Domain",
+  "object_type":"domain",
   "id":1,
   "content":{
     "dns_zone_template_id":"1",
-    "registrant_handle":"KUBICEK"},
+    "registrant":"KUBICEK"},
   "status":"processing",
   "request_type":"register"}
 }
