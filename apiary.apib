@@ -26,7 +26,7 @@ Parametry:
 * __fqdnu__ - název domény s tečkou (.) nahrazenou podtržítkem (_)
 
 GET /domains/{fqdnu}
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -38,7 +38,7 @@ GET /domains/{fqdnu}
 Služba pro ověření dostupnosti domény.
 
 POST /domains/check
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz"}]}
 < 202
@@ -66,7 +66,7 @@ Parametry:
 * __nameserver\_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/register
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[
   {
@@ -102,7 +102,7 @@ Parametry:
 * __authorization_key__ - autorizační klíč pro převod domény
 
 POST /domains/transfer
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","authorization_key":"1234abcd"}]}
 < 202
@@ -126,7 +126,7 @@ Parametry:
 * __current\_expiration\_date__ - datum expirace domény
 
 POST /domains/renew
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}]}
 < 202
@@ -152,7 +152,7 @@ Parametry:
 * __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/change_dns
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","nsset":"KRAXNET"}]}
 < 202
@@ -176,7 +176,7 @@ Parametry:
 * __registrant__ - identifikátor kontaktu nového držitele
 
 POST /domains/registrant_change
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[{"name":"novadomena.cz","registrant":"KRAXNET"}]}
 < 202
@@ -203,7 +203,7 @@ Parametry:
 * __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/update
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains":[
   {
@@ -239,7 +239,7 @@ Parametry:
 * **name** - jméno domény
 
 POST /domains/release
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"domains": [{ "name": "prvni.cz" }]}
 < 202
@@ -258,7 +258,7 @@ POST /domains/release
 Služba pro získání seznamu všech domén.
 
 GET /domains
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -278,7 +278,7 @@ GET /domains
 Služba pro získání seznamu expirujících domén.
 
 GET /domains/expiring
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -303,7 +303,7 @@ Tato část popisuje práci s kontakty
 Služba pro ověření dostupnosti kontaktu.
 
 POST /contacts/check
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"contacts":[{"id":"FRANTA_DRZITEL"}]}
 < 202
@@ -337,7 +337,7 @@ Parametry:
 * __ident\_value__ - hodnota identifikátoru
 
 POST /contacts/register
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"contacts":[
   {
@@ -372,7 +372,7 @@ Parametry:
 * __authorization_key__ - autorizační klíč pro převod konktatu
 
 POST /contacts/transfer
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"contacts":[{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}]}
 < 202
@@ -408,7 +408,7 @@ Parametry:
 * __ident\_value__ - hodnota identifikátoru
 
 POST /contacts/update
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"contacts":[
   {
@@ -440,7 +440,7 @@ Parametry:
 * **id** - identifikátor kontaktu
 
 POST /contacts/delete
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"nssets": [{ "id": "DRZITEL" }]}
 < 202
@@ -464,7 +464,7 @@ Tato část popisuje práci s nssety
 Služba pro ověření dostupnosti nssetu.
 
 POST /nssets/check
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"nssets":[{"id":"NOVY-NSSET"}]}
 < 202
@@ -489,7 +489,7 @@ Parametry:
 * __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
 POST /nssets/register
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
   "nssets": [{
@@ -538,7 +538,7 @@ Parametry:
 * __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
 
 POST /nssets/update
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
   "nssets": [{
@@ -579,7 +579,7 @@ Parametry:
 * **id** - identifikátor nssetu
 
 POST /nssets/delete
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"nssets": [{ "id": "NOVY-NSSET" }]}
 < 202
@@ -616,7 +616,7 @@ Hodnoty odpovědi:
 * **successful** - požadavek byl úspěšně zpracován
 
 GET /requests/{id}/status
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -633,7 +633,7 @@ Parametry:
 * **id** - identifikační číslo požadavku
 
 GET /requests/{id}/responses
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -655,7 +655,7 @@ Parametry:
 * **id** - identifikátor požadavku
 
 GET /requests/{id}
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -678,7 +678,7 @@ Tato část popisuje práci se subregistrátorským účtem
 Zjištění aktuálního stavu kreditu.
 
 GET /account/balance
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
 < Content-Type: application/json
@@ -730,7 +730,7 @@ Pro ostatní objekty navíc:
 
 
 POST /orders
-> Content-Type: application/vnd.1x.common_v1+json
+> Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {"requests": [
   {
