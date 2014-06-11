@@ -23,213 +23,314 @@ Detail domény
 
 Parametry:
 
-* __fqdnu__ - název domény s tečkou (.) nahrazenou podtržítkem (_)
+* **fqdnu** - název domény s tečkou (.) nahrazenou podtržítkem (_)
 
 GET /domains/{fqdnu}
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
-{"domains":[{
-  "name":"1x.sk",
-  "expires_on":"2011-08-28"}
-]}
+< Content-Type: application/json; charset=utf-8
+{
+  "domains": [
+    {
+      "name": "1x.sk",
+      "expires_on": "2011-08-28",
+      "_links": {
+        "self": {
+          "href": "/domains/1x_sk"
+        }
+      }
+    }
+  ]
+}
 
 Služba pro ověření dostupnosti domény.
+
+Parametry:
+
+* **name** - jméno domény
 
 POST /domains/check
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz"}]}
+{
+  "domains": [
+    {
+      "name": "domena.cz"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":null,
-  "status":"processing",
-  "request_type":"check"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190963,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": null,
+    "status": "processing",
+    "request_type": "check"
+  }
 }
 
 Služba pro registraci nového doménového jména.
 
 Parametry:
 
-* __name__ - jméno domény
-* __registrant__ - identifikátor kontaktu držitele
-* __admins__ - administrativní kontakty domény
-* __dns\_zone\_template_id__ - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
-* __nameserver\_1__ - jméno primárního jmenného serveru (pro ostatní domény)
-* __nameserver\_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **name** - jméno domény
+* **registrant** - identifikátor kontaktu držitele
+* **period** - počet let
+* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* **nameserver_1** - jméno primárního jmenného serveru (pro ostatní domény)
+* **nameserver_2** - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **admins** - administrativní kontakty domény
+* **keyset** - identifikátor sady klíčů
+* **authorization_key** - autorizační klíč domény
 
 POST /domains/register
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[
-  {
-    "name":"novadomena.cz",
-    "registrant":"DRZITEL",
-    "dns_zone_template_id":"1",
-    "admins": [
-      {"id": "ADMIN1"},
-      {"id": "ADMIN2"}
-    ],
-    "nsset":"KRAXNET"
-  }
-]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "period": "1",
+      "registrant": "DRZITEL",
+      "nsset": "KRAXNET",
+      "dns_zone_template_id": "1",
+      "keyset": "KEYSET",
+      "authorization_key": "1234abcd",
+      "admins": [
+        {
+          "id": "ADMIN1"
+        },
+        {
+          "id": "ADMIN2"
+        }
+      ]
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "dns_zone_template_id":"1",
-    "registrant":"DRZITEL"},
-  "status":"processing",
-  "request_type":"register"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190964,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "period": "1",
+      "registrant": "DRZITEL",
+      "nsset": "KRAXNET",
+      "dns_zone_template_id": "1",
+      "keyset": "KEYSET",
+      "authorization_key": "1234abcd",
+      "admins": [
+        {
+          "id": "ADMIN1"
+        },
+        {
+          "id": "ADMIN2"
+        }
+      ]
+    },
+    "status": "processing",
+    "request_type": "register"
+  }
 }
 
 Služba pro změnu registrátora domény na 1X.
 
 Parametry:
 
-* __name__ - jméno domény
-* __authorization_key__ - autorizační klíč pro převod domény
+* **name** - jméno domény
+* **authorization_key** - autorizační klíč pro převod domény
 
 POST /domains/transfer
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz","authorization_key":"1234abcd"}]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "authorization_key": "1234abcd"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "authorization_key":"1234abcd"},
-  "status":"processing",
-  "request_type":"transfer"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190965,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "authorization_key": "1234abcd"
+    },
+    "status": "processing",
+    "request_type": "transfer"
+  }
 }
 
 Služba pro prodloužení registrace doménového jména.
 
 Parametry:
 
-* __name__ - jméno domény
-* __current\_expiration\_date__ - datum expirace domény
+* **name** - jméno domény
+* **current_expiration_date** - datum expirace domény
+* **period** - počet let
 
 POST /domains/renew
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz","current_expiration_date":"2011-01-01"}]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "period": "1",
+      "current_expiration_date": "2014-06-06"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "current_expiration_date":"2011-01-01"},
-  "status":"processing",
-  "request_type":"renew"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190966,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "period": "1",
+      "current_expiration_date": "2014-06-06"
+    },
+    "status": "processing",
+    "request_type": "renew"
+  }
 }
 
 Služba pro redelegaci domény na jiné jmenné servery.
 
 Parametry:
 
-* __name__ - jméno domény
-* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
-* __nameserver_1__ - jméno primárního jmenného serveru (pro ostatní domény)
-* __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **name** - jméno domény
+* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* **nameserver_1** - jméno primárního jmenného serveru (pro ostatní domény)
+* **nameserver_2** - jméno sekundárního jmenného serveru (pro ostatní domény)
 
 POST /domains/change_dns
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz","nsset":"KRAXNET"}]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "nsset": "KRAXNET",
+      "dns_zone_template_id": "1"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "nsset":"KRAXNET"},
-  "status":"processing",
-  "request_type":"change_dns"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190967,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "nsset": "KRAXNET",
+      "dns_zone_template_id": "1"
+    },
+    "status": "processing",
+    "request_type": "change_dns"
+  }
 }
 
 Služba pro změnu držitele doménového jména.
 
 Parametry:
 
-* __name__ - jméno domény
-* __registrant__ - identifikátor kontaktu nového držitele
+* **name** - jméno domény
+* **registrant** - identifikátor kontaktu nového držitele
 
 POST /domains/registrant_change
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[{"name":"novadomena.cz","registrant":"KRAXNET"}]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "registrant": "NOVY_DRZITEL"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "registrant":"NOVY_DRZITEL"},
-  "status":"processing",
-  "request_type":"registrant_change"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190968,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "registrant": "NOVY_DRZITEL"
+    },
+    "status": "waiting_for_authorization",
+    "request_type": "registrant_change"
+  }
 }
 
-Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele domény.
+Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele domény a změně DNS.
 
 Parametry:
 
-* __name__ - jméno domény
-* __admins__ - administrativní kontakty domény
-* __nsset__ - identifikátor sady jmenných serverů (pouze pro cz domény)
-* __nameserver_1__ - jméno primárního jmenného serveru (pro ostatní domény)
-* __nameserver_2__ - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **name** - jméno domény
+* **admins** - administrativní kontakty domény
+* **keyset** - identifikátor sady klíčů
+* **authorization_key** - autorizační klíč domény
 
 POST /domains/update
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains":[
-  {
-    "name":"novadomena.cz",
-    "admins": [
-      {"id": "ADMIN1"},
-      {"id": "ADMIN2"}
-    ],
-    "nsset":"KRAXNET"
-  }
-]}
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "keyset": "KEYSET",
+      "authorization_key": "1234abcd",
+      "admins": [
+        {
+          "id": "ADMIN1"
+        },
+        {
+          "id": "ADMIN2"
+        }
+      ]
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"novadomena.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "admins": [
-      {"id": "ADMIN1"},
-      {"id": "ADMIN2"}
-    ],
-    "nsset":"KRAXNET"},
-  "status":"processing",
-  "request_type":"update"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190969,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": {
+      "keyset": "KEYSET",
+      "authorization_key": "1234abcd",
+      "admins": [
+        {
+          "id": "ADMIN1"
+        },
+        {
+          "id": "ADMIN2"
+        }
+      ]
+    },
+    "status": "processing",
+    "request_type": "update"
+  }
 }
 
 Služba pro odpojení domény z účtu subregistrátora (zánik vztahu se zákazníkem).
@@ -241,19 +342,25 @@ Parametry:
 POST /domains/release
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"domains": [{ "name": "prvni.cz" }]}
-< 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"prvni.cz",
-  "object_type":"domain",
-  "id":1,
-  "content": null
-  "status":"processing",
-  "request_type":"release"}
+{
+  "domains": [
+    {
+      "name": "domena.cz"
+    }
+  ]
 }
-
+< 202
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190970,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": null,
+    "status": "processing",
+    "request_type": "release"
+  }
+}
 
 Služba pro získání seznamu všech domén.
 
@@ -261,16 +368,26 @@ GET /domains
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
+< Content-Type: application/json; charset=utf-8
 {
-  "domains":[
+  "domains": [
     {
-      "name":"1x.sk",
-      "expires_on":"2011-08-28"
+      "name": "1x.sk",
+      "expires_on": "2011-08-28",
+      "_links": {
+        "self": {
+          "href": "/domains/1x_sk"
+        }
+      }
     },
     {
-      "name":"kraxnet.sk",
-      "expires_on":"2011-08-28"
+      "name": "kraxnet.cz",
+      "expires_on": "2011-08-25",
+      "_links": {
+        "self": {
+          "href": "/domains/kraxnet_cz"
+        }
+      }
     }
   ]
 }
@@ -281,16 +398,26 @@ GET /domains/expiring
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
+< Content-Type: application/json; charset=utf-8
 {
-  "domains":[
+  "domains": [
     {
-      "name":"1x.sk",
-      "expires_on":"2011-08-28"
+      "name": "kraxnet.cz",
+      "expires_on": "2011-08-25",
+      "_links": {
+        "self": {
+          "href": "/domains/kraxnet_cz"
+        }
+      }
     },
     {
-      "name":"kraxnet.sk",
-      "expires_on":"2011-08-28"
+      "name": "1x.sk",
+      "expires_on": "2011-08-28",
+      "_links": {
+        "self": {
+          "href": "/domains/1x_sk"
+        }
+      }
     }
   ]
 }
@@ -302,135 +429,239 @@ Tato část popisuje práci s kontakty
 
 Služba pro ověření dostupnosti kontaktu.
 
+Parametry:
+
+* **id** - identifikátor kontaktu
+
 POST /contacts/check
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"contacts":[{"id":"FRANTA_DRZITEL"}]}
+{
+  "contacts": [
+    {
+      "id": "DRZITEL"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"FRANTA_DRZITEL",
-  "object_type":"contact",
-  "id":1,
-  "content":null,
-  "status":"processing",
-  "request_type":"check"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190971,
+    "registry_object_name": "DRZITEL",
+    "object_type": "contact",
+    "content": null,
+    "status": "processing",
+    "request_type": "check"
+  }
 }
 
 Služba pro vytvoření nového kontaktu.
 
 Parametry:
 
-* __name__ - jméno a příjmení
-* __organization__ - firma
-* __email__ - email
-* __address__ - ulice, číslo popisné
-* __city__ - město
-* __zip__ - poštovní směrovací číslo
-* __state__ - region
-* __country__ - stát
-* __country\_code__ - kód státu
-* __fax__ - fax
-* __phone__ - telefon
-* __ident\_type__ - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
-* __ident\_value__ - hodnota identifikátoru
+* **tld** - doména nejvyššího řádu (TLD)
+* **id** - identifikátor kontaktu
+* **organization** - firma
+* **first_name** - jméno
+* **last_name** - příjmení
+* **email** - e-mail
+* **phone** - telefon
+* **fax** - fax
+* **ident_type** - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
+* **ident** - hodnota identifikátoru
+* **street** - ulice, číslo popisné
+* **city** - město
+* **zip** - poštovní směrovací číslo
+* **country** - kód státu
+* **state** - region
+* **vat** - DIČ
+* **authorization_key** - autorizační klíč kontaktu
+* **notify_email** - e-mail pro oznámení
+* **hide** - skryté údaje
 
 POST /contacts/register
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"contacts":[
-  {
-    "email": "nejaky.email@seznam.cz",
-    "name": "Miroslav Novák",
-    "address": "Barevná 20",
-    "city": "Prague"
-  }
-]}
+{
+  "contacts": [
+    {
+      "tld": "cz",
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country": "CZ",
+      "organization": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat": "CZ12345678",
+      "id": "DRZITEL",
+      "authorization_key": "1234abcd",
+      "notify_email": "jan.novak@nic.cz",
+      "hide": ["email", "phone", "fax", "ident", "vat", "notify_email"],
+      "ident_type": "birthday",
+      "ident": "1940-01-25"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"DRZITEL",
-  "object_type":"contact",
-  "id":1,
-  "content":{
-    "email": "nejaky.email@seznam.cz",
-    "name": "Miroslav Novák",
-    "address": "Barevná 20",
-    "city": "Prague"
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190972,
+    "registry_object_name": "DRZITEL",
+    "object_type": "contact",
+    "content": {
+      "tld": "cz",
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country": "CZ",
+      "organization": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat": "CZ12345678",
+      "authorization_key": "1234abcd",
+      "notify_email": "jan.novak@nic.cz",
+      "hide": [
+        "email",
+        "phone",
+        "fax",
+        "ident",
+        "vat",
+        "notify_email"
+      ],
+      "ident_type": "birthday",
+      "ident": "1940-01-25"
     },
-  "status":"processing",
-  "request_type":"register"}
+    "status": "processing",
+    "request_type": "register"
+  }
 }
 
 Služba pro změnu registrátora kontaktu na 1X.
 
 Parametry:
 
-* __id__ - identifikátor kontaktu
-* __authorization_key__ - autorizační klíč pro převod konktatu
+* **id** - identifikátor kontaktu
+* **authorization_key** - autorizační klíč pro převod konktatu
 
 POST /contacts/transfer
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"contacts":[{"id":"FRANTA_DRZITEL","authorization_key":"1234abcd"}]}
+{
+  "contacts": [
+    {
+      "id": "DRZITEL",
+      "authorization_key": "1234abcd"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"FRANTA_DRZITEL",
-  "object_type":"contact",
-  "id":1,
-  "content":{
-    "authorization_key":"1234abcd"},
-  "status":"processing",
-  "request_type":"transfer"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190973,
+    "registry_object_name": "DRZITEL",
+    "object_type": "contact",
+    "content": {
+      "authorization_key": "1234abcd"
+    },
+    "status": "processing",
+    "request_type": "transfer"
+  }
 }
 
 Služba pro změnu kontaktu.
 
 Parametry:
 
-* __id__ - identifikátor kontaktu
-* __name__ - jméno a příjmení
-* __organization__ - firma
-* __email__ - email
-* __address__ - ulice, číslo popisné
-* __city__ - město
-* __zip__ - poštovní směrovací číslo
-* __state__ - region
-* __country__ - stát
-* __country\_code__ - kód státu
-* __fax__ - fax
-* __phone__ - telefon
-* __ident\_type__ - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
-* __ident\_value__ - hodnota identifikátoru
+* **tld** - doména nejvyššího řádu (TLD)
+* **id** - identifikátor kontaktu
+* **organization** - firma
+* **name** - jméno a příjmení
+* **email** - e-mail
+* **phone** - telefon
+* **fax** - fax
+* **ident_type** - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
+* **ident** - hodnota identifikátoru
+* **street** - ulice, číslo popisné
+* **city** - město
+* **zip** - poštovní směrovací číslo
+* **country** - kód státu
+* **state** - region
+* **vat** - DIČ
+* **authorization_key** - autorizační klíč kontaktu
+* **notify_email** - e-mail pro oznámení
+* **hide** - skryté údaje
 
 POST /contacts/update
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"contacts":[
-  {
-    "id": "DRZITEL",
-    "name": "Miroslav Novák",
-    "address": "Hlinská 97",
-    "city": "Zlín"
-  }
-]}
+{
+  "contacts": [
+    {
+      "tld": "cz",
+      "name": "Jan Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country": "CZ",
+      "organization": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat": "CZ12345678",
+      "id": "DRZITEL",
+      "authorization_key": "1234abcd",
+      "notify_email": "jan.novak@nic.cz",
+      "hide": ["email", "phone", "fax", "vat", "notify_email", "ident"],
+      "ident_type": "ico",
+      "ident": "12345678"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"DRZITEL",
-  "object_type":"contact",
-  "id":1,
-  "content":{
-    "address": "Hlinská 97",
-    "city": "Zlín"
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190974,
+    "registry_object_name": "DRZITEL",
+    "object_type": "contact",
+    "content": {
+      "tld": "cz",
+      "name": "Jan Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country": "CZ",
+      "organization": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat": "CZ12345678",
+      "authorization_key": "1234abcd",
+      "notify_email": "jan.novak@nic.cz",
+      "hide": [
+        "email",
+        "phone",
+        "fax",
+        "vat",
+        "notify_email",
+        "ident"
+      ],
+      "ident_type": "ico",
+      "ident": "12345678"
     },
-  "status":"processing",
-  "request_type":"update"}
+    "status": "processing",
+    "request_type": "update"
+  }
 }
 
 Služba pro zrušení kontaktu, který není navázán na žádný objekt (doména, nsset, keyset).
@@ -442,19 +673,25 @@ Parametry:
 POST /contacts/delete
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"nssets": [{ "id": "DRZITEL" }]}
-< 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"DRZITEL",
-  "object_type":"contact",
-  "id":1,
-  "content": null
-  "status":"processing",
-  "request_type":"delete"}
+{
+  "contacts": [
+    {
+      "id": "DRZITEL"
+    }
+  ]
 }
-
+< 202
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190975,
+    "registry_object_name": "DRZITEL",
+    "object_type": "contact",
+    "content": null,
+    "status": "waiting_for_authorization",
+    "request_type": "delete"
+  }
+}
 
 --
 Nssets
@@ -463,113 +700,223 @@ Tato část popisuje práci s nssety
 
 Služba pro ověření dostupnosti nssetu.
 
+Parametry:
+
+* **id** - identifikátor nssetu
+
 POST /nssets/check
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"nssets":[{"id":"NOVY-NSSET"}]}
-< 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"NOVY-NSSET",
-  "object_type":"nsset",
-  "id":1,
-  "content":null,
-  "status":"processing",
-  "request_type":"check"}
+{
+  "nssets": [
+    {
+      "id": "NSSET"
+    }
+  ]
 }
-
+< 202
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190976,
+    "registry_object_name": "NSSET",
+    "object_type": "nsset",
+    "content": null,
+    "status": "processing",
+    "request_type": "check"
+  }
+}
 
 Služba pro vytvoření nového nssetu.
 
 Parametry:
 
-* __id__ - identifikátor nssetu
-* __nameservers__ - výčet nameserverů
-* __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
+* **id** - identifikátor nssetu
+* **nameservers** - výčet nameserverů
+* **techs** - identifikátory kontaktů oprávněných ke správě nssetu
+* **authorization_key** - autorizační klíč NSSETu
+* **report_level** - úroveň kontroly
 
 POST /nssets/register
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
-  "nssets": [{
-    "id": "NOVY-NSSET",
-    "nameservers": [
-        {"host": "ns.example.com"},
-        {"host": "ns1.example.com"},
-        {"host": "ns2.example.com"}
-    ],
-    "admins": [
-        {"id": "ADMIN1"},
-        {"id": "ADMIN2"}
-    ]
-  }]
+  "nssets": [
+    {
+      "id": "NSSET",
+      "techs": [
+        {
+          "id": "TECH1"
+        },
+        {
+          "id": "TECH2"
+        }
+      ],
+      "nameservers": [
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "1.2.3.4"
+            }
+          ]
+        },
+        {
+          "hostname": "ns.kraxnet.com",
+          "addresses": [
+            {
+              "ip": "5.6.7.8"
+            },
+            {
+              "ip": "9.10.11.12"
+            }
+          ]
+        }
+      ],
+      "authorization_key": "1234abcd",
+      "report_level": "7"
+    }
+  ]
 }
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"NOVY-NSSET",
-  "object_type":"nsset",
-  "id":1,
-  "content":{
-    "name": "NOVY-NSSET",
-    "nameservers": [
-        {"host": "ns.example.com"},
-        {"host": "ns1.example.com"},
-        {"host": "ns2.example.com"}
-    ],
-    "admins": [
-        {"id": "ADMIN1"},
-        {"id": "ADMIN2"}
-    ]
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190977,
+    "registry_object_name": "NSSET",
+    "object_type": "nsset",
+    "content": {
+      "techs": [
+        {
+          "id": "TECH1"
+        },
+        {
+          "id": "TECH2"
+        }
+      ],
+      "nameservers": [
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "1.2.3.4"
+            }
+          ]
+        },
+        {
+          "hostname": "ns.kraxnet.com",
+          "addresses": [
+            {
+              "ip": "5.6.7.8"
+            },
+            {
+              "ip": "9.10.11.12"
+            }
+          ]
+        }
+      ],
+      "authorization_key": "1234abcd",
+      "report_level": "7"
     },
-  "status":"processing",
-  "request_type":"create"}
+    "status": "processing",
+    "request_type": "register"
+  }
 }
 
 Služba pro aktualizaci nssetu.
 
 Parametry:
 
-* __id__ - identifikátor nssetu
-
-* __nameservers__ - výčet nameserverů
-* __admins__ - identifikátory kontaktů oprávněných ke správě nssetu
+* **id** - identifikátor nssetu
+* **nameservers** - výčet nameserverů
+* **techs** - identifikátory kontaktů oprávněných ke správě nssetu
+* **authorization_key** - autorizační klíč NSSETu
+* **report_level** - úroveň kontroly
 
 POST /nssets/update
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
-  "nssets": [{
-    "id": "NOVY-NSSET",
-    "nameservers": [
-        {"host": "ns1.example.com"},
-        {"host": "ns2.example.com"}
-    ],
-    "admins": [
-        {"id": "ADMIN3"},
-    ]
-  }]
+  "nssets": [
+    {
+      "id": "NSSET",
+      "techs": [
+        {
+          "id": "TECH1"
+        },
+        {
+          "id": "TECH2"
+        }
+      ],
+      "nameservers": [
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "1.2.3.4"
+            }
+          ]
+        },
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "5.6.7.8"
+            },
+            {
+              "ip": "9.10.11.12"
+            }
+          ]
+        }
+      ],
+      "authorization_key": "1234abcd",
+      "report_level": "7"
+    }
+  ]
 }
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"NOVY-NSSET",
-  "object_type":"nsset",
-  "id":1,
-  "content":{
-    "nameservers": [
-        {"host": "ns1.example.com"},
-        {"host": "ns2.example.com"}
-    ],
-    "admins": [
-        {"id": "ADMIN3"},
-    ]
-  },
-  "status":"processing",
-  "request_type":"update"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190978,
+    "registry_object_name": "NSSET",
+    "object_type": "nsset",
+    "content": {
+      "techs": [
+        {
+          "id": "TECH1"
+        },
+        {
+          "id": "TECH2"
+        }
+      ],
+      "nameservers": [
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "1.2.3.4"
+            }
+          ]
+        },
+        {
+          "hostname": "ns.kraxnet.cz",
+          "addresses": [
+            {
+              "ip": "5.6.7.8"
+            },
+            {
+              "ip": "9.10.11.12"
+            }
+          ]
+        }
+      ],
+      "authorization_key": "1234abcd",
+      "report_level": "7"
+    },
+    "status": "processing",
+    "request_type": "update"
+  }
 }
 
 Služba pro zrušení nssetu. Pouze pokud není navázán na doménu.
@@ -581,17 +928,24 @@ Parametry:
 POST /nssets/delete
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"nssets": [{ "id": "NOVY-NSSET" }]}
+{
+  "nssets": [
+    {
+      "id": "NSSET"
+    }
+  ]
+}
 < 202
-< Location: http://endpoint.1x/requests/1
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"NOVY-NSSET",
-  "object_type":"nsset",
-  "id":1,
-  "content": null,
-  "status":"processing",
-  "request_type":"delete"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190979,
+    "registry_object_name": "NSSET",
+    "object_type": "nsset",
+    "content": null,
+    "status": "waiting_for_authorization",
+    "request_type": "delete"
+  }
 }
 
 --
@@ -610,7 +964,7 @@ Hodnoty odpovědi:
 * **processing** - požadavek je ve zpracování
 * **failed** - požadavek nebyl zpracován kvůli chybě
 * **registered** - (pouze pro požadavek na registraci domény, kontaktu, nssetu) - objekt úspěšně zaregistrován
-* **transferred** - (pouze pro požadavek na transfer domény, kontaktu, nssetu) - objekt úspěšně převedena
+* **transferred** - (pouze pro požadavek na transfer domény, kontaktu, nssetu) - objekt úspěšně převeden
 * **available** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt je volný pro novou registraci
 * **unavailable** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt není volný
 * **successful** - požadavek byl úspěšně zpracován
@@ -619,31 +973,32 @@ GET /requests/{id}/status
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
-{"request":{
-  "id":1,
-  "status":"registered",
-  "message":"Domain registered successfull"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190981,
+    "status": "available",
+    "message": "Domain is available"
+  }
 }
 
 Služba pro získání všech odpovědí na zaslaný požadavek.
 
 Parametry:
 
-* **id** - identifikační číslo požadavku
+* **id** - identifikátor požadavku
 
 GET /requests/{id}/responses
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
+< Content-Type: application/json; charset=utf-8
 {
-  "responses":[
+  "responses": [
     {
-      "code":200,
-      "id":1,
-      "status":"available",
-      "message":"Domain is available"
+      "id": 980190965,
+      "code": 200,
+      "status": "Domain is available"
     }
   ]
 }
@@ -658,16 +1013,16 @@ GET /requests/{id}
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
-{"request":{
-  "registry_object_name":"kubicek.cz",
-  "object_type":"domain",
-  "id":1,
-  "content":{
-    "dns_zone_template_id":"1",
-    "registrant":"KUBICEK"},
-  "status":"processing",
-  "request_type":"register"}
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": 980190983,
+    "registry_object_name": "domena.cz",
+    "object_type": "domain",
+    "content": null,
+    "status": "successful",
+    "request_type": "check"
+  }
 }
 
 --
@@ -681,10 +1036,12 @@ GET /account/balance
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 < 200
-< Content-Type: application/json
-{"balance":{
-  "currency":"CZK",
-  "amount":"200.00"}
+< Content-Type: application/json; charset=utf-8
+{
+  "balance": {
+    "currency": "CZK",
+    "amount": 0.0
+  }
 }
 
 --
@@ -728,62 +1085,51 @@ Pro ostatní objekty navíc:
 
 * delete
 
-
 POST /orders
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
-{"requests": [
-  {
-    "request_type": "register",
-    "object_type": "domain",
-    "name": "novadomena.cz",
-    "registrant": "DRZITEL",
-    "dns_zone_template_id": "1",
-    "admins": ["ADMIN1", "ADMIN2"],
-    "nsset": "KRAXNET"
-  },
-  {
-    "request_type": "register",
-    "object_type": "domain",
-    "name": "novadomena2.cz",
-    "registrant": "DRZITEL2",
-    "dns_zone_template_id": "1",
-    "admins": ["ADMIN3", "ADMIN4"],
-    "nsset": "KRAXNET"
-  }
-]}
-< 202
-< Location: http://endpoint.1x/orders/1
-< Content-Type: application/json
-{"order": {
-  "id": 1,
-  "created_at": "2014-02-10T00:00:00+01:00",
+{
   "requests": [
     {
-      "id": 1,
-      "registry_object_name": "novadomena.cz",
+      "request_type": "check",
       "object_type": "domain",
-      "content": {
-        "registrant": "DRZITEL",
-        "dns_zone_template_id": "1",
-        "admins": ["ADMIN1", "ADMIN2"],
-        "nsset": "KRAXNET"
-      },
-      "status": "processing",
-      "request_type": "register"
+      "name": "domena.cz"
     },
     {
-      "id": 2,
-      "registry_object_name": "novadomena2.cz",
+      "request_type": "check",
       "object_type": "domain",
-      "content": {
-        "registrant": "DRZITEL2",
-        "dns_zone_template_id": "1",
-        "admins": ["ADMIN3", "ADMIN4"],
-        "nsset": "KRAXNET"
-      },
-      "status": "processing",
-      "request_type": "register"
+      "name": "domena2.cz"
     }
   ]
-}}
+}
+< 202
+< Content-Type: application/json; charset=utf-8
+{
+  "order": {
+    "id": 980190984,
+    "created_at": "2014-06-11T16:42:02+02:00",
+    "requests": [
+      {
+        "id": 980190984,
+        "registry_object_name": "domena.cz",
+        "object_type": "domain",
+        "content": null,
+        "status": "processing",
+        "request_type": "check"
+      },
+      {
+        "id": 980190985,
+        "registry_object_name": "domena2.cz",
+        "object_type": "domain",
+        "content": null,
+        "status": "processing",
+        "request_type": "check"
+      }
+    ],
+    "_links": {
+      "self": {
+        "href": "/multi_requests/980190984"
+      }
+    }
+  }
+}
