@@ -82,8 +82,7 @@ Parametry:
 * **period** - počet let
 * **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
 * **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
-* **nameserver_1** - jméno primárního jmenného serveru (pro ostatní domény)
-* **nameserver_2** - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **nameservers** - jména jmenných serverů (pro ostatní domény)
 * **admins** - administrativní kontakty domény
 * **keyset** - identifikátor sady klíčů
 * **authorization_key** - autorizační klíč domény
@@ -216,8 +215,7 @@ Parametry:
 * **name** - jméno domény
 * **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
 * **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
-* **nameserver_1** - jméno primárního jmenného serveru (pro ostatní domény)
-* **nameserver_2** - jméno sekundárního jmenného serveru (pro ostatní domény)
+* **nameservers** - jména jmenných serverů (pro ostatní domény)
 
 POST /domains/change_dns
 > Content-Type: application/json
