@@ -36,6 +36,7 @@ GET /domains/{fqdnu}
       "name": "1x.sk",
       "status": "active",
       "expires_on": "2011-08-28",
+      "account": "META:2",
       "_links": {
         "self": {
           "href": "/domains/1x_sk"
@@ -356,7 +357,7 @@ POST /domains/release
     "registry_object_name": "domena.cz",
     "object_type": "domain",
     "content": null,
-    "status": "processing",
+    "status": "successful",
     "request_type": "release"
   }
 }
@@ -374,6 +375,7 @@ GET /domains
       "name": "1x.sk",
       "status": "active",
       "expires_on": "2011-08-28",
+      "account": "META:11",
       "_links": {
         "self": {
           "href": "/domains/1x_sk"
@@ -384,6 +386,7 @@ GET /domains
       "name": "kraxnet.cz",
       "status": "active",
       "expires_on": "2011-08-25",
+      "account": "META:11",
       "_links": {
         "self": {
           "href": "/domains/kraxnet_cz"
@@ -406,6 +409,7 @@ GET /domains/expiring
       "name": "kraxnet.cz",
       "status": "active",
       "expires_on": "2011-08-25",
+      "account": "META:12",
       "_links": {
         "self": {
           "href": "/domains/kraxnet_cz"
@@ -416,6 +420,7 @@ GET /domains/expiring
       "name": "1x.sk",
       "status": "active",
       "expires_on": "2011-08-28",
+      "account": "META:12",
       "_links": {
         "self": {
           "href": "/domains/1x_sk"
@@ -430,19 +435,51 @@ Contacts
 Tato část popisuje práci s kontakty
 --
 
-Služba pro ověření dostupnosti kontaktu.
+Služba pro vytvoření nového kontaktu.
 
 Parametry:
 
-* **id** - identifikátor kontaktu
+* **handle** - identifikátor kontaktu
+* **organization_name** - firma
+* **name_prefix** - titul před jménem
+* **first_name** - jméno
+* **last_name** - příjmení
+* **name_suffix** - titul za jménem
+* **identification_number** - IČ
+* **vat_id** - DIČ
+* **email** - e-mail
+* **phone** - telefon
+* **fax** - fax
+* **street** - ulice, číslo popisné
+* **city** - město
+* **zip** - poštovní směrovací číslo
+* **country_code** - kód státu
+* **state** - region
+* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
+* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
+* **cz_nic_hide** - skryté údaje v registru CZ.NIC
+* **id** - universally unique identifier (UUID)
 
-POST /contacts/check
+POST /contacts/register
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
   "contacts": [
     {
-      "id": "DRZITEL"
+      "handle": "META:TEST",
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country_code": "CZ",
+      "organization_name": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat_id": "CZ12345678",
+      "cz_nic_notify_email": "jan.novak@nic.cz",
+      "cz_nic_hide": ["email", "phone", "fax", "ident", "vat", "notify_email"]
     }
   ]
 }
@@ -451,60 +488,80 @@ POST /contacts/check
 {
   "request": {
     "id": 980190971,
-    "registry_object_name": "DRZITEL",
+    "registry_object_name": "META:TEST",
     "object_type": "contact",
-    "content": null,
-    "status": "processing",
-    "request_type": "check"
+    "content": {
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "email": "novak@nic.cz",
+      "street": "U testu 5",
+      "city": "Testov 6",
+      "zip": "12310",
+      "country_code": "CZ",
+      "organization_name": "Test a.s.",
+      "phone": "+420.800123456",
+      "fax": "+420.800123456",
+      "vat_id": "CZ12345678",
+      "cz_nic_notify_email": "jan.novak@nic.cz",
+      "cz_nic_hide": [
+        "email",
+        "phone",
+        "fax",
+        "ident",
+        "vat",
+        "notify_email"
+      ]
+    },
+    "status": "successful",
+    "request_type": "register"
   }
 }
 
-Služba pro vytvoření nového kontaktu.
+Služba pro změnu kontaktu.
 
 Parametry:
 
-* **tld** - doména nejvyššího řádu (TLD)
-* **id** - identifikátor kontaktu
-* **organization** - firma
-* **name** - jméno a příjmení
+* **handle** - identifikátor kontaktu
+* **organization_name** - firma
+* **name_prefix** - titul před jménem
+* **first_name** - jméno
+* **last_name** - příjmení
+* **name_suffix** - titul za jménem
+* **identification_number** - IČ
+* **vat_id** - DIČ
 * **email** - e-mail
 * **phone** - telefon
 * **fax** - fax
-* **ident_type** - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
-* **ident** - hodnota identifikátoru
 * **street** - ulice, číslo popisné
 * **city** - město
 * **zip** - poštovní směrovací číslo
-* **country** - kód státu
+* **country_code** - kód státu
 * **state** - region
-* **vat** - DIČ
-* **authorization_key** - autorizační klíč kontaktu
-* **notify_email** - e-mail pro oznámení
-* **hide** - skryté údaje
+* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
+* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
+* **cz_nic_hide** - skryté údaje v registru CZ.NIC
+* **id** - universally unique identifier (UUID)
 
-POST /contacts/register
+POST /contacts/update
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
   "contacts": [
     {
-      "tld": "cz",
-      "name": "Jan Novák",
+      "handle": "META:TEST",
+      "first_name": "Jan",
+      "last_name": "Novák",
       "email": "novak@nic.cz",
       "street": "U testu 5",
       "city": "Testov 6",
       "zip": "12310",
-      "country": "CZ",
-      "organization": "Test a.s.",
+      "country_code": "CZ",
+      "organization_name": "Test a.s.",
       "phone": "+420.800123456",
       "fax": "+420.800123456",
-      "vat": "CZ12345678",
-      "id": "DRZITEL",
-      "authorization_key": "1234abcd",
-      "notify_email": "jan.novak@nic.cz",
-      "hide": ["email", "phone", "fax", "ident", "vat", "notify_email"],
-      "ident_type": "birthday",
-      "ident": "1940-01-25"
+      "vat_id": "CZ12345678",
+      "cz_nic_notify_email": "jan.novak@nic.cz",
+      "cz_nic_hide": ["email", "phone", "fax", "ident", "vat", "notify_email"]
     }
   ]
 }
@@ -513,53 +570,49 @@ POST /contacts/register
 {
   "request": {
     "id": 980190972,
-    "registry_object_name": "DRZITEL",
+    "registry_object_name": "META:TEST",
     "object_type": "contact",
     "content": {
-      "tld": "cz",
-      "name": "Jan Novák",
+      "first_name": "Jan",
+      "last_name": "Novák",
       "email": "novak@nic.cz",
       "street": "U testu 5",
       "city": "Testov 6",
       "zip": "12310",
-      "country": "CZ",
-      "organization": "Test a.s.",
+      "country_code": "CZ",
+      "organization_name": "Test a.s.",
       "phone": "+420.800123456",
       "fax": "+420.800123456",
-      "vat": "CZ12345678",
-      "authorization_key": "1234abcd",
-      "notify_email": "jan.novak@nic.cz",
-      "hide": [
+      "vat_id": "CZ12345678",
+      "cz_nic_notify_email": "jan.novak@nic.cz",
+      "cz_nic_hide": [
         "email",
         "phone",
         "fax",
         "ident",
         "vat",
         "notify_email"
-      ],
-      "ident_type": "birthday",
-      "ident": "1940-01-25"
+      ]
     },
-    "status": "processing",
-    "request_type": "register"
+    "status": "failed",
+    "request_type": "update"
   }
 }
 
-Služba pro změnu registrátora kontaktu na 1X.
+Služba pro odebrání kontaktu z účtu.
 
 Parametry:
 
-* **id** - identifikátor kontaktu
-* **authorization_key** - autorizační klíč pro převod konktatu
+* **handle** - identifikátor kontaktu
+* **id** - universally unique identifier (UUID)
 
-POST /contacts/transfer
+POST /contacts/release
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
 {
   "contacts": [
     {
-      "id": "DRZITEL",
-      "authorization_key": "1234abcd"
+      "handle": "META:TEST"
     }
   ]
 }
@@ -568,128 +621,11 @@ POST /contacts/transfer
 {
   "request": {
     "id": 980190973,
-    "registry_object_name": "DRZITEL",
-    "object_type": "contact",
-    "content": {
-      "authorization_key": "1234abcd"
-    },
-    "status": "processing",
-    "request_type": "transfer"
-  }
-}
-
-Služba pro změnu kontaktu.
-
-Parametry:
-
-* **tld** - doména nejvyššího řádu (TLD)
-* **id** - identifikátor kontaktu
-* **organization** - firma
-* **name** - jméno a příjmení
-* **email** - e-mail
-* **phone** - telefon
-* **fax** - fax
-* **ident_type** - typ identifikátoru (OP,Pas,MPSV,IC,Datum narození)
-* **ident** - hodnota identifikátoru
-* **street** - ulice, číslo popisné
-* **city** - město
-* **zip** - poštovní směrovací číslo
-* **country** - kód státu
-* **state** - region
-* **vat** - DIČ
-* **authorization_key** - autorizační klíč kontaktu
-* **notify_email** - e-mail pro oznámení
-* **hide** - skryté údaje
-
-POST /contacts/update
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "tld": "cz",
-      "name": "Jan Novák",
-      "email": "novak@nic.cz",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country": "CZ",
-      "organization": "Test a.s.",
-      "phone": "+420.800123456",
-      "fax": "+420.800123456",
-      "vat": "CZ12345678",
-      "id": "DRZITEL",
-      "authorization_key": "1234abcd",
-      "notify_email": "jan.novak@nic.cz",
-      "hide": ["email", "phone", "fax", "vat", "notify_email", "ident"],
-      "ident_type": "ico",
-      "ident": "12345678"
-    }
-  ]
-}
-< 202
-< Content-Type: application/json; charset=utf-8
-{
-  "request": {
-    "id": 980190974,
-    "registry_object_name": "DRZITEL",
-    "object_type": "contact",
-    "content": {
-      "tld": "cz",
-      "name": "Jan Novák",
-      "email": "novak@nic.cz",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country": "CZ",
-      "organization": "Test a.s.",
-      "phone": "+420.800123456",
-      "fax": "+420.800123456",
-      "vat": "CZ12345678",
-      "authorization_key": "1234abcd",
-      "notify_email": "jan.novak@nic.cz",
-      "hide": [
-        "email",
-        "phone",
-        "fax",
-        "vat",
-        "notify_email",
-        "ident"
-      ],
-      "ident_type": "ico",
-      "ident": "12345678"
-    },
-    "status": "processing",
-    "request_type": "update"
-  }
-}
-
-Služba pro zrušení kontaktu, který není navázán na žádný objekt (doména, nsset, keyset).
-
-Parametry:
-
-* **id** - identifikátor kontaktu
-
-POST /contacts/delete
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "id": "DRZITEL"
-    }
-  ]
-}
-< 202
-< Content-Type: application/json; charset=utf-8
-{
-  "request": {
-    "id": 980190975,
-    "registry_object_name": "DRZITEL",
+    "registry_object_name": "META:TEST",
     "object_type": "contact",
     "content": null,
-    "status": "waiting_for_authorization",
-    "request_type": "delete"
+    "status": "failed",
+    "request_type": "release"
   }
 }
 
@@ -718,7 +654,7 @@ POST /nssets/check
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190976,
+    "id": 980190974,
     "registry_object_name": "NSSET",
     "object_type": "nsset",
     "content": null,
@@ -782,7 +718,7 @@ POST /nssets/register
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190977,
+    "id": 980190975,
     "registry_object_name": "NSSET",
     "object_type": "nsset",
     "content": {
@@ -878,7 +814,7 @@ POST /nssets/update
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190978,
+    "id": 980190976,
     "registry_object_name": "NSSET",
     "object_type": "nsset",
     "content": {
@@ -939,7 +875,7 @@ POST /nssets/delete
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190979,
+    "id": 980190977,
     "registry_object_name": "NSSET",
     "object_type": "nsset",
     "content": null,
@@ -976,7 +912,7 @@ GET /requests/{id}/status
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190981,
+    "id": 980190979,
     "status": "available",
     "message": "Domain is available"
   }
@@ -996,7 +932,7 @@ GET /requests/{id}/responses
 {
   "responses": [
     {
-      "id": 980190966,
+      "id": 980190969,
       "code": 200,
       "status": "Domain is available"
     }
@@ -1016,7 +952,7 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190983,
+    "id": 980190981,
     "registry_object_name": "domena.cz",
     "object_type": "domain",
     "content": null,
@@ -1106,11 +1042,11 @@ POST /orders
 < Content-Type: application/json; charset=utf-8
 {
   "order": {
-    "id": 980190984,
-    "created_at": "2014-07-16T16:48:49+02:00",
+    "id": 980190982,
+    "created_at": "2014-10-20T11:55:07+02:00",
     "requests": [
       {
-        "id": 980190984,
+        "id": 980190982,
         "registry_object_name": "domena.cz",
         "object_type": "domain",
         "content": null,
@@ -1118,7 +1054,7 @@ POST /orders
         "request_type": "check"
       },
       {
-        "id": 980190985,
+        "id": 980190983,
         "registry_object_name": "domena2.cz",
         "object_type": "domain",
         "content": null,
@@ -1128,7 +1064,7 @@ POST /orders
     ],
     "_links": {
       "self": {
-        "href": "/multi_requests/980190984"
+        "href": "/multi_requests/980190982"
       }
     }
   }
