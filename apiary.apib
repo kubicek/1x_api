@@ -435,6 +435,48 @@ Contacts
 Tato část popisuje práci s kontakty
 --
 
+Detail kontaktu
+
+Parametry:
+
+* **id** - handle nebo UUID kontaktu
+
+GET /contacts/{id}
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+< 200
+< Content-Type: application/json; charset=utf-8
+{
+  "contacts": [
+    {
+      "uuid": "0f095648-2fe7-41d9-931c-590aab0df7bb",
+      "handle": "META:TEST",
+      "organization_name": null,
+      "name_prefix": null,
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "name_suffix": null,
+      "identification_number": null,
+      "vat_id": null,
+      "email": "user@test.cz",
+      "phone": "800123456",
+      "fax": null,
+      "street": [
+        "Ulice 123"
+      ],
+      "city": "Město 5",
+      "zip": "12345",
+      "country_code": "CZ",
+      "state": null,
+      "new_cz_nic_handle": null,
+      "cz_nic_notify_email": null,
+      "cz_nic_hide": [
+
+      ]
+    }
+  ]
+}
+
 Služba pro vytvoření nového kontaktu.
 
 Parametry:
@@ -1043,7 +1085,7 @@ POST /orders
 {
   "order": {
     "id": 980190982,
-    "created_at": "2014-10-20T11:55:07+02:00",
+    "created_at": "2014-10-21T21:57:41+02:00",
     "requests": [
       {
         "id": 980190982,
