@@ -63,15 +63,27 @@ POST /domains/check
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190963,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": null,
-    "status": "processing",
-    "request_type": "check"
+  "domain": {
+    "name": "domena.cz",
+    "status": "pending",
+    "expires_on": null,
+    "account": "META:3",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
+    },
+    "request": {
+      "id": 980190963,
+      "object_type": "domain",
+      "request_type": "check",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": null
+    }
   }
 }
 
@@ -114,30 +126,42 @@ POST /domains/register
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190964,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "period": "1",
-      "registrant": "DRZITEL",
-      "nsset": "KRAXNET",
-      "dns_zone_template_id": "1",
-      "keyset": "KEYSET",
-      "authorization_key": "1234abcd",
-      "admins": [
-        {
-          "id": "ADMIN1"
-        },
-        {
-          "id": "ADMIN2"
-        }
-      ]
+  "domain": {
+    "name": "domena.cz",
+    "status": "pending",
+    "expires_on": null,
+    "account": "META:4",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "processing",
-    "request_type": "register"
+    "request": {
+      "id": 980190964,
+      "object_type": "domain",
+      "request_type": "register",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "period": "1",
+        "registrant": "DRZITEL",
+        "nsset": "KRAXNET",
+        "dns_zone_template_id": "1",
+        "keyset": "KEYSET",
+        "authorization_key": "1234abcd",
+        "admins": [
+          {
+            "id": "ADMIN1"
+          },
+          {
+            "id": "ADMIN2"
+          }
+        ]
+      }
+    }
   }
 }
 
@@ -160,17 +184,29 @@ POST /domains/transfer
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190965,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "authorization_key": "1234abcd"
+  "domain": {
+    "name": "domena.cz",
+    "status": "pending",
+    "expires_on": null,
+    "account": "META:5",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "processing",
-    "request_type": "transfer"
+    "request": {
+      "id": 980190965,
+      "object_type": "domain",
+      "request_type": "transfer",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "authorization_key": "1234abcd"
+      }
+    }
   }
 }
 
@@ -195,18 +231,30 @@ POST /domains/renew
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190966,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "period": "1",
-      "current_expiration_date": "2014-06-06"
+  "domain": {
+    "name": "domena.cz",
+    "status": "active",
+    "expires_on": "2014-06-06",
+    "account": "META:6",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "processing",
-    "request_type": "renew"
+    "request": {
+      "id": 980190966,
+      "object_type": "domain",
+      "request_type": "renew",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "period": "1",
+        "current_expiration_date": "2014-06-06"
+      }
+    }
   }
 }
 
@@ -232,18 +280,30 @@ POST /domains/change_dns
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190967,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "nsset": "KRAXNET",
-      "dns_zone_template_id": "1"
+  "domain": {
+    "name": "domena.cz",
+    "status": "active",
+    "expires_on": "2014-06-06",
+    "account": "META:7",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "processing",
-    "request_type": "change_dns"
+    "request": {
+      "id": 980190967,
+      "object_type": "domain",
+      "request_type": "change_dns",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "nsset": "KRAXNET",
+        "dns_zone_template_id": "1"
+      }
+    }
   }
 }
 
@@ -266,17 +326,29 @@ POST /domains/registrant_change
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190968,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "registrant": "NOVY_DRZITEL"
+  "domain": {
+    "name": "domena.cz",
+    "status": "active",
+    "expires_on": "2014-06-06",
+    "account": "META:8",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "waiting_for_authorization",
-    "request_type": "registrant_change"
+    "request": {
+      "id": 980190968,
+      "object_type": "domain",
+      "request_type": "registrant_change",
+      "status": "waiting_for_authorization",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "registrant": "NOVY_DRZITEL"
+      }
+    }
   }
 }
 
@@ -310,26 +382,38 @@ POST /domains/update
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains/domena_cz
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190969,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": {
-      "keyset": "KEYSET",
-      "authorization_key": "1234abcd",
-      "admins": [
-        {
-          "id": "ADMIN1"
-        },
-        {
-          "id": "ADMIN2"
-        }
-      ]
+  "domain": {
+    "name": "domena.cz",
+    "status": "active",
+    "expires_on": "2014-06-06",
+    "account": "META:9",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
     },
-    "status": "processing",
-    "request_type": "update"
+    "request": {
+      "id": 980190969,
+      "object_type": "domain",
+      "request_type": "update",
+      "status": "processing",
+      "registry_object_name": "domena.cz",
+      "content": {
+        "keyset": "KEYSET",
+        "authorization_key": "1234abcd",
+        "admins": [
+          {
+            "id": "ADMIN1"
+          },
+          {
+            "id": "ADMIN2"
+          }
+        ]
+      }
+    }
   }
 }
 
@@ -350,15 +434,27 @@ POST /domains/release
   ]
 }
 < 202
+< Location: http://api.1x.sk/domains
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190970,
-    "registry_object_name": "domena.cz",
-    "object_type": "domain",
-    "content": null,
-    "status": "successful",
-    "request_type": "release"
+  "domain": {
+    "name": "domena.cz",
+    "status": "active",
+    "expires_on": "2014-06-06",
+    "account": "META:10",
+    "_links": {
+      "self": {
+        "href": "/domains/domena_cz"
+      }
+    },
+    "request": {
+      "id": 980190970,
+      "object_type": "domain",
+      "request_type": "release",
+      "status": "successful",
+      "registry_object_name": "domena.cz",
+      "content": null
+    }
   }
 }
 
@@ -449,7 +545,7 @@ GET /contacts/{id}
 {
   "contacts": [
     {
-      "uuid": "0f095648-2fe7-41d9-931c-590aab0df7bb",
+      "id": "22c5f37a-66ee-47da-91e3-76472d8c5f9e",
       "handle": "META:TEST",
       "organization_name": null,
       "name_prefix": null,
@@ -471,8 +567,12 @@ GET /contacts/{id}
       "new_cz_nic_handle": null,
       "cz_nic_notify_email": null,
       "cz_nic_hide": [
-
-      ]
+      ],
+      "_links": {
+        "self": {
+          "href": "/contacts/META:TEST"
+        }
+      }
     }
   ]
 }
@@ -526,36 +626,73 @@ POST /contacts/register
   ]
 }
 < 202
+< Location: http://api.1x.sk/contacts/META:TEST
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190971,
-    "registry_object_name": "META:TEST",
-    "object_type": "contact",
-    "content": {
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "email": "novak@nic.cz",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "organization_name": "Test a.s.",
-      "phone": "+420.800123456",
-      "fax": "+420.800123456",
-      "vat_id": "CZ12345678",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "email",
-        "phone",
-        "fax",
-        "ident",
-        "vat",
-        "notify_email"
-      ]
+  "contact": {
+    "id": "8c17f51b-2e3d-49d5-a1f6-d1dda216eed8",
+    "handle": "META:TEST",
+    "organization_name": "Test a.s.",
+    "name_prefix": null,
+    "first_name": "Jan",
+    "last_name": "Novák",
+    "name_suffix": null,
+    "identification_number": null,
+    "vat_id": "CZ12345678",
+    "email": "novak@nic.cz",
+    "phone": "+420.800123456",
+    "fax": "+420.800123456",
+    "street": [
+      "U testu 5"
+    ],
+    "city": "Testov 6",
+    "zip": "12310",
+    "country_code": "CZ",
+    "state": null,
+    "new_cz_nic_handle": null,
+    "cz_nic_notify_email": "jan.novak@nic.cz",
+    "cz_nic_hide": [
+      "email",
+      "phone",
+      "fax",
+      "ident",
+      "vat",
+      "notify_email"
+    ],
+    "_links": {
+      "self": {
+        "href": "/contacts/META:TEST"
+      }
     },
-    "status": "successful",
-    "request_type": "register"
+    "request": {
+      "id": 980190971,
+      "object_type": "contact",
+      "request_type": "register",
+      "status": "successful",
+      "registry_object_name": "META:TEST",
+      "content": {
+        "first_name": "Jan",
+        "last_name": "Novák",
+        "email": "novak@nic.cz",
+        "street": "U testu 5",
+        "city": "Testov 6",
+        "zip": "12310",
+        "country_code": "CZ",
+        "organization_name": "Test a.s.",
+        "phone": "+420.800123456",
+        "fax": "+420.800123456",
+        "vat_id": "CZ12345678",
+        "cz_nic_notify_email": "jan.novak@nic.cz",
+        "cz_nic_hide": [
+          "email",
+          "phone",
+          "fax",
+          "ident",
+          "vat",
+          "notify_email"
+        ]
+      }
+    }
   }
 }
 
@@ -608,36 +745,73 @@ POST /contacts/update
   ]
 }
 < 202
+< Location: http://api.1x.sk/contacts/META:TEST
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190972,
-    "registry_object_name": "META:TEST",
-    "object_type": "contact",
-    "content": {
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "email": "novak@nic.cz",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "organization_name": "Test a.s.",
-      "phone": "+420.800123456",
-      "fax": "+420.800123456",
-      "vat_id": "CZ12345678",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "email",
-        "phone",
-        "fax",
-        "ident",
-        "vat",
-        "notify_email"
-      ]
+  "contact": {
+    "id": "0cf16cd5-7df8-491a-840f-ecfaf2dd679c",
+    "handle": "META:TEST",
+    "organization_name": "Test a.s.",
+    "name_prefix": null,
+    "first_name": "Jan",
+    "last_name": "Novák",
+    "name_suffix": null,
+    "identification_number": null,
+    "vat_id": "CZ12345678",
+    "email": "novak@nic.cz",
+    "phone": "+420.800123456",
+    "fax": "+420.800123456",
+    "street": [
+      "U testu 5"
+    ],
+    "city": "Testov 6",
+    "zip": "12310",
+    "country_code": "CZ",
+    "state": null,
+    "new_cz_nic_handle": null,
+    "cz_nic_notify_email": "jan.novak@nic.cz",
+    "cz_nic_hide": [
+      "email",
+      "phone",
+      "fax",
+      "ident",
+      "vat",
+      "notify_email"
+    ],
+    "_links": {
+      "self": {
+        "href": "/contacts/META:TEST"
+      }
     },
-    "status": "failed",
-    "request_type": "update"
+    "request": {
+      "id": 980190972,
+      "object_type": "contact",
+      "request_type": "update",
+      "status": "successful",
+      "registry_object_name": "META:TEST",
+      "content": {
+        "first_name": "Jan",
+        "last_name": "Novák",
+        "email": "novak@nic.cz",
+        "street": "U testu 5",
+        "city": "Testov 6",
+        "zip": "12310",
+        "country_code": "CZ",
+        "organization_name": "Test a.s.",
+        "phone": "+420.800123456",
+        "fax": "+420.800123456",
+        "vat_id": "CZ12345678",
+        "cz_nic_notify_email": "jan.novak@nic.cz",
+        "cz_nic_hide": [
+          "email",
+          "phone",
+          "fax",
+          "ident",
+          "vat",
+          "notify_email"
+        ]
+      }
+    }
   }
 }
 
@@ -659,15 +833,46 @@ POST /contacts/release
   ]
 }
 < 202
+< Location: http://api.1x.sk/contacts/META:TEST
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190973,
-    "registry_object_name": "META:TEST",
-    "object_type": "contact",
-    "content": null,
-    "status": "failed",
-    "request_type": "release"
+  "contact": {
+    "id": "9538fd26-6b6d-4c61-8d10-4e9acc153d51",
+    "handle": "META:TEST",
+    "organization_name": null,
+    "name_prefix": null,
+    "first_name": "Jan",
+    "last_name": "Novák",
+    "name_suffix": null,
+    "identification_number": null,
+    "vat_id": null,
+    "email": "user@test.cz",
+    "phone": "800123456",
+    "fax": null,
+    "street": [
+      "Ulice 123"
+    ],
+    "city": "Město 5",
+    "zip": "12345",
+    "country_code": "CZ",
+    "state": null,
+    "new_cz_nic_handle": null,
+    "cz_nic_notify_email": null,
+    "cz_nic_hide": [
+    ],
+    "_links": {
+      "self": {
+        "href": "/contacts/META:TEST"
+      }
+    },
+    "request": {
+      "id": 980190973,
+      "object_type": "contact",
+      "request_type": "release",
+      "status": "failed",
+      "registry_object_name": "META:TEST",
+      "content": null
+    }
   }
 }
 
@@ -693,15 +898,26 @@ POST /nssets/check
   ]
 }
 < 202
+< Location: http://api.1x.sk/nssets/NSSET
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190974,
-    "registry_object_name": "NSSET",
-    "object_type": "nsset",
-    "content": null,
-    "status": "processing",
-    "request_type": "check"
+  "nsset": {
+    "name": "NSSET",
+    "status": "pending",
+    "account": "META:19",
+    "_links": {
+      "self": {
+        "href": "/nssets/NSSET"
+      }
+    },
+    "request": {
+      "id": 980190974,
+      "object_type": "nsset",
+      "request_type": "check",
+      "status": "processing",
+      "registry_object_name": "NSSET",
+      "content": null
+    }
   }
 }
 
@@ -757,47 +973,58 @@ POST /nssets/register
   ]
 }
 < 202
+< Location: http://api.1x.sk/nssets/NSSET
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190975,
-    "registry_object_name": "NSSET",
-    "object_type": "nsset",
-    "content": {
-      "techs": [
-        {
-          "id": "TECH1"
-        },
-        {
-          "id": "TECH2"
-        }
-      ],
-      "nameservers": [
-        {
-          "hostname": "ns.kraxnet.cz",
-          "addresses": [
-            {
-              "ip": "1.2.3.4"
-            }
-          ]
-        },
-        {
-          "hostname": "ns.kraxnet.com",
-          "addresses": [
-            {
-              "ip": "5.6.7.8"
-            },
-            {
-              "ip": "9.10.11.12"
-            }
-          ]
-        }
-      ],
-      "authorization_key": "1234abcd",
-      "report_level": "7"
+  "nsset": {
+    "name": "NSSET",
+    "status": "pending",
+    "account": "META:20",
+    "_links": {
+      "self": {
+        "href": "/nssets/NSSET"
+      }
     },
-    "status": "processing",
-    "request_type": "register"
+    "request": {
+      "id": 980190975,
+      "object_type": "nsset",
+      "request_type": "register",
+      "status": "processing",
+      "registry_object_name": "NSSET",
+      "content": {
+        "techs": [
+          {
+            "id": "TECH1"
+          },
+          {
+            "id": "TECH2"
+          }
+        ],
+        "nameservers": [
+          {
+            "hostname": "ns.kraxnet.cz",
+            "addresses": [
+              {
+                "ip": "1.2.3.4"
+              }
+            ]
+          },
+          {
+            "hostname": "ns.kraxnet.com",
+            "addresses": [
+              {
+                "ip": "5.6.7.8"
+              },
+              {
+                "ip": "9.10.11.12"
+              }
+            ]
+          }
+        ],
+        "authorization_key": "1234abcd",
+        "report_level": "7"
+      }
+    }
   }
 }
 
@@ -853,47 +1080,58 @@ POST /nssets/update
   ]
 }
 < 202
+< Location: http://api.1x.sk/nssets/NSSET
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190976,
-    "registry_object_name": "NSSET",
-    "object_type": "nsset",
-    "content": {
-      "techs": [
-        {
-          "id": "TECH1"
-        },
-        {
-          "id": "TECH2"
-        }
-      ],
-      "nameservers": [
-        {
-          "hostname": "ns.kraxnet.cz",
-          "addresses": [
-            {
-              "ip": "1.2.3.4"
-            }
-          ]
-        },
-        {
-          "hostname": "ns.kraxnet.cz",
-          "addresses": [
-            {
-              "ip": "5.6.7.8"
-            },
-            {
-              "ip": "9.10.11.12"
-            }
-          ]
-        }
-      ],
-      "authorization_key": "1234abcd",
-      "report_level": "7"
+  "nsset": {
+    "name": "NSSET",
+    "status": "active",
+    "account": "META:21",
+    "_links": {
+      "self": {
+        "href": "/nssets/NSSET"
+      }
     },
-    "status": "processing",
-    "request_type": "update"
+    "request": {
+      "id": 980190976,
+      "object_type": "nsset",
+      "request_type": "update",
+      "status": "processing",
+      "registry_object_name": "NSSET",
+      "content": {
+        "techs": [
+          {
+            "id": "TECH1"
+          },
+          {
+            "id": "TECH2"
+          }
+        ],
+        "nameservers": [
+          {
+            "hostname": "ns.kraxnet.cz",
+            "addresses": [
+              {
+                "ip": "1.2.3.4"
+              }
+            ]
+          },
+          {
+            "hostname": "ns.kraxnet.cz",
+            "addresses": [
+              {
+                "ip": "5.6.7.8"
+              },
+              {
+                "ip": "9.10.11.12"
+              }
+            ]
+          }
+        ],
+        "authorization_key": "1234abcd",
+        "report_level": "7"
+      }
+    }
   }
 }
 
@@ -914,15 +1152,26 @@ POST /nssets/delete
   ]
 }
 < 202
+< Location: http://api.1x.sk/nssets/NSSET
 < Content-Type: application/json; charset=utf-8
 {
-  "request": {
-    "id": 980190977,
-    "registry_object_name": "NSSET",
-    "object_type": "nsset",
-    "content": null,
-    "status": "waiting_for_authorization",
-    "request_type": "delete"
+  "nsset": {
+    "name": "NSSET",
+    "status": "active",
+    "account": "META:22",
+    "_links": {
+      "self": {
+        "href": "/nssets/NSSET"
+      }
+    },
+    "request": {
+      "id": 980190977,
+      "object_type": "nsset",
+      "request_type": "delete",
+      "status": "waiting_for_authorization",
+      "registry_object_name": "NSSET",
+      "content": null
+    }
   }
 }
 
@@ -995,11 +1244,11 @@ GET /requests/{id}
 {
   "request": {
     "id": 980190981,
-    "registry_object_name": "domena.cz",
     "object_type": "domain",
-    "content": null,
+    "request_type": "check",
     "status": "successful",
-    "request_type": "check"
+    "registry_object_name": "domena.cz",
+    "content": null
   }
 }
 
@@ -1085,23 +1334,23 @@ POST /orders
 {
   "order": {
     "id": 980190982,
-    "created_at": "2014-10-21T21:57:41+02:00",
+    "created_at": "2014-10-23T21:10:39+02:00",
     "requests": [
       {
         "id": 980190982,
-        "registry_object_name": "domena.cz",
         "object_type": "domain",
-        "content": null,
+        "request_type": "check",
         "status": "processing",
-        "request_type": "check"
+        "registry_object_name": "domena.cz",
+        "content": null
       },
       {
         "id": 980190983,
-        "registry_object_name": "domena2.cz",
         "object_type": "domain",
-        "content": null,
+        "request_type": "check",
         "status": "processing",
-        "request_type": "check"
+        "registry_object_name": "domena2.cz",
+        "content": null
       }
     ],
     "_links": {
