@@ -13,6 +13,14 @@ Požadavky se zasílají metodou POST na příslušné URL, informační zdroje 
 ## Vyřizování požadavků
 
 Systém každý přijatý požadavek ihned uloží a v odpovědi odešle přidělený unikátní identifikátor. Klient nečeká na odpověď o vyřízení a může odesílat další požadavky. Kdykoliv se pak může pomocí API volání dotázat na aktuální stav vyřizování požadavku. Převážně z tohoto důvodu jsou implementované odpovědi ve formátu JSON, kdy v klientské aplikaci je možné na pozadí např. pomocí JavaScriptu průběžně dotazovat server na stav vyřizování požadavků a tento v reálném čase v aplikaci zobrazovat. Tento způsob komunikace odstraňuje i problémy při nedostupnosti registrů nebo prodlevou v jejich odpovědích. Klienta zasílající požadavek neblokujeme a jeho požadavek zpracujeme, jakmile to bude možné.
+
+## Kontakty
+
+Kontakt funguje jako sdružující entita kontaktu v různých registrech.
+Při změně kontaktu dojde k propsání změny do všech registrů, kde byl kontakt použit.
+Kontakt automaticky vytváří objekty v příslušných registrech při jeho použití u domény.
+Kontaktu lze nastavit vlastní identifikátor (je možné ho i změnit), dostává také UUID.
+Kontakt slouží i jako vlastní uživatelský účet do našeho systému.
 ---
 --
 Domains
@@ -553,7 +561,7 @@ GET /contacts/{id}
 {
   "contacts": [
     {
-      "id": "66bee332-10a8-4dfd-92e7-789b92836aa8",
+      "id": "2836e829-9b77-4ad8-bc52-283c9743495b",
       "handle": "META:TEST",
       "organization_name": null,
       "name_prefix": null,
@@ -577,6 +585,9 @@ GET /contacts/{id}
       "cz_nic_hide": [
 
       ],
+      "tld_handles": {
+        "cz": "TEST"
+      },
       "_links": {
         "self": {
           "href": "/contacts/META:TEST"
@@ -640,7 +651,7 @@ POST /contacts/register
 {
   "contacts": [
     {
-      "id": "2f2ee50e-9b47-441f-8238-b571a20d6a5b",
+      "id": "5f3471d1-5cfa-475c-818b-5d28a9dc4242",
       "handle": "META:TEST",
       "organization_name": "Test a.s.",
       "name_prefix": null,
@@ -761,7 +772,7 @@ POST /contacts/update
 {
   "contacts": [
     {
-      "id": "f4a1db81-c50a-4cb4-bc1d-38302e677f84",
+      "id": "22f7ef06-1725-448a-8a2d-c6e0945ddfeb",
       "handle": "META:TEST",
       "organization_name": "Test a.s.",
       "name_prefix": null,
@@ -851,7 +862,7 @@ POST /contacts/release
 {
   "contacts": [
     {
-      "id": "e57f84cb-fdcf-4e51-a06f-a59cae01a3f0",
+      "id": "b2831f76-9798-4ba1-b708-4c2d307bcce9",
       "handle": "META:TEST",
       "organization_name": null,
       "name_prefix": null,
@@ -1354,7 +1365,7 @@ POST /orders
 {
   "order": {
     "id": 980190982,
-    "created_at": "2014-10-27T16:09:06+01:00",
+    "created_at": "2014-10-27T17:51:25+01:00",
     "requests": [
       {
         "id": 980190982,
