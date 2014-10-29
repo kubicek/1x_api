@@ -124,12 +124,8 @@ POST /domains/register
       "keyset": "KEYSET",
       "authorization_key": "1234abcd",
       "admins": [
-        {
-          "id": "ADMIN1"
-        },
-        {
-          "id": "ADMIN2"
-        }
+        "ADMIN1",
+        "ADMIN2"
       ]
     }
   ]
@@ -162,12 +158,8 @@ POST /domains/register
           "keyset": "KEYSET",
           "authorization_key": "1234abcd",
           "admins": [
-            {
-              "id": "ADMIN1"
-            },
-            {
-              "id": "ADMIN2"
-            }
+            "ADMIN1",
+            "ADMIN2"
           ]
         }
       }
@@ -385,12 +377,8 @@ POST /domains/update
       "keyset": "KEYSET",
       "authorization_key": "1234abcd",
       "admins": [
-        {
-          "id": "ADMIN1"
-        },
-        {
-          "id": "ADMIN2"
-        }
+        "ADMIN1",
+        "ADMIN2"
       ]
     }
   ]
@@ -419,12 +407,8 @@ POST /domains/update
           "keyset": "KEYSET",
           "authorization_key": "1234abcd",
           "admins": [
-            {
-              "id": "ADMIN1"
-            },
-            {
-              "id": "ADMIN2"
-            }
+            "ADMIN1",
+            "ADMIN2"
           ]
         }
       }
@@ -561,7 +545,7 @@ GET /contacts/{id}
 {
   "contacts": [
     {
-      "id": "2836e829-9b77-4ad8-bc52-283c9743495b",
+      "id": "6c497e81-d253-453d-a552-389fa29c548e",
       "handle": "META:TEST",
       "organization_name": null,
       "name_prefix": null,
@@ -649,7 +633,7 @@ POST /contacts/register
 {
   "contacts": [
     {
-      "id": "5f3471d1-5cfa-475c-818b-5d28a9dc4242",
+      "id": "d9d248a7-1da6-462c-8bc8-e6727b3590ff",
       "handle": "META:TEST",
       "organization_name": "Test a.s.",
       "name_prefix": null,
@@ -770,7 +754,7 @@ POST /contacts/update
 {
   "contacts": [
     {
-      "id": "22f7ef06-1725-448a-8a2d-c6e0945ddfeb",
+      "id": "6c70498e-9135-4512-81ae-1a41abd98607",
       "handle": "META:TEST",
       "organization_name": "Test a.s.",
       "name_prefix": null,
@@ -860,7 +844,7 @@ POST /contacts/release
 {
   "contacts": [
     {
-      "id": "b2831f76-9798-4ba1-b708-4c2d307bcce9",
+      "id": "af6a07a1-890b-4a43-b593-3ff1739a10e7",
       "handle": "META:TEST",
       "organization_name": null,
       "name_prefix": null,
@@ -963,31 +947,21 @@ POST /nssets/register
     {
       "id": "NSSET",
       "techs": [
-        {
-          "id": "TECH1"
-        },
-        {
-          "id": "TECH2"
-        }
+        "TECH1",
+        "TECH2"
       ],
       "nameservers": [
         {
           "hostname": "ns.kraxnet.cz",
           "addresses": [
-            {
-              "ip": "1.2.3.4"
-            }
+            "1.2.3.4"
           ]
         },
         {
           "hostname": "ns.kraxnet.com",
           "addresses": [
-            {
-              "ip": "5.6.7.8"
-            },
-            {
-              "ip": "9.10.11.12"
-            }
+            "5.6.7.8",
+            "9.10.11.12"
           ]
         }
       ],
@@ -1017,31 +991,21 @@ POST /nssets/register
         "registry_object_name": "NSSET",
         "content": {
           "techs": [
-            {
-              "id": "TECH1"
-            },
-            {
-              "id": "TECH2"
-            }
+            "TECH1",
+            "TECH2"
           ],
           "nameservers": [
             {
               "hostname": "ns.kraxnet.cz",
               "addresses": [
-                {
-                  "ip": "1.2.3.4"
-                }
+                "1.2.3.4"
               ]
             },
             {
               "hostname": "ns.kraxnet.com",
               "addresses": [
-                {
-                  "ip": "5.6.7.8"
-                },
-                {
-                  "ip": "9.10.11.12"
-                }
+                "5.6.7.8",
+                "9.10.11.12"
               ]
             }
           ],
@@ -1071,31 +1035,21 @@ POST /nssets/update
     {
       "id": "NSSET",
       "techs": [
-        {
-          "id": "TECH1"
-        },
-        {
-          "id": "TECH2"
-        }
+        "TECH1",
+        "TECH2"
       ],
       "nameservers": [
         {
           "hostname": "ns.kraxnet.cz",
           "addresses": [
-            {
-              "ip": "1.2.3.4"
-            }
+            "1.2.3.4"
           ]
         },
         {
           "hostname": "ns.kraxnet.cz",
           "addresses": [
-            {
-              "ip": "5.6.7.8"
-            },
-            {
-              "ip": "9.10.11.12"
-            }
+            "5.6.7.8",
+            "9.10.11.12"
           ]
         }
       ],
@@ -1125,31 +1079,21 @@ POST /nssets/update
         "registry_object_name": "NSSET",
         "content": {
           "techs": [
-            {
-              "id": "TECH1"
-            },
-            {
-              "id": "TECH2"
-            }
+            "TECH1",
+            "TECH2"
           ],
           "nameservers": [
             {
               "hostname": "ns.kraxnet.cz",
               "addresses": [
-                {
-                  "ip": "1.2.3.4"
-                }
+                "1.2.3.4"
               ]
             },
             {
               "hostname": "ns.kraxnet.cz",
               "addresses": [
-                {
-                  "ip": "5.6.7.8"
-                },
-                {
-                  "ip": "9.10.11.12"
-                }
+                "5.6.7.8",
+                "9.10.11.12"
               ]
             }
           ],
@@ -1361,7 +1305,7 @@ POST /orders
 {
   "order": {
     "id": 980190982,
-    "created_at": "2014-10-27T17:51:25+01:00",
+    "created_at": "2014-10-29T15:10:53+01:00",
     "requests": [
       {
         "id": 980190982,
@@ -1382,8 +1326,9 @@ POST /orders
     ],
     "_links": {
       "self": {
-        "href": "/multi_requests/980190982"
+        "href": "/orders/980190982"
       }
     }
   }
 }
+
