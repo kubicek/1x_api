@@ -86,10 +86,10 @@ POST /domains/check
       },
       "request": {
         "id": 980190963,
-        "object_type": "domain",
-        "request_type": "check",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "check",
+        "responses": [],
         "content": null
       }
     }
@@ -156,10 +156,10 @@ POST /domains/register
       },
       "request": {
         "id": 980190964,
-        "object_type": "domain",
-        "request_type": "register",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "register",
+        "responses": [],
         "content": {
           "period": "1",
           "registrant": "DRZITEL",
@@ -185,10 +185,10 @@ POST /domains/register
       },
       "request": {
         "id": 980190965,
-        "object_type": "domain",
-        "request_type": "register",
         "status": "processing",
-        "registry_object_name": "domain.com",
+        "last_response": null,
+        "request_type": "register",
+        "responses": [],
         "content": {
           "period": "1",
           "registrant": "HOLDER",
@@ -237,10 +237,10 @@ POST /domains/transfer
       },
       "request": {
         "id": 980190966,
-        "object_type": "domain",
-        "request_type": "transfer",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "transfer",
+        "responses": [],
         "content": {
           "authorization_key": "1234abcd"
         }
@@ -285,10 +285,10 @@ POST /domains/renew
       },
       "request": {
         "id": 980190967,
-        "object_type": "domain",
-        "request_type": "renew",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "renew",
+        "responses": [],
         "content": {
           "period": "1",
           "current_expiration_date": "2014-06-06"
@@ -343,10 +343,10 @@ POST /domains/change_dns
       },
       "request": {
         "id": 980190968,
-        "object_type": "domain",
-        "request_type": "change_dns",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "change_dns",
+        "responses": [],
         "content": {
           "nsset": "KRAXNET",
           "dns_zone_template_id": "1"
@@ -355,14 +355,37 @@ POST /domains/change_dns
     },
     {
       "name": "domain.com",
-      "status": null,
+      "status": "pending",
       "expires_on": null,
       "_links": {
         "self": {
           "href": "/domains/domain_com"
         }
       },
-      "request": null
+      "request": {
+        "id": 980190969,
+        "status": "failed",
+        "last_response": {
+          "id": 980190963,
+          "code": null,
+          "message": "Not authorized"
+        },
+        "request_type": "change_dns",
+        "responses": [
+          {
+            "id": 980190963,
+            "code": null,
+            "message": "Not authorized"
+          }
+        ],
+        "content": {
+          "nameservers": [
+            "ns.kraxnet.cz",
+            "ns.kraxnet.com"
+          ],
+          "dns_zone_template_id": "1"
+        }
+      }
     }
   ]
 }
@@ -401,10 +424,10 @@ POST /domains/registrant_change
       },
       "request": {
         "id": 980190970,
-        "object_type": "domain",
-        "request_type": "registrant_change",
         "status": "waiting_for_authorization",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "registrant_change",
+        "responses": [],
         "content": {
           "registrant": "NOVY_DRZITEL"
         }
@@ -454,10 +477,10 @@ POST /domains/update
       },
       "request": {
         "id": 980190971,
-        "object_type": "domain",
-        "request_type": "update",
         "status": "processing",
-        "registry_object_name": "domena.cz",
+        "last_response": null,
+        "request_type": "update",
+        "responses": [],
         "content": {
           "keyset": "KEYSET",
           "authorization_key": "1234abcd",
@@ -503,10 +526,20 @@ POST /domains/release
       },
       "request": {
         "id": 980190972,
-        "object_type": "domain",
-        "request_type": "release",
         "status": "successful",
-        "registry_object_name": "domena.cz",
+        "last_response": {
+          "id": 980190964,
+          "code": null,
+          "message": "Domain was removed from account"
+        },
+        "request_type": "release",
+        "responses": [
+          {
+            "id": 980190964,
+            "code": null,
+            "message": "Domain was removed from account"
+          }
+        ],
         "content": null
       }
     }
@@ -737,10 +770,10 @@ POST /contacts/register
       },
       "request": {
         "id": 980190973,
-        "object_type": "contact",
-        "request_type": "register",
         "status": "processing",
-        "registry_object_name": "META:TEST",
+        "last_response": null,
+        "request_type": "register",
+        "responses": [],
         "content": {
           "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
           "organization_name": "Test a.s.",
@@ -876,10 +909,20 @@ POST /contacts/update
       },
       "request": {
         "id": 980190975,
-        "object_type": "contact",
-        "request_type": "update",
         "status": "successful",
-        "registry_object_name": "META:TEST",
+        "last_response": {
+          "id": 980190965,
+          "code": null,
+          "message": "Contact was updated"
+        },
+        "request_type": "update",
+        "responses": [
+          {
+            "id": 980190965,
+            "code": null,
+            "message": "Contact was updated"
+          }
+        ],
         "content": {
           "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
           "organization_name": "Test a.s.",
@@ -967,10 +1010,20 @@ POST /contacts/release
       },
       "request": {
         "id": 980190976,
-        "object_type": "contact",
-        "request_type": "release",
         "status": "failed",
-        "registry_object_name": "META:TEST",
+        "last_response": {
+          "id": 980190966,
+          "code": null,
+          "message": "Contact can not be removed from account"
+        },
+        "request_type": "release",
+        "responses": [
+          {
+            "id": 980190966,
+            "code": null,
+            "message": "Contact can not be removed from account"
+          }
+        ],
         "content": null
       }
     },
@@ -1004,10 +1057,20 @@ POST /contacts/release
       },
       "request": {
         "id": 980190976,
-        "object_type": "contact",
-        "request_type": "release",
         "status": "failed",
-        "registry_object_name": "META:TEST",
+        "last_response": {
+          "id": 980190966,
+          "code": null,
+          "message": "Contact can not be removed from account"
+        },
+        "request_type": "release",
+        "responses": [
+          {
+            "id": 980190966,
+            "code": null,
+            "message": "Contact can not be removed from account"
+          }
+        ],
         "content": null
       }
     }
@@ -1050,10 +1113,10 @@ POST /nssets/check
       },
       "request": {
         "id": 980190978,
-        "object_type": "nsset",
-        "request_type": "check",
         "status": "processing",
-        "registry_object_name": "NSSET",
+        "last_response": null,
+        "request_type": "check",
+        "responses": [],
         "content": null
       }
     }
@@ -1116,10 +1179,10 @@ POST /nssets/register
       },
       "request": {
         "id": 980190979,
-        "object_type": "nsset",
-        "request_type": "register",
         "status": "processing",
-        "registry_object_name": "NSSET",
+        "last_response": null,
+        "request_type": "register",
+        "responses": [],
         "content": {
           "techs": [
             "TECH1",
@@ -1204,10 +1267,10 @@ POST /nssets/update
       },
       "request": {
         "id": 980190980,
-        "object_type": "nsset",
-        "request_type": "update",
         "status": "processing",
-        "registry_object_name": "NSSET",
+        "last_response": null,
+        "request_type": "update",
+        "responses": [],
         "content": {
           "techs": [
             "TECH1",
@@ -1267,10 +1330,10 @@ POST /nssets/delete
       },
       "request": {
         "id": 980190981,
-        "object_type": "nsset",
-        "request_type": "delete",
         "status": "waiting_for_authorization",
-        "registry_object_name": "NSSET",
+        "last_response": null,
+        "request_type": "delete",
+        "responses": [],
         "content": null
       }
     }
@@ -1306,30 +1369,13 @@ GET /requests/{id}/status
 {
   "request": {
     "id": 980190983,
-    "status": "available",
-    "message": "Domain is available"
-  }
-}
-
-Služba pro získání všech odpovědí na zaslaný požadavek.
-
-Parametry:
-
-* **id** - identifikátor požadavku
-
-GET /requests/{id}/responses
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "responses": [
-    {
-      "id": 980190970,
-      "code": 200,
-      "status": "Domain is available"
+    "status": "successful",
+    "last_response": {
+      "id": 980190969,
+      "code": null,
+      "message": "Domain is available"
     }
-  ]
+  }
 }
 
 Služba pro získání obsahu odeslaného požadavku.
@@ -1345,11 +1391,23 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190985,
+    "id": 980190984,
+    "status": "successful",
+    "last_response": {
+      "id": 980190970,
+      "code": null,
+      "message": "Domain is available"
+    },
     "object_type": "domain",
     "request_type": "check",
-    "status": "successful",
     "registry_object_name": "domena.cz",
+    "responses": [
+      {
+        "id": 980190970,
+        "code": null,
+        "message": "Domain is available"
+      }
+    ],
     "content": null
   }
 }
@@ -1435,31 +1493,34 @@ POST /orders
 < Content-Type: application/json; charset=utf-8
 {
   "order": {
-    "id": 980190982,
-    "created_at": "2014-10-29T17:08:33+01:00",
+    "id": 980190981,
+    "created_at": "2014-10-30T14:38:59+01:00",
     "requests": [
       {
-        "id": 980190986,
+        "id": 980190985,
+        "status": "processing",
+        "last_response": null,
         "object_type": "domain",
         "request_type": "check",
-        "status": "processing",
         "registry_object_name": "domena.cz",
+        "responses": [],
         "content": null
       },
       {
-        "id": 980190987,
+        "id": 980190986,
+        "status": "processing",
+        "last_response": null,
         "object_type": "domain",
         "request_type": "check",
-        "status": "processing",
         "registry_object_name": "domena2.cz",
+        "responses": [],
         "content": null
       }
     ],
     "_links": {
       "self": {
-        "href": "/orders/980190982"
+        "href": "/orders/980190981"
       }
     }
   }
 }
-
