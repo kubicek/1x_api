@@ -71,7 +71,7 @@ POST /domains/check
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190963
+< Location: http://api.1x.sk/orders/6c00a764-58e3-4725-8c6a-3f30bba2832c
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -85,9 +85,14 @@ POST /domains/check
         }
       },
       "request": {
-        "id": 980190963,
+        "id": "bdca3ce8-2af7-4442-8320-93db1596cd1b",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/bdca3ce8-2af7-4442-8320-93db1596cd1b"
+          }
+        },
         "request_type": "check",
         "responses": [],
         "content": null
@@ -141,7 +146,7 @@ POST /domains/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190964
+< Location: http://api.1x.sk/orders/c71e1685-a41f-4f9a-b725-c12ad8fb5076
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -155,9 +160,14 @@ POST /domains/register
         }
       },
       "request": {
-        "id": 980190964,
+        "id": "61d63afd-0bb5-42a0-9f5a-a29f130f0e5e",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/61d63afd-0bb5-42a0-9f5a-a29f130f0e5e"
+          }
+        },
         "request_type": "register",
         "responses": [],
         "content": {
@@ -184,9 +194,14 @@ POST /domains/register
         }
       },
       "request": {
-        "id": 980190965,
+        "id": "62cb22af-c714-473a-a0b0-7f01797dab25",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/62cb22af-c714-473a-a0b0-7f01797dab25"
+          }
+        },
         "request_type": "register",
         "responses": [],
         "content": {
@@ -222,7 +237,7 @@ POST /domains/transfer
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190965
+< Location: http://api.1x.sk/orders/4b81b8d1-49e9-425a-a488-bbbcb732217b
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -236,9 +251,14 @@ POST /domains/transfer
         }
       },
       "request": {
-        "id": 980190966,
+        "id": "23561a87-e6ba-4acc-a21b-27da71a22b61",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/23561a87-e6ba-4acc-a21b-27da71a22b61"
+          }
+        },
         "request_type": "transfer",
         "responses": [],
         "content": {
@@ -270,7 +290,7 @@ POST /domains/renew
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190966
+< Location: http://api.1x.sk/orders/7fb385a5-11d0-4bd7-89b0-b669132da75c
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -284,9 +304,14 @@ POST /domains/renew
         }
       },
       "request": {
-        "id": 980190967,
+        "id": "7cedf666-c6ec-42f8-9469-fd3560aef5e4",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/7cedf666-c6ec-42f8-9469-fd3560aef5e4"
+          }
+        },
         "request_type": "renew",
         "responses": [],
         "content": {
@@ -328,7 +353,7 @@ POST /domains/change_dns
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190967
+< Location: http://api.1x.sk/orders/58700bdb-f7fa-413c-8622-1c9d2a3cc091
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -342,9 +367,14 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": 980190968,
+        "id": "6c8cd3d4-3018-4922-a8de-9251d361e4ab",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/6c8cd3d4-3018-4922-a8de-9251d361e4ab"
+          }
+        },
         "request_type": "change_dns",
         "responses": [],
         "content": {
@@ -363,12 +393,17 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": 980190969,
+        "id": "9466e764-3f3e-4b9b-a585-47141d7c55d8",
         "status": "failed",
         "last_response": {
           "id": 980190963,
           "code": null,
           "message": "Not authorized"
+        },
+        "_links": {
+          "self": {
+            "href": "/requests/9466e764-3f3e-4b9b-a585-47141d7c55d8"
+          }
         },
         "request_type": "change_dns",
         "responses": [
@@ -409,7 +444,7 @@ POST /domains/registrant_change
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190968
+< Location: http://api.1x.sk/orders/d224c323-d62f-481d-9d87-be791b88acec
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -423,9 +458,14 @@ POST /domains/registrant_change
         }
       },
       "request": {
-        "id": 980190970,
+        "id": "28c65f6a-f614-47ce-b6af-5a6f2c2aeaf8",
         "status": "waiting_for_authorization",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/28c65f6a-f614-47ce-b6af-5a6f2c2aeaf8"
+          }
+        },
         "request_type": "registrant_change",
         "responses": [],
         "content": {
@@ -462,7 +502,7 @@ POST /domains/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190969
+< Location: http://api.1x.sk/orders/73f47c84-334d-4a73-8bb9-455bd9e56d0a
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -476,9 +516,14 @@ POST /domains/update
         }
       },
       "request": {
-        "id": 980190971,
+        "id": "94b93a81-5969-4de6-9c74-c3717ffe99eb",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/94b93a81-5969-4de6-9c74-c3717ffe99eb"
+          }
+        },
         "request_type": "update",
         "responses": [],
         "content": {
@@ -511,7 +556,7 @@ POST /domains/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190970
+< Location: http://api.1x.sk/orders/44f60753-2e45-4055-9f8e-bf9efc3e8490
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -525,12 +570,17 @@ POST /domains/release
         }
       },
       "request": {
-        "id": 980190972,
+        "id": "5d3182f0-f36c-483b-a889-c61aa480624d",
         "status": "successful",
         "last_response": {
           "id": 980190964,
           "code": null,
           "message": "Domain was removed from account"
+        },
+        "_links": {
+          "self": {
+            "href": "/requests/5d3182f0-f36c-483b-a889-c61aa480624d"
+          }
         },
         "request_type": "release",
         "responses": [
@@ -729,7 +779,7 @@ POST /contacts/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190971
+< Location: http://api.1x.sk/orders/e691ee1f-a2ec-49d2-a3a5-2f0aa1576fdd
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -769,9 +819,14 @@ POST /contacts/register
         }
       },
       "request": {
-        "id": 980190973,
+        "id": "00385bf1-60bd-4f2d-bf24-289d4bda02b3",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/00385bf1-60bd-4f2d-bf24-289d4bda02b3"
+          }
+        },
         "request_type": "register",
         "responses": [],
         "content": {
@@ -868,7 +923,7 @@ POST /contacts/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190972
+< Location: http://api.1x.sk/orders/a1298bd9-c489-4b67-9592-05355fdc85ce
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -908,12 +963,17 @@ POST /contacts/update
         }
       },
       "request": {
-        "id": 980190975,
+        "id": "dc8f7429-1cfa-4b4f-96ae-f968b3b8d2b1",
         "status": "successful",
         "last_response": {
           "id": 980190965,
           "code": null,
           "message": "Contact was updated"
+        },
+        "_links": {
+          "self": {
+            "href": "/requests/dc8f7429-1cfa-4b4f-96ae-f968b3b8d2b1"
+          }
         },
         "request_type": "update",
         "responses": [
@@ -976,7 +1036,7 @@ POST /contacts/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190973
+< Location: http://api.1x.sk/orders/1b745e41-68ed-4a91-872f-815fb9fd73ec
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -1009,12 +1069,17 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": 980190976,
+        "id": "082d10bf-cf6b-40ae-b8ec-6518ccc15594",
         "status": "failed",
         "last_response": {
           "id": 980190966,
           "code": null,
           "message": "Contact can not be removed from account"
+        },
+        "_links": {
+          "self": {
+            "href": "/requests/082d10bf-cf6b-40ae-b8ec-6518ccc15594"
+          }
         },
         "request_type": "release",
         "responses": [
@@ -1056,12 +1121,17 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": 980190976,
+        "id": "082d10bf-cf6b-40ae-b8ec-6518ccc15594",
         "status": "failed",
         "last_response": {
           "id": 980190966,
           "code": null,
           "message": "Contact can not be removed from account"
+        },
+        "_links": {
+          "self": {
+            "href": "/requests/082d10bf-cf6b-40ae-b8ec-6518ccc15594"
+          }
         },
         "request_type": "release",
         "responses": [
@@ -1099,7 +1169,7 @@ POST /nssets/check
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190974
+< Location: http://api.1x.sk/orders/95283392-9f35-4f1c-8e76-0d93339d4b46
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1112,9 +1182,14 @@ POST /nssets/check
         }
       },
       "request": {
-        "id": 980190978,
+        "id": "f68ded3c-2560-4f23-8a58-9a1c9046c5ae",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/f68ded3c-2560-4f23-8a58-9a1c9046c5ae"
+          }
+        },
         "request_type": "check",
         "responses": [],
         "content": null
@@ -1165,7 +1240,7 @@ POST /nssets/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190975
+< Location: http://api.1x.sk/orders/477f1a19-4b59-4244-a824-555493e5f5cc
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1178,9 +1253,14 @@ POST /nssets/register
         }
       },
       "request": {
-        "id": 980190979,
+        "id": "e52d5a84-b59f-4081-a508-61fd883641af",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/e52d5a84-b59f-4081-a508-61fd883641af"
+          }
+        },
         "request_type": "register",
         "responses": [],
         "content": {
@@ -1253,7 +1333,7 @@ POST /nssets/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190976
+< Location: http://api.1x.sk/orders/534398c5-8d85-4573-8ec8-cad2742d76e4
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1266,9 +1346,14 @@ POST /nssets/update
         }
       },
       "request": {
-        "id": 980190980,
+        "id": "608cff5a-c449-46c3-88d4-edcf7dfee1b9",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/608cff5a-c449-46c3-88d4-edcf7dfee1b9"
+          }
+        },
         "request_type": "update",
         "responses": [],
         "content": {
@@ -1316,7 +1401,7 @@ POST /nssets/delete
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/980190977
+< Location: http://api.1x.sk/orders/72d5ead0-9485-4f87-af79-c8ca860acc04
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1329,9 +1414,14 @@ POST /nssets/delete
         }
       },
       "request": {
-        "id": 980190981,
+        "id": "5be6c7f7-01b8-40fd-ab68-f3ebf16b1f89",
         "status": "waiting_for_authorization",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/5be6c7f7-01b8-40fd-ab68-f3ebf16b1f89"
+          }
+        },
         "request_type": "delete",
         "responses": [],
         "content": null
@@ -1368,12 +1458,17 @@ GET /requests/{id}/status
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190983,
+    "id": "579f2022-38d8-4c7b-a065-2ac755bf21c1",
     "status": "successful",
     "last_response": {
       "id": 980190969,
       "code": null,
       "message": "Domain is available"
+    },
+    "_links": {
+      "self": {
+        "href": "/requests/579f2022-38d8-4c7b-a065-2ac755bf21c1"
+      }
     }
   }
 }
@@ -1391,12 +1486,17 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": 980190984,
+    "id": "a49c2a2e-b721-4621-bc0c-0fa4ee7c9943",
     "status": "successful",
     "last_response": {
       "id": 980190970,
       "code": null,
       "message": "Domain is available"
+    },
+    "_links": {
+      "self": {
+        "href": "/requests/a49c2a2e-b721-4621-bc0c-0fa4ee7c9943"
+      }
     },
     "object_type": "domain",
     "request_type": "check",
@@ -1493,13 +1593,18 @@ POST /orders
 < Content-Type: application/json; charset=utf-8
 {
   "order": {
-    "id": 980190981,
-    "created_at": "2014-10-30T14:38:59+01:00",
+    "id": "5c14cba1-ca5c-4796-b67d-67933bfc7949",
+    "created_at": "2014-10-30T16:50:57+01:00",
     "requests": [
       {
-        "id": 980190985,
+        "id": "0cee50a8-06ef-4e22-9030-19e6c0ab4158",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/0cee50a8-06ef-4e22-9030-19e6c0ab4158"
+          }
+        },
         "object_type": "domain",
         "request_type": "check",
         "registry_object_name": "domena.cz",
@@ -1507,9 +1612,14 @@ POST /orders
         "content": null
       },
       {
-        "id": 980190986,
+        "id": "86860950-0386-4c0e-958d-00c18a3d5bf0",
         "status": "processing",
         "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/86860950-0386-4c0e-958d-00c18a3d5bf0"
+          }
+        },
         "object_type": "domain",
         "request_type": "check",
         "registry_object_name": "domena2.cz",
@@ -1519,7 +1629,7 @@ POST /orders
     ],
     "_links": {
       "self": {
-        "href": "/orders/980190981"
+        "href": "/orders/5c14cba1-ca5c-4796-b67d-67933bfc7949"
       }
     }
   }
