@@ -2,25 +2,36 @@ HOST: http://api.1x.sk/
 
 --- 1X public API ---
 ---
-## Zabezpečení
 
-Pro úspěšné volání funkce API je potřeba zaslat přidělené uživatelské jméno a heslo prostřednictvím HTTP Basic Auth.
+Společnost 1X je registrátorem domén. Prostřednictvím API nabízí služby koncovým zákazníkům i subregistrátorům, kteří jednají jménem svých zákazníků.
+
+## Koncoví zákazníci
+
+Koncový zákazník si zaregistruje účet (kontakt), pomocí kterého se přihlašuje do systému 1X a registruje pod ním domény. Údaje z kontaktu jsou automaticky propisovány do jednotlivých registrů, kde dochází k automatickému zakládání kontaktl při první registraci domény. Aktualizace údajů kontaktu (např. změna adresy zákazníka) se automaticky propisuje do všech registrů.
+
+## Subregistrátoři
+
+Subregistrátor může obdobně registrovat pod svým účtem i kontakty svých zákazníků. Pro pohodlné napojení do svého systému si může každý kontakt nějak pojmenovat nebo mu přidělit uuid. Pokud není uuid součástí požadavku na registraci kontaktu, systém 1X vygeneruje nové a poskytne ho v odpovědi na žádost o registraci kontaktu. Kontakt lze přejmenovávat, uuid je neměnné. Při registraci domény lze jako identifikátor osoby držitele, administrativního nebo technického kontaktu uvádět identifikátor kontaktu z registru, identifikátor (název) kontaktu 1X nebo právě uuid.
+
+Požadavky, které posílá registrátor jménem svého zákazníka, by měl posílat jen se souhlasem zákazníka. Souhlas může být zajištěn smluvně nebo ho může vyžadovat explicitně při každém zadání požadavku. Subregistrátor také musí mít od zákazníka souhlas s pravidly registrace a řešení sporů (ADR) příslušných registrů domén.
+
+Pokud dojde ke zrušení vztahu subregistrátora a zákazníka, využije subregistrátor API volání, kterým své zmocnění zruší i v systému 1X. S doménami pak nadále může nakládat již jen zákazník, ten může ale subregistrátora opět zmocnit.
 
 ## Požadavky
 
-Požadavky se zasílají metodou POST na příslušné URL, informační zdroje jsou dotazovány metodou GET.
+Požadavky se posílají protokolem JSON s autorizací HTTP Auth a s uvedením Content Type a Accept hlaviček se zasílají metodou POST na příslušné URL, informační zdroje jsou dotazovány metodou GET.
 
 ## Vyřizování požadavků
 
-Systém každý přijatý požadavek ihned uloží a v odpovědi odešle přidělený unikátní identifikátor. Klient nečeká na odpověď o vyřízení a může odesílat další požadavky. Kdykoliv se pak může pomocí API volání dotázat na aktuální stav vyřizování požadavku. Převážně z tohoto důvodu jsou implementované odpovědi ve formátu JSON, kdy v klientské aplikaci je možné na pozadí např. pomocí JavaScriptu průběžně dotazovat server na stav vyřizování požadavků a tento v reálném čase v aplikaci zobrazovat. Tento způsob komunikace odstraňuje i problémy při nedostupnosti registrů nebo prodlevou v jejich odpovědích. Klienta zasílající požadavek neblokujeme a jeho požadavek zpracujeme, jakmile to bude možné.
+Každý požadavek je uložen, je mu přiděleno číslo a je možné se ptát na stav jeho zpracování. (ze zpracování, zpracováno, zpracování selhalo). Ke každému požadavku také může být připojeno více zpráv informujících o detailu zpracování. Zprávy mají lidsky čitelnou část a strojově zpracovatelný kód odpovědi.
 
-## Kontakty
+Většina služeb umožňuje podání hromadného požadavku (registrace více domén jedním API voláním, hromadné převody domén, hromadné změny v doménách).
 
-Kontakt funguje jako sdružující entita kontaktu v různých registrech.
-Při změně kontaktu dojde k propsání změny do všech registrů, kde byl kontakt použit.
-Kontakt automaticky vytváří objekty v příslušných registrech při jeho použití u domény.
-Kontaktu lze nastavit vlastní identifikátor (je možné ho i změnit), dostává také UUID.
-Kontakt slouží i jako vlastní uživatelský účet do našeho systému.
+Odpovědí na jednotné i hromadné požadavky je vždy objednávka. Objednávku je možné založit také přímým API voláním a do takové objednávky je možné sdružit i různé druhy požadavků.
+
+## Hlášení chyb
+
+Návrhy na úpravy API, opravy chyb a další komentáře je možné vkládat na https://github.com/kubicek/1x_api/issues. Podpora k API je poskytována na adrese podpora@xnet.cz.
 ---
 --
 Domains
@@ -45,7 +56,7 @@ GET /domains/{fqdnu}
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "520f48d5-a787-470a-98a1-e02b8e121780",
+        "id": "e639a103-048a-4aee-ac68-80d9799b2fc0",
         "handle": "META:2"
       },
       "_links": {
@@ -74,7 +85,7 @@ POST /domains/check
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/51d44329-85d9-4cce-8df1-52d61fe8b76c
+< Location: http://api.1x.sk/orders/4f1a21ae-9cfb-455e-a9e2-15572d3a4cb0
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -88,12 +99,12 @@ POST /domains/check
         }
       },
       "request": {
-        "id": "f08cc65f-d92f-47d2-a0c4-020495759cd8",
+        "id": "5da7065f-f982-4280-ae9f-3b791c6ae93c",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/f08cc65f-d92f-47d2-a0c4-020495759cd8"
+            "href": "/requests/5da7065f-f982-4280-ae9f-3b791c6ae93c"
           }
         },
         "request_type": "check",
@@ -149,7 +160,7 @@ POST /domains/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/4bba4826-659c-47e9-ab5e-df361deeb696
+< Location: http://api.1x.sk/orders/a1e168d0-5953-408b-8b00-80de8a318937
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -163,12 +174,12 @@ POST /domains/register
         }
       },
       "request": {
-        "id": "b1828019-7f80-474e-974a-e02084791c28",
+        "id": "78b53bd1-34e1-40a2-b111-5648bb93f46c",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/b1828019-7f80-474e-974a-e02084791c28"
+            "href": "/requests/78b53bd1-34e1-40a2-b111-5648bb93f46c"
           }
         },
         "request_type": "register",
@@ -197,12 +208,12 @@ POST /domains/register
         }
       },
       "request": {
-        "id": "0e7b1d04-773c-4dd4-818a-41ce0bda08d9",
+        "id": "31b7d7a9-c7e7-4353-a0ca-e30cd096581e",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/0e7b1d04-773c-4dd4-818a-41ce0bda08d9"
+            "href": "/requests/31b7d7a9-c7e7-4353-a0ca-e30cd096581e"
           }
         },
         "request_type": "register",
@@ -240,7 +251,7 @@ POST /domains/transfer
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/d433cbe6-7fa8-4e16-947c-3965cb26b9b0
+< Location: http://api.1x.sk/orders/5d722770-c4ad-4d47-acdd-324dc7e216e5
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -254,12 +265,12 @@ POST /domains/transfer
         }
       },
       "request": {
-        "id": "e23c5ca7-fa22-4dd0-8b61-67fbcf0c5846",
+        "id": "3f9917c4-0e94-4a2a-a550-47aadc349217",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/e23c5ca7-fa22-4dd0-8b61-67fbcf0c5846"
+            "href": "/requests/3f9917c4-0e94-4a2a-a550-47aadc349217"
           }
         },
         "request_type": "transfer",
@@ -293,7 +304,7 @@ POST /domains/renew
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/82d91fc2-8617-48a9-bd0f-fd4b96249da8
+< Location: http://api.1x.sk/orders/34200f94-01a6-40ce-8a7b-770c039b8794
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -307,12 +318,12 @@ POST /domains/renew
         }
       },
       "request": {
-        "id": "8b0184ce-fdc9-4b25-a383-4fb85a075aa8",
+        "id": "0e445d82-3cd3-4f03-909c-e884e620c9ad",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/8b0184ce-fdc9-4b25-a383-4fb85a075aa8"
+            "href": "/requests/0e445d82-3cd3-4f03-909c-e884e620c9ad"
           }
         },
         "request_type": "renew",
@@ -356,7 +367,7 @@ POST /domains/change_dns
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/4fcdcef1-fcc4-4952-bbdc-83f9103a15f7
+< Location: http://api.1x.sk/orders/d90993ab-0b33-4359-9ad2-4afeb6489854
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -370,12 +381,12 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": "6e91a68f-f8f5-4911-8afd-7e1001529d83",
+        "id": "de55db74-6779-4eda-9af9-3048be5a9bc5",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/6e91a68f-f8f5-4911-8afd-7e1001529d83"
+            "href": "/requests/de55db74-6779-4eda-9af9-3048be5a9bc5"
           }
         },
         "request_type": "change_dns",
@@ -396,23 +407,23 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": "20cd0727-cb7d-4fb5-b71f-5415a974fb9b",
+        "id": "ffdb5546-fb41-4b8f-b103-564c88f93b56",
         "status": "failed",
         "last_response": {
-          "id": 980190963,
-          "code": null,
+          "id": "63bcfe41-ffa1-415f-a4c1-55aa23120cf7",
+          "code": "not_authorized",
           "message": "Not authorized"
         },
         "_links": {
           "self": {
-            "href": "/requests/20cd0727-cb7d-4fb5-b71f-5415a974fb9b"
+            "href": "/requests/ffdb5546-fb41-4b8f-b103-564c88f93b56"
           }
         },
         "request_type": "change_dns",
         "responses": [
           {
-            "id": 980190963,
-            "code": null,
+            "id": "63bcfe41-ffa1-415f-a4c1-55aa23120cf7",
+            "code": "not_authorized",
             "message": "Not authorized"
           }
         ],
@@ -447,7 +458,7 @@ POST /domains/registrant_change
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/8cac26bb-9d64-4141-a91a-7d0447b24cdc
+< Location: http://api.1x.sk/orders/8ac11a0d-fe49-468d-a735-fc48d208d555
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -461,12 +472,12 @@ POST /domains/registrant_change
         }
       },
       "request": {
-        "id": "f1b79532-4e70-4c81-b9c7-31970f498711",
+        "id": "0a642515-83ff-4d41-a798-fc2d97da7ae8",
         "status": "waiting_for_authorization",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/f1b79532-4e70-4c81-b9c7-31970f498711"
+            "href": "/requests/0a642515-83ff-4d41-a798-fc2d97da7ae8"
           }
         },
         "request_type": "registrant_change",
@@ -505,7 +516,7 @@ POST /domains/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/db775909-2b1a-4553-b17e-901886a7e73d
+< Location: http://api.1x.sk/orders/12200a80-d64f-41d0-ad86-d9a082d92a91
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -519,12 +530,12 @@ POST /domains/update
         }
       },
       "request": {
-        "id": "bea04bf9-7d75-4213-bdb0-9518c05bba8b",
+        "id": "fcb3ca90-76e5-4785-9633-ce3f8205d50a",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/bea04bf9-7d75-4213-bdb0-9518c05bba8b"
+            "href": "/requests/fcb3ca90-76e5-4785-9633-ce3f8205d50a"
           }
         },
         "request_type": "update",
@@ -559,7 +570,7 @@ POST /domains/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/e44e4f05-d8bc-4458-8100-87cb13703150
+< Location: http://api.1x.sk/orders/3395b5a3-de8e-4d5b-a7eb-85ea2b0a596c
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -573,23 +584,23 @@ POST /domains/release
         }
       },
       "request": {
-        "id": "38d19451-1671-4fe8-8866-c59a08f94abe",
+        "id": "bb5fd4d8-4d58-4cd1-a1dc-ac28e0426b40",
         "status": "successful",
         "last_response": {
-          "id": 980190964,
-          "code": null,
+          "id": "b7c24166-0d3c-4e3f-9b56-e51465f84757",
+          "code": "domain_removed",
           "message": "Domain was removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/38d19451-1671-4fe8-8866-c59a08f94abe"
+            "href": "/requests/bb5fd4d8-4d58-4cd1-a1dc-ac28e0426b40"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": 980190964,
-            "code": null,
+            "id": "b7c24166-0d3c-4e3f-9b56-e51465f84757",
+            "code": "domain_removed",
             "message": "Domain was removed from account"
           }
         ],
@@ -613,7 +624,7 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "36eb0253-6151-4ea9-a0c2-340d44052667",
+        "id": "353040c1-ad96-42b0-82a0-3fc9011bdeb9",
         "handle": "META:11"
       },
       "_links": {
@@ -627,7 +638,7 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "36eb0253-6151-4ea9-a0c2-340d44052667",
+        "id": "353040c1-ad96-42b0-82a0-3fc9011bdeb9",
         "handle": "META:11"
       },
       "_links": {
@@ -653,7 +664,7 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "1f5867b3-c0de-40d7-8eb7-7e4b4923166b",
+        "id": "8f0bcf92-2f5c-48e8-afa7-bef335ad37f0",
         "handle": "META:12"
       },
       "_links": {
@@ -667,7 +678,7 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "1f5867b3-c0de-40d7-8eb7-7e4b4923166b",
+        "id": "8f0bcf92-2f5c-48e8-afa7-bef335ad37f0",
         "handle": "META:12"
       },
       "_links": {
@@ -794,7 +805,7 @@ POST /contacts/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/1be0b73a-21ab-4e8e-8a65-4ef29f45d868
+< Location: http://api.1x.sk/orders/ee4cf616-9ae4-44e2-a22b-f1b4b8f0b0f3
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -834,12 +845,12 @@ POST /contacts/register
         }
       },
       "request": {
-        "id": "291afdc3-424d-4feb-827a-093bac7a2b85",
+        "id": "e01309f4-3e92-4417-9efa-bfd931c08e44",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/291afdc3-424d-4feb-827a-093bac7a2b85"
+            "href": "/requests/e01309f4-3e92-4417-9efa-bfd931c08e44"
           }
         },
         "request_type": "register",
@@ -938,7 +949,7 @@ POST /contacts/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/757ba66e-84f7-4a8c-8d6b-0e627ba3613f
+< Location: http://api.1x.sk/orders/bfdce8f8-a566-4e98-9f5c-dd4819630a6d
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -978,23 +989,23 @@ POST /contacts/update
         }
       },
       "request": {
-        "id": "e01a02ab-f67a-48a2-a7df-a0fa5ee1bc91",
+        "id": "8a05217f-ea71-4c0c-b0d8-ba7bc351b7de",
         "status": "successful",
         "last_response": {
-          "id": 980190965,
-          "code": null,
+          "id": "8a5761c9-851c-4c14-aa65-d2daccefcba7",
+          "code": "domain_available",
           "message": "Contact was updated"
         },
         "_links": {
           "self": {
-            "href": "/requests/e01a02ab-f67a-48a2-a7df-a0fa5ee1bc91"
+            "href": "/requests/8a05217f-ea71-4c0c-b0d8-ba7bc351b7de"
           }
         },
         "request_type": "update",
         "responses": [
           {
-            "id": 980190965,
-            "code": null,
+            "id": "8a5761c9-851c-4c14-aa65-d2daccefcba7",
+            "code": "domain_available",
             "message": "Contact was updated"
           }
         ],
@@ -1051,7 +1062,7 @@ POST /contacts/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/58db261d-4573-4205-aa56-43ff5d761491
+< Location: http://api.1x.sk/orders/c10c4288-c6fd-4b20-8c4a-af4f77f82767
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -1084,23 +1095,23 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": "bb6a24f2-fc27-461d-a1cb-775fa250fd88",
+        "id": "9e211ea0-89a9-40f1-9271-f34529e045cd",
         "status": "failed",
         "last_response": {
-          "id": 980190966,
-          "code": null,
+          "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+          "code": "contact_not_removed",
           "message": "Contact can not be removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/bb6a24f2-fc27-461d-a1cb-775fa250fd88"
+            "href": "/requests/9e211ea0-89a9-40f1-9271-f34529e045cd"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": 980190966,
-            "code": null,
+            "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+            "code": "contact_not_removed",
             "message": "Contact can not be removed from account"
           }
         ],
@@ -1136,23 +1147,23 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": "bb6a24f2-fc27-461d-a1cb-775fa250fd88",
+        "id": "9e211ea0-89a9-40f1-9271-f34529e045cd",
         "status": "failed",
         "last_response": {
-          "id": 980190966,
-          "code": null,
+          "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+          "code": "contact_not_removed",
           "message": "Contact can not be removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/bb6a24f2-fc27-461d-a1cb-775fa250fd88"
+            "href": "/requests/9e211ea0-89a9-40f1-9271-f34529e045cd"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": 980190966,
-            "code": null,
+            "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+            "code": "contact_not_removed",
             "message": "Contact can not be removed from account"
           }
         ],
@@ -1184,7 +1195,7 @@ POST /nssets/check
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/41f4a839-9f31-406f-b416-270fe1527ea4
+< Location: http://api.1x.sk/orders/8b0f4312-fa45-431d-ae56-78fba286bd1e
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1197,12 +1208,12 @@ POST /nssets/check
         }
       },
       "request": {
-        "id": "d64fba37-e9b6-4dce-9b0c-99a5b9d62e9e",
+        "id": "eddf8607-bbc7-4bfb-af5d-d97869d22559",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/d64fba37-e9b6-4dce-9b0c-99a5b9d62e9e"
+            "href": "/requests/eddf8607-bbc7-4bfb-af5d-d97869d22559"
           }
         },
         "request_type": "check",
@@ -1255,7 +1266,7 @@ POST /nssets/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/932f2846-1d25-47ba-b9b0-8bea75cdee3a
+< Location: http://api.1x.sk/orders/a76a4444-9b1e-4e0e-ad15-5c6ce02f0a39
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1268,12 +1279,12 @@ POST /nssets/register
         }
       },
       "request": {
-        "id": "2ee5028a-760f-473a-bd85-37de242e0d8b",
+        "id": "959945b9-ecae-4679-87f8-fa42f8896d2c",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/2ee5028a-760f-473a-bd85-37de242e0d8b"
+            "href": "/requests/959945b9-ecae-4679-87f8-fa42f8896d2c"
           }
         },
         "request_type": "register",
@@ -1348,7 +1359,7 @@ POST /nssets/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/a26ca83e-169b-4189-a062-8cc91f04dbf0
+< Location: http://api.1x.sk/orders/d9af0e31-6855-44cd-91ec-5678a63bb573
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1361,12 +1372,12 @@ POST /nssets/update
         }
       },
       "request": {
-        "id": "11b6de61-9e3b-4e4c-949b-85e194b3ecf3",
+        "id": "465295cd-0857-49d8-a580-e40d5a648b17",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/11b6de61-9e3b-4e4c-949b-85e194b3ecf3"
+            "href": "/requests/465295cd-0857-49d8-a580-e40d5a648b17"
           }
         },
         "request_type": "update",
@@ -1416,7 +1427,7 @@ POST /nssets/delete
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/9d1404ff-ac6a-4652-ac28-cb5a6106ee06
+< Location: http://api.1x.sk/orders/9a09884d-e7b9-4245-9431-8da2dc4f5d61
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1429,12 +1440,12 @@ POST /nssets/delete
         }
       },
       "request": {
-        "id": "e9c0698d-ab7a-4694-96a0-dbb58b5b9cfa",
+        "id": "1376c88e-a511-4ba5-ae47-7fc69426f291",
         "status": "waiting_for_authorization",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/e9c0698d-ab7a-4694-96a0-dbb58b5b9cfa"
+            "href": "/requests/1376c88e-a511-4ba5-ae47-7fc69426f291"
           }
         },
         "request_type": "delete",
@@ -1473,16 +1484,16 @@ GET /requests/{id}/status
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": "ad59e206-9365-477e-a88e-af282f185974",
+    "id": "e9b6f461-f259-4e74-b92a-567a4d3c845c",
     "status": "successful",
     "last_response": {
-      "id": 980190969,
-      "code": null,
+      "id": "7bde848d-2cbb-4984-b19b-63ef599ff5a9",
+      "code": "domain_available",
       "message": "Domain is available"
     },
     "_links": {
       "self": {
-        "href": "/requests/ad59e206-9365-477e-a88e-af282f185974"
+        "href": "/requests/e9b6f461-f259-4e74-b92a-567a4d3c845c"
       }
     }
   }
@@ -1501,16 +1512,16 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": "e95d3809-4f60-430d-bd0a-1d377121b828",
+    "id": "7274b88d-2cec-4998-aea2-3f0c93fced4e",
     "status": "successful",
     "last_response": {
-      "id": 980190970,
-      "code": null,
+      "id": "204de6b9-afff-4799-9601-4af8443c7f1a",
+      "code": "domain_available",
       "message": "Domain is available"
     },
     "_links": {
       "self": {
-        "href": "/requests/e95d3809-4f60-430d-bd0a-1d377121b828"
+        "href": "/requests/7274b88d-2cec-4998-aea2-3f0c93fced4e"
       }
     },
     "object_type": "domain",
@@ -1518,8 +1529,8 @@ GET /requests/{id}
     "registry_object_name": "domena.cz",
     "responses": [
       {
-        "id": 980190970,
-        "code": null,
+        "id": "204de6b9-afff-4799-9601-4af8443c7f1a",
+        "code": "domain_available",
         "message": "Domain is available"
       }
     ],
@@ -1608,16 +1619,16 @@ POST /orders
 < Content-Type: application/json; charset=utf-8
 {
   "order": {
-    "id": "feea81e2-588d-48ac-9f19-7c36d480b64c",
-    "created_at": "2014-10-30T17:06:44+01:00",
+    "id": "3e3368d9-5b5f-46a4-b317-5e209e78c687",
+    "created_at": "2014-10-31T16:22:12+01:00",
     "requests": [
       {
-        "id": "931b6825-e7c1-4da2-b1a4-2330b9910ed0",
+        "id": "1d83e322-f578-480b-98c5-05c66db74a56",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/931b6825-e7c1-4da2-b1a4-2330b9910ed0"
+            "href": "/requests/1d83e322-f578-480b-98c5-05c66db74a56"
           }
         },
         "object_type": "domain",
@@ -1627,12 +1638,12 @@ POST /orders
         "content": null
       },
       {
-        "id": "68d6763a-d020-4b2d-9c95-c36360174562",
+        "id": "6ce8f9ae-67ae-46ba-8683-6c7506b71cc3",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/68d6763a-d020-4b2d-9c95-c36360174562"
+            "href": "/requests/6ce8f9ae-67ae-46ba-8683-6c7506b71cc3"
           }
         },
         "object_type": "domain",
@@ -1644,7 +1655,7 @@ POST /orders
     ],
     "_links": {
       "self": {
-        "href": "/orders/feea81e2-588d-48ac-9f19-7c36d480b64c"
+        "href": "/orders/3e3368d9-5b5f-46a4-b317-5e209e78c687"
       }
     }
   }
