@@ -56,7 +56,7 @@ GET /domains/{fqdnu}
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "e639a103-048a-4aee-ac68-80d9799b2fc0",
+        "id": "86fb9d52-215d-44c3-a9c8-f1c93c34aaf3",
         "handle": "META:2"
       },
       "_links": {
@@ -85,7 +85,7 @@ POST /domains/check
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/4f1a21ae-9cfb-455e-a9e2-15572d3a4cb0
+< Location: http://api.1x.sk/orders/98f708f4-f607-4f7d-87f4-91051b2f2e19
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -99,17 +99,19 @@ POST /domains/check
         }
       },
       "request": {
-        "id": "5da7065f-f982-4280-ae9f-3b791c6ae93c",
+        "id": "5a86ed03-6917-47c4-905f-c3036f79d258",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/5da7065f-f982-4280-ae9f-3b791c6ae93c"
+            "href": "/requests/5a86ed03-6917-47c4-905f-c3036f79d258"
           }
         },
         "request_type": "check",
         "responses": [],
-        "content": null
+        "content": {
+          "name": "domena.cz"
+        }
       }
     }
   ]
@@ -160,7 +162,7 @@ POST /domains/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/a1e168d0-5953-408b-8b00-80de8a318937
+< Location: http://api.1x.sk/orders/74f6d638-22fe-4754-9d21-b9480cf98a98
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -174,17 +176,18 @@ POST /domains/register
         }
       },
       "request": {
-        "id": "78b53bd1-34e1-40a2-b111-5648bb93f46c",
+        "id": "a5173542-ec98-4f0d-93cb-6f79c7547413",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/78b53bd1-34e1-40a2-b111-5648bb93f46c"
+            "href": "/requests/a5173542-ec98-4f0d-93cb-6f79c7547413"
           }
         },
         "request_type": "register",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "period": "1",
           "registrant": "DRZITEL",
           "nsset": "KRAXNET",
@@ -208,17 +211,18 @@ POST /domains/register
         }
       },
       "request": {
-        "id": "31b7d7a9-c7e7-4353-a0ca-e30cd096581e",
+        "id": "bf07dc80-c869-465e-aa05-440ad8298fdc",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/31b7d7a9-c7e7-4353-a0ca-e30cd096581e"
+            "href": "/requests/bf07dc80-c869-465e-aa05-440ad8298fdc"
           }
         },
         "request_type": "register",
         "responses": [],
         "content": {
+          "name": "domain.com",
           "period": "1",
           "registrant": "HOLDER",
           "nameservers": [
@@ -251,7 +255,7 @@ POST /domains/transfer
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/5d722770-c4ad-4d47-acdd-324dc7e216e5
+< Location: http://api.1x.sk/orders/e19aecbf-54ca-493c-a01c-a5f7e01aa8c9
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -265,17 +269,18 @@ POST /domains/transfer
         }
       },
       "request": {
-        "id": "3f9917c4-0e94-4a2a-a550-47aadc349217",
+        "id": "4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/3f9917c4-0e94-4a2a-a550-47aadc349217"
+            "href": "/requests/4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616"
           }
         },
         "request_type": "transfer",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "authorization_key": "1234abcd"
         }
       }
@@ -304,7 +309,7 @@ POST /domains/renew
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/34200f94-01a6-40ce-8a7b-770c039b8794
+< Location: http://api.1x.sk/orders/c3390f80-e0fb-435a-9713-89fa66306711
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -318,17 +323,18 @@ POST /domains/renew
         }
       },
       "request": {
-        "id": "0e445d82-3cd3-4f03-909c-e884e620c9ad",
+        "id": "fa2124be-0249-4710-9d68-c97741789ddd",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/0e445d82-3cd3-4f03-909c-e884e620c9ad"
+            "href": "/requests/fa2124be-0249-4710-9d68-c97741789ddd"
           }
         },
         "request_type": "renew",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "period": "1",
           "current_expiration_date": "2014-06-06"
         }
@@ -367,7 +373,7 @@ POST /domains/change_dns
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/d90993ab-0b33-4359-9ad2-4afeb6489854
+< Location: http://api.1x.sk/orders/4cbb8e7d-4d73-4136-aeb5-aa81508c42bb
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -381,17 +387,18 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": "de55db74-6779-4eda-9af9-3048be5a9bc5",
+        "id": "e3aa3063-c304-4257-9959-b55c9838715a",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/de55db74-6779-4eda-9af9-3048be5a9bc5"
+            "href": "/requests/e3aa3063-c304-4257-9959-b55c9838715a"
           }
         },
         "request_type": "change_dns",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "nsset": "KRAXNET",
           "dns_zone_template_id": "1"
         }
@@ -407,27 +414,28 @@ POST /domains/change_dns
         }
       },
       "request": {
-        "id": "ffdb5546-fb41-4b8f-b103-564c88f93b56",
+        "id": "cf41c63f-d08f-4b01-a155-a595d1ac1deb",
         "status": "failed",
         "last_response": {
-          "id": "63bcfe41-ffa1-415f-a4c1-55aa23120cf7",
+          "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
           "code": "not_authorized",
           "message": "Not authorized"
         },
         "_links": {
           "self": {
-            "href": "/requests/ffdb5546-fb41-4b8f-b103-564c88f93b56"
+            "href": "/requests/cf41c63f-d08f-4b01-a155-a595d1ac1deb"
           }
         },
         "request_type": "change_dns",
         "responses": [
           {
-            "id": "63bcfe41-ffa1-415f-a4c1-55aa23120cf7",
+            "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
             "code": "not_authorized",
             "message": "Not authorized"
           }
         ],
         "content": {
+          "name": "domain.com",
           "nameservers": [
             "ns.kraxnet.cz",
             "ns.kraxnet.com"
@@ -458,7 +466,7 @@ POST /domains/registrant_change
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/8ac11a0d-fe49-468d-a735-fc48d208d555
+< Location: http://api.1x.sk/orders/b48e5026-8930-4810-9bd2-41a826f63ee9
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -472,17 +480,18 @@ POST /domains/registrant_change
         }
       },
       "request": {
-        "id": "0a642515-83ff-4d41-a798-fc2d97da7ae8",
+        "id": "41c5c191-53f6-4276-b05f-c6f988683b4f",
         "status": "waiting_for_authorization",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/0a642515-83ff-4d41-a798-fc2d97da7ae8"
+            "href": "/requests/41c5c191-53f6-4276-b05f-c6f988683b4f"
           }
         },
         "request_type": "registrant_change",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "registrant": "NOVY_DRZITEL"
         }
       }
@@ -516,7 +525,7 @@ POST /domains/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/12200a80-d64f-41d0-ad86-d9a082d92a91
+< Location: http://api.1x.sk/orders/4b7000fd-acf1-4291-bf9a-d40310f158c7
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -530,17 +539,18 @@ POST /domains/update
         }
       },
       "request": {
-        "id": "fcb3ca90-76e5-4785-9633-ce3f8205d50a",
+        "id": "3161e623-71cc-4180-83a9-268ad4d33bcd",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/fcb3ca90-76e5-4785-9633-ce3f8205d50a"
+            "href": "/requests/3161e623-71cc-4180-83a9-268ad4d33bcd"
           }
         },
         "request_type": "update",
         "responses": [],
         "content": {
+          "name": "domena.cz",
           "keyset": "KEYSET",
           "authorization_key": "1234abcd",
           "admins": [
@@ -570,7 +580,7 @@ POST /domains/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/3395b5a3-de8e-4d5b-a7eb-85ea2b0a596c
+< Location: http://api.1x.sk/orders/9b6ea63b-cdac-4799-be21-214c44dda81b
 < Content-Type: application/json; charset=utf-8
 {
   "domains": [
@@ -584,27 +594,29 @@ POST /domains/release
         }
       },
       "request": {
-        "id": "bb5fd4d8-4d58-4cd1-a1dc-ac28e0426b40",
+        "id": "2db2ae24-84b6-4a2b-81f2-b25c1684a420",
         "status": "successful",
         "last_response": {
-          "id": "b7c24166-0d3c-4e3f-9b56-e51465f84757",
+          "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
           "code": "domain_removed",
           "message": "Domain was removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/bb5fd4d8-4d58-4cd1-a1dc-ac28e0426b40"
+            "href": "/requests/2db2ae24-84b6-4a2b-81f2-b25c1684a420"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": "b7c24166-0d3c-4e3f-9b56-e51465f84757",
+            "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
             "code": "domain_removed",
             "message": "Domain was removed from account"
           }
         ],
-        "content": null
+        "content": {
+          "name": "domena.cz"
+        }
       }
     }
   ]
@@ -624,7 +636,7 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "353040c1-ad96-42b0-82a0-3fc9011bdeb9",
+        "id": "129dfaf9-bd1d-4b09-a2bd-88a3503b27e7",
         "handle": "META:11"
       },
       "_links": {
@@ -638,7 +650,7 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "353040c1-ad96-42b0-82a0-3fc9011bdeb9",
+        "id": "129dfaf9-bd1d-4b09-a2bd-88a3503b27e7",
         "handle": "META:11"
       },
       "_links": {
@@ -664,7 +676,7 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "8f0bcf92-2f5c-48e8-afa7-bef335ad37f0",
+        "id": "0bcc368b-0eb5-4190-a760-7722113d5350",
         "handle": "META:12"
       },
       "_links": {
@@ -678,7 +690,7 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "8f0bcf92-2f5c-48e8-afa7-bef335ad37f0",
+        "id": "0bcc368b-0eb5-4190-a760-7722113d5350",
         "handle": "META:12"
       },
       "_links": {
@@ -805,7 +817,7 @@ POST /contacts/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/ee4cf616-9ae4-44e2-a22b-f1b4b8f0b0f3
+< Location: http://api.1x.sk/orders/4c3ba23f-5b58-4e3b-a29a-9e4d2d131da2
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -845,18 +857,19 @@ POST /contacts/register
         }
       },
       "request": {
-        "id": "e01309f4-3e92-4417-9efa-bfd931c08e44",
+        "id": "df95dab9-3e94-4c39-9c3e-43f05f9d3846",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/e01309f4-3e92-4417-9efa-bfd931c08e44"
+            "href": "/requests/df95dab9-3e94-4c39-9c3e-43f05f9d3846"
           }
         },
         "request_type": "register",
         "responses": [],
         "content": {
           "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+          "handle": "META:TEST",
           "organization_name": "Test a.s.",
           "name_prefix": "Ing.",
           "first_name": "Jan",
@@ -949,7 +962,7 @@ POST /contacts/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/bfdce8f8-a566-4e98-9f5c-dd4819630a6d
+< Location: http://api.1x.sk/orders/6b579b10-a0ab-461d-8695-a15edc294812
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -989,28 +1002,29 @@ POST /contacts/update
         }
       },
       "request": {
-        "id": "8a05217f-ea71-4c0c-b0d8-ba7bc351b7de",
+        "id": "1f07456c-8eb6-458c-a461-024affb26eb4",
         "status": "successful",
         "last_response": {
-          "id": "8a5761c9-851c-4c14-aa65-d2daccefcba7",
-          "code": "domain_available",
+          "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
+          "code": "contact_updated",
           "message": "Contact was updated"
         },
         "_links": {
           "self": {
-            "href": "/requests/8a05217f-ea71-4c0c-b0d8-ba7bc351b7de"
+            "href": "/requests/1f07456c-8eb6-458c-a461-024affb26eb4"
           }
         },
         "request_type": "update",
         "responses": [
           {
-            "id": "8a5761c9-851c-4c14-aa65-d2daccefcba7",
-            "code": "domain_available",
+            "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
+            "code": "contact_updated",
             "message": "Contact was updated"
           }
         ],
         "content": {
           "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+          "handle": "META:TEST",
           "organization_name": "Test a.s.",
           "name_prefix": "Ing.",
           "first_name": "Jan",
@@ -1062,7 +1076,7 @@ POST /contacts/release
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/c10c4288-c6fd-4b20-8c4a-af4f77f82767
+< Location: http://api.1x.sk/orders/3c6ab613-5ab7-4066-9d8c-c348fc2c967c
 < Content-Type: application/json; charset=utf-8
 {
   "contacts": [
@@ -1095,27 +1109,29 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": "9e211ea0-89a9-40f1-9271-f34529e045cd",
+        "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
         "status": "failed",
         "last_response": {
-          "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+          "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
           "code": "contact_not_removed",
           "message": "Contact can not be removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/9e211ea0-89a9-40f1-9271-f34529e045cd"
+            "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+            "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
             "code": "contact_not_removed",
             "message": "Contact can not be removed from account"
           }
         ],
-        "content": null
+        "content": {
+          "handle": "META:TEST"
+        }
       }
     },
     {
@@ -1147,27 +1163,29 @@ POST /contacts/release
         }
       },
       "request": {
-        "id": "9e211ea0-89a9-40f1-9271-f34529e045cd",
+        "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
         "status": "failed",
         "last_response": {
-          "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+          "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
           "code": "contact_not_removed",
           "message": "Contact can not be removed from account"
         },
         "_links": {
           "self": {
-            "href": "/requests/9e211ea0-89a9-40f1-9271-f34529e045cd"
+            "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
           }
         },
         "request_type": "release",
         "responses": [
           {
-            "id": "dbf5489c-a36a-46aa-927e-c6d249813a2e",
+            "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
             "code": "contact_not_removed",
             "message": "Contact can not be removed from account"
           }
         ],
-        "content": null
+        "content": {
+          "handle": "META:TEST"
+        }
       }
     }
   ]
@@ -1182,7 +1200,7 @@ Služba pro ověření dostupnosti nssetu.
 
 Parametry:
 
-* **id** - identifikátor nssetu
+* **handle** - identifikátor nssetu
 
 POST /nssets/check
 > Content-Type: application/json
@@ -1190,12 +1208,12 @@ POST /nssets/check
 {
   "nssets": [
     {
-      "id": "NSSET"
+      "handle": "NSSET"
     }
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/8b0f4312-fa45-431d-ae56-78fba286bd1e
+< Location: http://api.1x.sk/orders/742a950e-235f-4ddd-99f5-7a3e27b071ac
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1208,17 +1226,19 @@ POST /nssets/check
         }
       },
       "request": {
-        "id": "eddf8607-bbc7-4bfb-af5d-d97869d22559",
+        "id": "2ae5338a-819c-423c-be4b-8fd701d52b70",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/eddf8607-bbc7-4bfb-af5d-d97869d22559"
+            "href": "/requests/2ae5338a-819c-423c-be4b-8fd701d52b70"
           }
         },
         "request_type": "check",
         "responses": [],
-        "content": null
+        "content": {
+          "handle": "NSSET"
+        }
       }
     }
   ]
@@ -1228,7 +1248,7 @@ Služba pro vytvoření nového nssetu.
 
 Parametry:
 
-* **id** - identifikátor nssetu
+* **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
 * **techs** - identifikátory kontaktů oprávněných ke správě nssetu
 * **authorization_key** - autorizační klíč NSSETu
@@ -1240,7 +1260,7 @@ POST /nssets/register
 {
   "nssets": [
     {
-      "id": "NSSET",
+      "handle": "NSSET",
       "techs": [
         "TECH1",
         "TECH2"
@@ -1266,7 +1286,7 @@ POST /nssets/register
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/a76a4444-9b1e-4e0e-ad15-5c6ce02f0a39
+< Location: http://api.1x.sk/orders/c35a6011-625e-47a1-8d80-e0f5c95ea9ef
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1279,17 +1299,18 @@ POST /nssets/register
         }
       },
       "request": {
-        "id": "959945b9-ecae-4679-87f8-fa42f8896d2c",
+        "id": "9263ad69-163d-4d5a-ac34-3a2df52f8235",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/959945b9-ecae-4679-87f8-fa42f8896d2c"
+            "href": "/requests/9263ad69-163d-4d5a-ac34-3a2df52f8235"
           }
         },
         "request_type": "register",
         "responses": [],
         "content": {
+          "handle": "NSSET",
           "techs": [
             "TECH1",
             "TECH2"
@@ -1321,7 +1342,7 @@ Služba pro aktualizaci nssetu.
 
 Parametry:
 
-* **id** - identifikátor nssetu
+* **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
 * **techs** - identifikátory kontaktů oprávněných ke správě nssetu
 * **authorization_key** - autorizační klíč NSSETu
@@ -1333,7 +1354,7 @@ POST /nssets/update
 {
   "nssets": [
     {
-      "id": "NSSET",
+      "handle": "NSSET",
       "techs": [
         "TECH1",
         "TECH2"
@@ -1359,7 +1380,7 @@ POST /nssets/update
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/d9af0e31-6855-44cd-91ec-5678a63bb573
+< Location: http://api.1x.sk/orders/ebf22ce0-5e2d-4b0c-97a3-c393000bc258
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1372,17 +1393,18 @@ POST /nssets/update
         }
       },
       "request": {
-        "id": "465295cd-0857-49d8-a580-e40d5a648b17",
+        "id": "afa58cce-1b1f-4eb6-95c7-3093775fd770",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/465295cd-0857-49d8-a580-e40d5a648b17"
+            "href": "/requests/afa58cce-1b1f-4eb6-95c7-3093775fd770"
           }
         },
         "request_type": "update",
         "responses": [],
         "content": {
+          "handle": "NSSET",
           "techs": [
             "TECH1",
             "TECH2"
@@ -1414,7 +1436,7 @@ Služba pro zrušení nssetu. Pouze pokud není navázán na doménu.
 
 Parametry:
 
-* **id** - identifikátor nssetu
+* **handle** - identifikátor nssetu
 
 POST /nssets/delete
 > Content-Type: application/json
@@ -1422,12 +1444,12 @@ POST /nssets/delete
 {
   "nssets": [
     {
-      "id": "NSSET"
+      "handle": "NSSET"
     }
   ]
 }
 < 202
-< Location: http://api.1x.sk/orders/9a09884d-e7b9-4245-9431-8da2dc4f5d61
+< Location: http://api.1x.sk/orders/7477d40b-d8cb-4836-8593-bf7ebe6b3792
 < Content-Type: application/json; charset=utf-8
 {
   "nssets": [
@@ -1440,17 +1462,19 @@ POST /nssets/delete
         }
       },
       "request": {
-        "id": "1376c88e-a511-4ba5-ae47-7fc69426f291",
+        "id": "68acdd82-c40c-41d6-a2f1-48c01bd0d9be",
         "status": "waiting_for_authorization",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/1376c88e-a511-4ba5-ae47-7fc69426f291"
+            "href": "/requests/68acdd82-c40c-41d6-a2f1-48c01bd0d9be"
           }
         },
         "request_type": "delete",
         "responses": [],
-        "content": null
+        "content": {
+          "handle": "NSSET"
+        }
       }
     }
   ]
@@ -1484,16 +1508,16 @@ GET /requests/{id}/status
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": "e9b6f461-f259-4e74-b92a-567a4d3c845c",
+    "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
     "status": "successful",
     "last_response": {
-      "id": "7bde848d-2cbb-4984-b19b-63ef599ff5a9",
+      "id": "ea54eb52-7a90-44da-be12-5c694799f487",
       "code": "domain_available",
       "message": "Domain is available"
     },
     "_links": {
       "self": {
-        "href": "/requests/e9b6f461-f259-4e74-b92a-567a4d3c845c"
+        "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
       }
     }
   }
@@ -1512,16 +1536,16 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": "7274b88d-2cec-4998-aea2-3f0c93fced4e",
+    "id": "067f7907-4745-46b1-9d58-3b40adfe1536",
     "status": "successful",
     "last_response": {
-      "id": "204de6b9-afff-4799-9601-4af8443c7f1a",
+      "id": "59990d28-f0bf-4962-ba55-f27fedccfb9a",
       "code": "domain_available",
       "message": "Domain is available"
     },
     "_links": {
       "self": {
-        "href": "/requests/7274b88d-2cec-4998-aea2-3f0c93fced4e"
+        "href": "/requests/067f7907-4745-46b1-9d58-3b40adfe1536"
       }
     },
     "object_type": "domain",
@@ -1529,12 +1553,14 @@ GET /requests/{id}
     "registry_object_name": "domena.cz",
     "responses": [
       {
-        "id": "204de6b9-afff-4799-9601-4af8443c7f1a",
+        "id": "59990d28-f0bf-4962-ba55-f27fedccfb9a",
         "code": "domain_available",
         "message": "Domain is available"
       }
     ],
-    "content": null
+    "content": {
+      "name": "domena.cz"
+    }
   }
 }
 
@@ -1619,43 +1645,47 @@ POST /orders
 < Content-Type: application/json; charset=utf-8
 {
   "order": {
-    "id": "3e3368d9-5b5f-46a4-b317-5e209e78c687",
-    "created_at": "2014-10-31T16:22:12+01:00",
+    "id": "53ec857b-7e37-44db-b827-d3b69dba8fe5",
+    "created_at": "2014-10-31T17:32:44+01:00",
     "requests": [
       {
-        "id": "1d83e322-f578-480b-98c5-05c66db74a56",
+        "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/1d83e322-f578-480b-98c5-05c66db74a56"
+            "href": "/requests/d3fae326-edab-4fa8-9699-c8f8dc386a4b"
           }
         },
         "object_type": "domain",
         "request_type": "check",
         "registry_object_name": "domena.cz",
         "responses": [],
-        "content": null
+        "content": {
+          "name": "domena.cz"
+        }
       },
       {
-        "id": "6ce8f9ae-67ae-46ba-8683-6c7506b71cc3",
+        "id": "77e6a49a-bae1-4992-9762-cefa6c6ed46b",
         "status": "processing",
         "last_response": null,
         "_links": {
           "self": {
-            "href": "/requests/6ce8f9ae-67ae-46ba-8683-6c7506b71cc3"
+            "href": "/requests/77e6a49a-bae1-4992-9762-cefa6c6ed46b"
           }
         },
         "object_type": "domain",
         "request_type": "check",
         "registry_object_name": "domena2.cz",
         "responses": [],
-        "content": null
+        "content": {
+          "name": "domena2.cz"
+        }
       }
     ],
     "_links": {
       "self": {
-        "href": "/orders/3e3368d9-5b5f-46a4-b317-5e209e78c687"
+        "href": "/orders/53ec857b-7e37-44db-b827-d3b69dba8fe5"
       }
     }
   }
