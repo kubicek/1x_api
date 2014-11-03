@@ -74,6 +74,11 @@ Parametry:
 
 * **name** - jméno domény
 
+Stavy odpovědi:
+
+* **domain_available** - doména je volná pro novou registraci
+* **domain_unavailable** - doména není volná
+
 POST /domains/check
 > Content-Type: application/json
 > Accept: application/vnd.1x.common_v1+json
@@ -1491,15 +1496,15 @@ Parametry:
 
 * **id** - identifikátor požadavku
 
-Hodnoty odpovědi:
+Stavy požadavku:
 
+* **received** - požadavek přijat
+* **waiting_for_authorization** - požadavek čeká na autorizaci
+* **waiting_for_payment** - požadavek čeká na platbu
 * **processing** - požadavek je ve zpracování
-* **failed** - požadavek nebyl zpracován kvůli chybě
-* **registered** - (pouze pro požadavek na registraci domény, kontaktu, nssetu) - objekt úspěšně zaregistrován
-* **transferred** - (pouze pro požadavek na transfer domény, kontaktu, nssetu) - objekt úspěšně převeden
-* **available** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt je volný pro novou registraci
-* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt není volný
 * **successful** - požadavek byl úspěšně zpracován
+* **failed** - požadavek nebyl zpracován kvůli chybě
+* **cancelled** - požadavek byl stornován
 
 GET /requests/{id}/status
 > Content-Type: application/json
