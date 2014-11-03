@@ -56,8 +56,8 @@ GET /domains/{fqdnu}
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "86fb9d52-215d-44c3-a9c8-f1c93c34aaf3",
-        "handle": "META:2"
+        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+        "handle": "META:TEST"
       },
       "_links": {
         "self": {
@@ -73,6 +73,11 @@ Služba pro ověření dostupnosti domény.
 Parametry:
 
 * **name** - jméno domény
+
+Stavy odpovědi:
+
+* **domain_available** - doména je volná pro novou registraci
+* **domain_unavailable** - doména není volná
 
 POST /domains/check
 > Content-Type: application/json
@@ -230,6 +235,55 @@ POST /domains/register
             "ns.kraxnet.com"
           ],
           "dns_zone_template_id": "1"
+        }
+      }
+    }
+  ]
+}
+
+Služba pro vyžádní autorizačního klíče pro převod domény.
+
+Parametry:
+
+* **name** - jméno domény
+
+POST /domains/authinfo
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+{
+  "domains": [
+    {
+      "name": "domena.cz"
+    }
+  ]
+}
+< 202
+< Location: http://api.1x.sk/orders/aba73818-2307-4714-b88e-a0e0d9c351f8
+< Content-Type: application/json; charset=utf-8
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "status": "pending",
+      "expires_on": null,
+      "_links": {
+        "self": {
+          "href": "/domains/domena_cz"
+        }
+      },
+      "request": {
+        "id": "c188852b-4e69-4a39-a154-acf2e282fb02",
+        "status": "processing",
+        "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/c188852b-4e69-4a39-a154-acf2e282fb02"
+          }
+        },
+        "request_type": "authinfo",
+        "responses": [],
+        "content": {
+          "name": "domena.cz"
         }
       }
     }
@@ -636,8 +690,8 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "129dfaf9-bd1d-4b09-a2bd-88a3503b27e7",
-        "handle": "META:11"
+        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+        "handle": "META:TEST"
       },
       "_links": {
         "self": {
@@ -650,8 +704,8 @@ GET /domains
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "129dfaf9-bd1d-4b09-a2bd-88a3503b27e7",
-        "handle": "META:11"
+        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+        "handle": "META:TEST"
       },
       "_links": {
         "self": {
@@ -676,8 +730,8 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-25",
       "account": {
-        "id": "0bcc368b-0eb5-4190-a760-7722113d5350",
-        "handle": "META:12"
+        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+        "handle": "META:TEST"
       },
       "_links": {
         "self": {
@@ -690,8 +744,8 @@ GET /domains/expiring
       "status": "active",
       "expires_on": "2011-08-28",
       "account": {
-        "id": "0bcc368b-0eb5-4190-a760-7722113d5350",
-        "handle": "META:12"
+        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+        "handle": "META:TEST"
       },
       "_links": {
         "self": {
@@ -1491,15 +1545,15 @@ Parametry:
 
 * **id** - identifikátor požadavku
 
-Hodnoty odpovědi:
+Stavy požadavku:
 
+* **received** - požadavek přijat
+* **waiting_for_authorization** - požadavek čeká na autorizaci
+* **waiting_for_payment** - požadavek čeká na platbu
 * **processing** - požadavek je ve zpracování
-* **failed** - požadavek nebyl zpracován kvůli chybě
-* **registered** - (pouze pro požadavek na registraci domény, kontaktu, nssetu) - objekt úspěšně zaregistrován
-* **transferred** - (pouze pro požadavek na transfer domény, kontaktu, nssetu) - objekt úspěšně převeden
-* **available** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt je volný pro novou registraci
-* **unavailable** - (pouze pro požadavek na ověření dostupnosti domény, kontaktu, nssetu) - objekt není volný
 * **successful** - požadavek byl úspěšně zpracován
+* **failed** - požadavek nebyl zpracován kvůli chybě
+* **cancelled** - požadavek byl stornován
 
 GET /requests/{id}/status
 > Content-Type: application/json
@@ -1536,16 +1590,16 @@ GET /requests/{id}
 < Content-Type: application/json; charset=utf-8
 {
   "request": {
-    "id": "067f7907-4745-46b1-9d58-3b40adfe1536",
+    "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
     "status": "successful",
     "last_response": {
-      "id": "59990d28-f0bf-4962-ba55-f27fedccfb9a",
+      "id": "ea54eb52-7a90-44da-be12-5c694799f487",
       "code": "domain_available",
       "message": "Domain is available"
     },
     "_links": {
       "self": {
-        "href": "/requests/067f7907-4745-46b1-9d58-3b40adfe1536"
+        "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
       }
     },
     "object_type": "domain",
@@ -1553,7 +1607,7 @@ GET /requests/{id}
     "registry_object_name": "domena.cz",
     "responses": [
       {
-        "id": "59990d28-f0bf-4962-ba55-f27fedccfb9a",
+        "id": "ea54eb52-7a90-44da-be12-5c694799f487",
         "code": "domain_available",
         "message": "Domain is available"
       }
