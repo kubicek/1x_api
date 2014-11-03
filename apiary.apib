@@ -241,6 +241,55 @@ POST /domains/register
   ]
 }
 
+Služba pro vyžádní autorizačního klíče pro převod domény.
+
+Parametry:
+
+* **name** - jméno domény
+
+POST /domains/authinfo
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+{
+  "domains": [
+    {
+      "name": "domena.cz"
+    }
+  ]
+}
+< 202
+< Location: http://api.1x.sk/orders/aba73818-2307-4714-b88e-a0e0d9c351f8
+< Content-Type: application/json; charset=utf-8
+{
+  "domains": [
+    {
+      "name": "domena.cz",
+      "status": "pending",
+      "expires_on": null,
+      "_links": {
+        "self": {
+          "href": "/domains/domena_cz"
+        }
+      },
+      "request": {
+        "id": "c188852b-4e69-4a39-a154-acf2e282fb02",
+        "status": "processing",
+        "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/c188852b-4e69-4a39-a154-acf2e282fb02"
+          }
+        },
+        "request_type": "authinfo",
+        "responses": [],
+        "content": {
+          "name": "domena.cz"
+        }
+      }
+    }
+  ]
+}
+
 Služba pro změnu registrátora domény na 1X.
 
 Parametry:
