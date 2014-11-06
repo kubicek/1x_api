@@ -653,7 +653,7 @@ POST /domains/release
         "last_response": {
           "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
           "code": "domain_removed",
-          "message": "Domain was removed from account"
+          "message": "Domain removed from account"
         },
         "_links": {
           "self": {
@@ -665,7 +665,7 @@ POST /domains/release
           {
             "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
             "code": "domain_removed",
-            "message": "Domain was removed from account"
+            "message": "Domain removed from account"
           }
         ],
         "content": {
@@ -954,6 +954,83 @@ POST /contacts/register
   ]
 }
 
+Služba pro transfer CZ.NIC kontaktu.
+
+Parametry:
+
+* **handle** - identifikátor kontaktu
+* **cz_nic_handle** - identifikátor stávajícího kontaktu CZ.NIC
+* **authorization_key** - autorizační klíč kontaktu
+* **id** - universally unique identifier (UUID)
+
+POST /contacts/transfer
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+{
+  "contacts": [
+    {
+      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+      "handle": "META:TEST",
+      "cz_nic_handle": "TEST",
+      "authorization_key": "1234abcd"
+    }
+  ]
+}
+< 202
+< Location: http://api.1x.sk/orders/cc940839-0097-4482-ab0b-bc78a76c06b6
+< Content-Type: application/json; charset=utf-8
+{
+  "contacts": [
+    {
+      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+      "handle": "META:TEST",
+      "organization_name": "Test a.s.",
+      "name_prefix": "Ing.",
+      "first_name": "Jan",
+      "last_name": "Novák",
+      "name_suffix": "CSc.",
+      "identification_number": "12345678",
+      "vat_id": "CZ12345678",
+      "email": "novak@nic.cz",
+      "phone": "+420.800123456",
+      "fax": "+420.800778899",
+      "street": [
+        "U testu 5"
+      ],
+      "city": "Testov 6",
+      "zip": "12310",
+      "country_code": "CZ",
+      "state": "",
+      "new_cz_nic_handle": null,
+      "cz_nic_notify_email": "jan.novak@nic.cz",
+      "cz_nic_hide": [],
+      "_links": {
+        "self": {
+          "href": "/contacts/META:TEST"
+        }
+      },
+      "request": {
+        "id": "5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a",
+        "status": "processing",
+        "last_response": null,
+        "_links": {
+          "self": {
+            "href": "/requests/5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a"
+          }
+        },
+        "request_type": "transfer",
+        "responses": [],
+        "content": {
+          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+          "handle": "META:TEST",
+          "cz_nic_handle": "TEST",
+          "authorization_key": "1234abcd"
+        }
+      }
+    }
+  ]
+}
+
 Služba pro změnu kontaktu.
 
 Parametry:
@@ -1061,7 +1138,7 @@ POST /contacts/update
         "last_response": {
           "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
           "code": "contact_updated",
-          "message": "Contact was updated"
+          "message": "Contact updated successfully"
         },
         "_links": {
           "self": {
@@ -1073,7 +1150,7 @@ POST /contacts/update
           {
             "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
             "code": "contact_updated",
-            "message": "Contact was updated"
+            "message": "Contact updated successfully"
           }
         ],
         "content": {
@@ -1184,7 +1261,7 @@ POST /contacts/release
           }
         ],
         "content": {
-          "handle": "META:TEST"
+          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
         }
       }
     },
@@ -1238,7 +1315,7 @@ POST /contacts/release
           }
         ],
         "content": {
-          "handle": "META:TEST"
+          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
         }
       }
     }
