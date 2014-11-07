@@ -1695,6 +1695,31 @@ GET /requests/{id}
   }
 }
 
+Služba pro stornování požadavku, který se ještě nezpracovává.
+
+Parametry:
+
+* **id** - identifikátor požadavku
+
+POST /requests/{id}/cancel
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+< 201
+< Location: http://api.1x.sk/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356
+< Content-Type: application/json; charset=utf-8
+{
+  "request": {
+    "id": "6af092f2-1da1-47af-b3c9-9b85f50e2356",
+    "status": "cancelled",
+    "last_response": null,
+    "_links": {
+      "self": {
+        "href": "/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356"
+      }
+    }
+  }
+}
+
 --
 Account
 Tato část popisuje práci se subregistrátorským účtem
