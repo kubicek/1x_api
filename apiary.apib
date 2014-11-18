@@ -1735,8 +1735,99 @@ GET /account/balance
 {
   "balance": {
     "currency": "CZK",
-    "amount": 0.0
+    "amount": "0.0"
   }
+}
+
+Zálohové daňové doklady
+
+GET /account/credit_increases
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+< 200
+< Content-Type: application/json; charset=utf-8
+{
+  "credit_increases": [
+    {
+      "id": "5BA1A2D0-515D-0132-C150-080027772E71",
+      "accounting_number": "44010001",
+      "issue_date": "2014-10-28",
+      "amount": "999.96",
+      "tax": "200.04",
+      "total": "1200.0",
+      "currency": "CZK",
+      "_links": {
+        "isdoc": {
+          "href": "/account/credit_increases/44010001.isdoc"
+        },
+        "pdf": {
+          "href": "/account/credit_increases/44010001.pdf"
+        }
+      }
+    }
+  ]
+}
+
+Zúčtovací faktury
+
+GET /account/credit_payment_invoices
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+< 200
+< Content-Type: application/json; charset=utf-8
+{
+  "credit_payment_invoices": [
+    {
+      "id": "5C3CEA80-515D-0132-C150-080027772E71",
+      "accounting_number": "44020001",
+      "from": "2014-10-01",
+      "to": "2014-10-31",
+      "issue_date": "2014-10-31",
+      "amount": "200.0",
+      "tax": "40.0",
+      "total": "240.0",
+      "currency": "CZK",
+      "_links": {
+        "isdoc": {
+          "href": "/account/credit_payment_invoices/44020001.isdoc"
+        },
+        "pdf": {
+          "href": "/account/credit_payment_invoices/44020001.pdf"
+        }
+      }
+    }
+  ]
+}
+
+Vydané faktury
+
+GET /account/issued_invoices
+> Content-Type: application/json
+> Accept: application/vnd.1x.common_v1+json
+< 200
+< Content-Type: application/json; charset=utf-8
+{
+  "issued_invoices": [
+    {
+      "id": "5CC47BC0-515D-0132-C150-080027772E71",
+      "accounting_number": "44010001",
+      "from": "2014-10-01",
+      "to": "2014-10-31",
+      "issue_date": "2014-10-31",
+      "amount": "200.0",
+      "tax": "40.0",
+      "total": "240.0",
+      "currency": "CZK",
+      "_links": {
+        "isdoc": {
+          "href": "/account/issued_invoices/44010001.isdoc"
+        },
+        "pdf": {
+          "href": "/account/issued_invoices/44010001.pdf"
+        }
+      }
+    }
+  ]
 }
 
 --
@@ -1802,7 +1893,7 @@ POST /orders
 {
   "order": {
     "id": "53ec857b-7e37-44db-b827-d3b69dba8fe5",
-    "created_at": "2014-10-31T17:32:44+01:00",
+    "created_at": "2014-10-28T17:32:44+01:00",
     "requests": [
       {
         "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
