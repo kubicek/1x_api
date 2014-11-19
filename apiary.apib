@@ -840,11 +840,13 @@ Služba pro získání seznamu všech domén.
               ]
             }
 
-## /domains/expiring
+## /domains/expiring{?days}
 ### GET
 
-Služba pro získání seznamu expirujících domén.
+Služba pro získání seznamu domén, které expirují za n dní.
 
++ Parameters
+    + days = `30` (optional, integer) ... počet dní do expirace
 + Request (application/json)
     + Headers
 
