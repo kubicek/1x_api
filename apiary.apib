@@ -1,7 +1,8 @@
+FORMAT: 1A
+
 HOST: http://api.1x.sk/
 
---- 1X public API ---
----
+# 1X public API
 
 Společnost 1X je registrátorem domén. Prostřednictvím API nabízí služby koncovým zákazníkům i subregistrátorům, kteří jednají jménem svých zákazníků.
 
@@ -32,41 +33,47 @@ Odpovědí na jednotné i hromadné požadavky je vždy objednávka. Objednávku
 ## Hlášení chyb
 
 Návrhy na úpravy API, opravy chyb a další komentáře je možné vkládat na https://github.com/kubicek/1x_api/issues. Podpora k API je poskytována na adrese podpora@xnet.cz.
----
---
-Domains
+
+# Group Domains
 Tato část popisuje práci s doménami
---
 
-Detail domény
+## /domains/{fqdnu}
+### GET
 
-Parametry:
+Služba pro získání základních informací o doméně. Vrací informaci o stavu domény, datu expirace a zákaznickém účtu, pod kterým je vedená.
 
-* **fqdnu** - název domény s tečkou (.) nahrazenou podtržítkem (_)
++ Parameters
+    + fqdnu (required, string, `1x_sk`) ... název domény s tečkou (.) nahrazenou podtržítkem (_)
 
-GET /domains/{fqdnu}
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "1x.sk",
-      "status": "active",
-      "expires_on": "2011-08-28",
-      "account": {
-        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-        "handle": "META:TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/domains/1x_sk"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "1x.sk",
+                  "status": "active",
+                  "expires_on": "2011-08-28",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/domains/1x_sk"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/check
+### POST
 
 Služba pro ověření dostupnosti domény.
 
@@ -74,172 +81,204 @@ Parametry:
 
 * **name** - jméno domény
 
-Stavy odpovědi:
+Stavy odpovědi (v ["domains"][0]["request"]["last_response"]["code"]):
 
 * **domain_available** - doména je volná pro novou registraci
 * **domain_unavailable** - doména není volná
 
-POST /domains/check
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/98f708f4-f607-4f7d-87f4-91051b2f2e19
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "5a86ed03-6917-47c4-905f-c3036f79d258",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/5a86ed03-6917-47c4-905f-c3036f79d258"
-          }
-        },
-        "request_type": "check",
-        "responses": [],
-        "content": {
-          "name": "domena.cz"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/98f708f4-f607-4f7d-87f4-91051b2f2e19
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "5a86ed03-6917-47c4-905f-c3036f79d258",
+                    "status": "successful",
+                    "last_response": {
+                      "id": "cec73420-8dcf-4a62-919d-5ff0f631bef5",
+                      "code": "domain_unavailable",
+                      "message": "Domain is unavailable"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/5a86ed03-6917-47c4-905f-c3036f79d258"
+                      }
+                    },
+                    "request_type": "check",
+                    "responses": [
+                      {
+                        "id": "cec73420-8dcf-4a62-919d-5ff0f631bef5",
+                        "code": "domain_unavailable",
+                        "message": "Domain is unavailable"
+                      }
+                    ],
+                    "content": {
+                      "name": "domena.cz"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/register
+### POST
 
 Služba pro registraci nového doménového jména.
 
 Parametry:
 
 * **name** - jméno domény
-* **registrant** - identifikátor kontaktu držitele
-* **period** - počet let
-* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* **registrant** - identifikátor kontaktu držitele (uuid, metahandle nebo id kontaktu v registru)
+* *period* - počet let (default: 1)
+* *dns_zone_template_id* - identifikátor šablony DNS záznamů (automaticky deleguje na náš NSSET, pokud není NSSET explicitně uveden)
+* *nsset* - identifikátor sady jmenných serverů (pouze pro cz domény)
 * **nameservers** - jména jmenných serverů (pro ostatní domény)
-* **admins** - administrativní kontakty domény
-* **keyset** - identifikátor sady klíčů
-* **authorization_key** - autorizační klíč domény
+* *admins* - administrativní kontakty domény (uuid, metahandle nebo id kontaktu v registru)
+* *keyset* - identifikátor sady klíčů
+* *authorization_key* - autorizační klíč domény
 
-POST /domains/register
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "period": "1",
-      "registrant": "DRZITEL",
-      "nsset": "KRAXNET",
-      "dns_zone_template_id": "1",
-      "keyset": "KEYSET",
-      "authorization_key": "1234abcd",
-      "admins": [
-        "ADMIN1",
-        "ADMIN2"
-      ]
-    },
-    {
-      "name": "domain.com",
-      "period": "1",
-      "registrant": "HOLDER",
-      "nameservers": [
-        "ns.kraxnet.cz",
-        "ns.kraxnet.com"
-      ],
-      "dns_zone_template_id": "1"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/74f6d638-22fe-4754-9d21-b9480cf98a98
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "a5173542-ec98-4f0d-93cb-6f79c7547413",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/a5173542-ec98-4f0d-93cb-6f79c7547413"
-          }
-        },
-        "request_type": "register",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "period": "1",
-          "registrant": "DRZITEL",
-          "nsset": "KRAXNET",
-          "dns_zone_template_id": "1",
-          "keyset": "KEYSET",
-          "authorization_key": "1234abcd",
-          "admins": [
-            "ADMIN1",
-            "ADMIN2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "domain.com",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domain_com"
-        }
-      },
-      "request": {
-        "id": "bf07dc80-c869-465e-aa05-440ad8298fdc",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/bf07dc80-c869-465e-aa05-440ad8298fdc"
-          }
-        },
-        "request_type": "register",
-        "responses": [],
-        "content": {
-          "name": "domain.com",
-          "period": "1",
-          "registrant": "HOLDER",
-          "nameservers": [
-            "ns.kraxnet.cz",
-            "ns.kraxnet.com"
-          ],
-          "dns_zone_template_id": "1"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "period": "1",
+                  "registrant": "DRZITEL",
+                  "nsset": "KRAXNET",
+                  "dns_zone_template_id": "1",
+                  "keyset": "KEYSET",
+                  "authorization_key": "1234abcd",
+                  "admins": [
+                    "ADMIN1",
+                    "ADMIN2"
+                  ]
+                },
+                {
+                  "name": "domain.com",
+                  "period": "1",
+                  "registrant": "HOLDER",
+                  "nameservers": [
+                    "ns.kraxnet.cz",
+                    "ns.kraxnet.com"
+                  ],
+                  "dns_zone_template_id": "1"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/74f6d638-22fe-4754-9d21-b9480cf98a98
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "a5173542-ec98-4f0d-93cb-6f79c7547413",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/a5173542-ec98-4f0d-93cb-6f79c7547413"
+                      }
+                    },
+                    "request_type": "register",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "period": "1",
+                      "registrant": "DRZITEL",
+                      "nsset": "KRAXNET",
+                      "dns_zone_template_id": "1",
+                      "keyset": "KEYSET",
+                      "authorization_key": "1234abcd",
+                      "admins": [
+                        "ADMIN1",
+                        "ADMIN2"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "domain.com",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domain_com"
+                    }
+                  },
+                  "request": {
+                    "id": "bf07dc80-c869-465e-aa05-440ad8298fdc",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/bf07dc80-c869-465e-aa05-440ad8298fdc"
+                      }
+                    },
+                    "request_type": "register",
+                    "responses": [],
+                    "content": {
+                      "name": "domain.com",
+                      "period": "1",
+                      "registrant": "HOLDER",
+                      "nameservers": [
+                        "ns.kraxnet.cz",
+                        "ns.kraxnet.com"
+                      ],
+                      "dns_zone_template_id": "1"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/authinfo
+### POST
 
 Služba pro vyžádní autorizačního klíče pro převod domény.
 
@@ -247,48 +286,59 @@ Parametry:
 
 * **name** - jméno domény
 
-POST /domains/authinfo
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/aba73818-2307-4714-b88e-a0e0d9c351f8
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "c188852b-4e69-4a39-a154-acf2e282fb02",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/c188852b-4e69-4a39-a154-acf2e282fb02"
-          }
-        },
-        "request_type": "authinfo",
-        "responses": [],
-        "content": {
-          "name": "domena.cz"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/aba73818-2307-4714-b88e-a0e0d9c351f8
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "c188852b-4e69-4a39-a154-acf2e282fb02",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/c188852b-4e69-4a39-a154-acf2e282fb02"
+                      }
+                    },
+                    "request_type": "authinfo",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/transfer
+### POST
 
 Služba pro změnu registrátora domény na 1X.
 
@@ -297,325 +347,385 @@ Parametry:
 * **name** - jméno domény
 * **authorization_key** - autorizační klíč pro převod domény
 
-POST /domains/transfer
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "authorization_key": "1234abcd"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/e19aecbf-54ca-493c-a01c-a5f7e01aa8c9
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616"
-          }
-        },
-        "request_type": "transfer",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "authorization_key": "1234abcd"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "authorization_key": "1234abcd"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/e19aecbf-54ca-493c-a01c-a5f7e01aa8c9
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/4b5bc2c9-e7fb-43bb-b13f-2c45bcdd0616"
+                      }
+                    },
+                    "request_type": "transfer",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "authorization_key": "1234abcd"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/renew
+### POST
 
 Služba pro prodloužení registrace doménového jména.
 
 Parametry:
 
 * **name** - jméno domény
-* **current_expiration_date** - datum expirace domény
-* **period** - počet let
+* *current_expiration_date* - aktuální datum expirace domény (formát: YYYY-MM-DD)
+* *period* - počet let (default: 1)
 
-POST /domains/renew
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "period": "1",
-      "current_expiration_date": "2014-06-06"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/c3390f80-e0fb-435a-9713-89fa66306711
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "active",
-      "expires_on": "2014-06-06",
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "fa2124be-0249-4710-9d68-c97741789ddd",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/fa2124be-0249-4710-9d68-c97741789ddd"
-          }
-        },
-        "request_type": "renew",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "period": "1",
-          "current_expiration_date": "2014-06-06"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "period": "1",
+                  "current_expiration_date": "2014-06-06"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/c3390f80-e0fb-435a-9713-89fa66306711
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "active",
+                  "expires_on": "2014-06-06",
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "fa2124be-0249-4710-9d68-c97741789ddd",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/fa2124be-0249-4710-9d68-c97741789ddd"
+                      }
+                    },
+                    "request_type": "renew",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "period": "1",
+                      "current_expiration_date": "2014-06-06"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/change_dns
+### POST
 
 Služba pro redelegaci domény na jiné jmenné servery.
 
 Parametry:
 
 * **name** - jméno domény
-* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* *dns_zone_template_id* - identifikátor šablony DNS záznamů (automaticky deleguje na náš NSSET, pokud není NSSET explicitně uveden)
+* *nsset* - identifikátor sady jmenných serverů (pouze pro cz domény)
 * **nameservers** - jména jmenných serverů (pro ostatní domény)
 
-POST /domains/change_dns
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "nsset": "KRAXNET",
-      "dns_zone_template_id": "1"
-    },
-    {
-      "name": "domain.com",
-      "nameservers": [
-        "ns.kraxnet.cz",
-        "ns.kraxnet.com"
-      ],
-      "dns_zone_template_id": "1"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/4cbb8e7d-4d73-4136-aeb5-aa81508c42bb
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "active",
-      "expires_on": "2014-06-06",
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "e3aa3063-c304-4257-9959-b55c9838715a",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/e3aa3063-c304-4257-9959-b55c9838715a"
-          }
-        },
-        "request_type": "change_dns",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "nsset": "KRAXNET",
-          "dns_zone_template_id": "1"
-        }
-      }
-    },
-    {
-      "name": "domain.com",
-      "status": "pending",
-      "expires_on": null,
-      "_links": {
-        "self": {
-          "href": "/domains/domain_com"
-        }
-      },
-      "request": {
-        "id": "cf41c63f-d08f-4b01-a155-a595d1ac1deb",
-        "status": "failed",
-        "last_response": {
-          "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
-          "code": "not_authorized",
-          "message": "Not authorized"
-        },
-        "_links": {
-          "self": {
-            "href": "/requests/cf41c63f-d08f-4b01-a155-a595d1ac1deb"
-          }
-        },
-        "request_type": "change_dns",
-        "responses": [
-          {
-            "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
-            "code": "not_authorized",
-            "message": "Not authorized"
-          }
-        ],
-        "content": {
-          "name": "domain.com",
-          "nameservers": [
-            "ns.kraxnet.cz",
-            "ns.kraxnet.com"
-          ],
-          "dns_zone_template_id": "1"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "nsset": "KRAXNET",
+                  "dns_zone_template_id": "1"
+                },
+                {
+                  "name": "domain.com",
+                  "nameservers": [
+                    "ns.kraxnet.cz",
+                    "ns.kraxnet.com"
+                  ],
+                  "dns_zone_template_id": "1"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/4cbb8e7d-4d73-4136-aeb5-aa81508c42bb
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "active",
+                  "expires_on": "2014-06-06",
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "e3aa3063-c304-4257-9959-b55c9838715a",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/e3aa3063-c304-4257-9959-b55c9838715a"
+                      }
+                    },
+                    "request_type": "change_dns",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "nsset": "KRAXNET",
+                      "dns_zone_template_id": "1"
+                    }
+                  }
+                },
+                {
+                  "name": "domain.com",
+                  "status": "pending",
+                  "expires_on": null,
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domain_com"
+                    }
+                  },
+                  "request": {
+                    "id": "cf41c63f-d08f-4b01-a155-a595d1ac1deb",
+                    "status": "failed",
+                    "last_response": {
+                      "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
+                      "code": "not_authorized",
+                      "message": "Not authorized"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/cf41c63f-d08f-4b01-a155-a595d1ac1deb"
+                      }
+                    },
+                    "request_type": "change_dns",
+                    "responses": [
+                      {
+                        "id": "0df2be23-2bc4-472e-920f-11ede6b31967",
+                        "code": "not_authorized",
+                        "message": "Not authorized"
+                      }
+                    ],
+                    "content": {
+                      "name": "domain.com",
+                      "nameservers": [
+                        "ns.kraxnet.cz",
+                        "ns.kraxnet.com"
+                      ],
+                      "dns_zone_template_id": "1"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/registrant_change
+### POST
 
 Služba pro změnu držitele doménového jména.
 
+Po přijetí požadavku je automaticky odeslána žádost o schválení změny držitele emailem stávajícímu i novému držiteli. Pokud objednávka obsahuje požadavek na změnu u více domén stejných držitelů, jsou žádosti sdruženy do jednoho emailu.
+
 Parametry:
 
 * **name** - jméno domény
-* **registrant** - identifikátor kontaktu nového držitele
+* **registrant** - identifikátor kontaktu nového držitele (uuid, metahandle nebo id kontaktu v registru)
 
-POST /domains/registrant_change
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "registrant": "NOVY_DRZITEL"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/b48e5026-8930-4810-9bd2-41a826f63ee9
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "active",
-      "expires_on": "2014-06-06",
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "41c5c191-53f6-4276-b05f-c6f988683b4f",
-        "status": "waiting_for_authorization",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/41c5c191-53f6-4276-b05f-c6f988683b4f"
-          }
-        },
-        "request_type": "registrant_change",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "registrant": "NOVY_DRZITEL"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "registrant": "NOVY_DRZITEL"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/b48e5026-8930-4810-9bd2-41a826f63ee9
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "active",
+                  "expires_on": "2014-06-06",
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "41c5c191-53f6-4276-b05f-c6f988683b4f",
+                    "status": "waiting_for_authorization",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/41c5c191-53f6-4276-b05f-c6f988683b4f"
+                      }
+                    },
+                    "request_type": "registrant_change",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "registrant": "NOVY_DRZITEL"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/update
+### POST
 
 Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele domény a změně DNS.
 
+Pro změnu DNS použijte [službu pro redelegaci domény na jiné jmenné servery](#post-/domains/change_dns).
+Pro změnu držitele použijte [službu pro změnu držitele doménového jména](#post-/domains/registrant_change).
+
 Parametry:
 
 * **name** - jméno domény
-* **admins** - administrativní kontakty domény
-* **keyset** - identifikátor sady klíčů
-* **authorization_key** - autorizační klíč domény
+* *admins* - administrativní kontakty domény (uuid, metahandle nebo id kontaktu v registru)
+* *keyset* - identifikátor sady klíčů
+* *authorization_key* - autorizační klíč domény
 
-POST /domains/update
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "keyset": "KEYSET",
-      "authorization_key": "1234abcd",
-      "admins": [
-        "ADMIN1",
-        "ADMIN2"
-      ]
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/4b7000fd-acf1-4291-bf9a-d40310f158c7
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "active",
-      "expires_on": "2014-06-06",
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "3161e623-71cc-4180-83a9-268ad4d33bcd",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/3161e623-71cc-4180-83a9-268ad4d33bcd"
-          }
-        },
-        "request_type": "update",
-        "responses": [],
-        "content": {
-          "name": "domena.cz",
-          "keyset": "KEYSET",
-          "authorization_key": "1234abcd",
-          "admins": [
-            "ADMIN1",
-            "ADMIN2"
-          ]
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "keyset": "KEYSET",
+                  "authorization_key": "1234abcd",
+                  "admins": [
+                    "ADMIN1",
+                    "ADMIN2"
+                  ]
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/4b7000fd-acf1-4291-bf9a-d40310f158c7
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "active",
+                  "expires_on": "2014-06-06",
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "3161e623-71cc-4180-83a9-268ad4d33bcd",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/3161e623-71cc-4180-83a9-268ad4d33bcd"
+                      }
+                    },
+                    "request_type": "update",
+                    "responses": [],
+                    "content": {
+                      "name": "domena.cz",
+                      "keyset": "KEYSET",
+                      "authorization_key": "1234abcd",
+                      "admins": [
+                        "ADMIN1",
+                        "ADMIN2"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/release
+### POST
 
 Služba pro odpojení domény z účtu subregistrátora (zánik vztahu se zákazníkem).
 
@@ -623,709 +733,781 @@ Parametry:
 
 * **name** - jméno domény
 
-POST /domains/release
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "domains": [
-    {
-      "name": "domena.cz"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/9b6ea63b-cdac-4799-be21-214c44dda81b
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "domena.cz",
-      "status": "active",
-      "expires_on": "2014-06-06",
-      "_links": {
-        "self": {
-          "href": "/domains/domena_cz"
-        }
-      },
-      "request": {
-        "id": "2db2ae24-84b6-4a2b-81f2-b25c1684a420",
-        "status": "successful",
-        "last_response": {
-          "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
-          "code": "domain_removed",
-          "message": "Domain removed from account"
-        },
-        "_links": {
-          "self": {
-            "href": "/requests/2db2ae24-84b6-4a2b-81f2-b25c1684a420"
-          }
-        },
-        "request_type": "release",
-        "responses": [
-          {
-            "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
-            "code": "domain_removed",
-            "message": "Domain removed from account"
-          }
-        ],
-        "content": {
-          "name": "domena.cz"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/9b6ea63b-cdac-4799-be21-214c44dda81b
+
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "domena.cz",
+                  "status": "active",
+                  "expires_on": "2014-06-06",
+                  "_links": {
+                    "self": {
+                      "href": "/domains/domena_cz"
+                    }
+                  },
+                  "request": {
+                    "id": "2db2ae24-84b6-4a2b-81f2-b25c1684a420",
+                    "status": "successful",
+                    "last_response": {
+                      "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
+                      "code": "domain_removed",
+                      "message": "Domain removed from account"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/2db2ae24-84b6-4a2b-81f2-b25c1684a420"
+                      }
+                    },
+                    "request_type": "release",
+                    "responses": [
+                      {
+                        "id": "c9ae6d99-fc11-4bb3-85b7-e27747e42026",
+                        "code": "domain_removed",
+                        "message": "Domain removed from account"
+                      }
+                    ],
+                    "content": {
+                      "name": "domena.cz"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains
+### GET
 
 Služba pro získání seznamu všech domén.
 
-GET /domains
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "1x.sk",
-      "status": "active",
-      "expires_on": "2011-08-28",
-      "account": {
-        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-        "handle": "META:TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/domains/1x_sk"
-        }
-      }
-    },
-    {
-      "name": "kraxnet.cz",
-      "status": "active",
-      "expires_on": "2011-08-25",
-      "account": {
-        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-        "handle": "META:TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/domains/kraxnet_cz"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
-Služba pro získání seznamu expirujících domén.
+            Accept: application/vnd.1x.common_v1+json
 
-GET /domains/expiring
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "domains": [
-    {
-      "name": "kraxnet.cz",
-      "status": "active",
-      "expires_on": "2011-08-25",
-      "account": {
-        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-        "handle": "META:TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/domains/kraxnet_cz"
-        }
-      }
-    },
-    {
-      "name": "1x.sk",
-      "status": "active",
-      "expires_on": "2011-08-28",
-      "account": {
-        "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-        "handle": "META:TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/domains/1x_sk"
-        }
-      }
-    }
-  ]
-}
++ Response 200 (application/json; charset=utf-8)
+    + Body
 
---
-Contacts
+            {
+              "domains": [
+                {
+                  "name": "1x.sk",
+                  "status": "active",
+                  "expires_on": "2011-08-28",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/domains/1x_sk"
+                    }
+                  }
+                },
+                {
+                  "name": "kraxnet.cz",
+                  "status": "active",
+                  "expires_on": "2011-08-25",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/domains/kraxnet_cz"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /domains/expiring{?days}
+### GET
+
+Služba pro získání seznamu domén, které expirují za n dní.
+
++ Parameters
+    + days = `30` (optional, integer) ... počet dní do expirace
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "domains": [
+                {
+                  "name": "kraxnet.cz",
+                  "status": "active",
+                  "expires_on": "2011-08-25",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/domains/kraxnet_cz"
+                    }
+                  }
+                },
+                {
+                  "name": "1x.sk",
+                  "status": "active",
+                  "expires_on": "2011-08-28",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/domains/1x_sk"
+                    }
+                  }
+                }
+              ]
+            }
+
+
+# Group Contacts
 Tato část popisuje práci s kontakty
---
+
+## /contacts/{id}
+### GET
 
 Detail kontaktu
 
-Parametry:
++ Parameters
+    + id (required, string, `META:TEST`) ... handle nebo UUID kontaktu
 
-* **id** - handle nebo UUID kontaktu
++ Request (application/json)
+    + Headers
 
-GET /contacts/{id}
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": null,
-      "name_prefix": null,
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": null,
-      "identification_number": null,
-      "vat_id": null,
-      "email": "user@test.cz",
-      "phone": "800123456",
-      "fax": null,
-      "street": [
-        "Ulice 123"
-      ],
-      "city": "Město 5",
-      "zip": "12345",
-      "country_code": "CZ",
-      "state": null,
-      "new_cz_nic_handle": null,
-      "cz_nic_notify_email": null,
-      "cz_nic_hide": [],
-      "tld_handles": {
-        "cz": "TEST"
-      },
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      }
-    }
-  ]
-}
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": null,
+                  "name_prefix": null,
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": null,
+                  "identification_number": null,
+                  "vat_id": null,
+                  "email": "user@test.cz",
+                  "phone": "800123456",
+                  "fax": null,
+                  "street": [
+                    "Ulice 123"
+                  ],
+                  "city": "Město 5",
+                  "zip": "12345",
+                  "country_code": "CZ",
+                  "state": null,
+                  "new_cz_nic_handle": null,
+                  "cz_nic_notify_email": null,
+                  "cz_nic_hide": [],
+                  "tld_handles": {
+                    "cz": "TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /contacts/register
+### POST
 
 Služba pro vytvoření nového kontaktu.
 
 Parametry:
 
 * **handle** - identifikátor kontaktu
-* **organization_name** - firma
-* **name_prefix** - titul před jménem
+* *organization_name* - firma
+* *name_prefix* - titul před jménem
 * **first_name** - jméno
 * **last_name** - příjmení
-* **name_suffix** - titul za jménem
-* **identification_number** - IČ
-* **vat_id** - DIČ
+* *name_suffix* - titul za jménem
+* *identification_number* - IČ
+* *vat_id* - DIČ
 * **email** - e-mail
 * **phone** - telefon
-* **fax** - fax
+* *fax* - fax
 * **street** - ulice, číslo popisné
 * **city** - město
 * **zip** - poštovní směrovací číslo
 * **country_code** - kód státu
-* **state** - region
-* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
-* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
-* **cz_nic_hide** - skryté údaje v registru CZ.NIC
-* **id** - universally unique identifier (UUID)
+* *state* - region
+* *new_cz_nic_handle* - identifikátor nového kontaktu CZ.NIC
+* *cz_nic_notify_email* - e-mail pro oznámení CZ.NIC
+* *cz_nic_hide* - skryté údaje v registru CZ.NIC
+* *id* - universally unique identifier (UUID)
 
-POST /contacts/register
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": "Test a.s.",
-      "name_prefix": "Ing.",
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": "CSc.",
-      "identification_number": "12345678",
-      "vat_id": "CZ12345678",
-      "email": "novak@nic.cz",
-      "phone": "+420.800123456",
-      "fax": "+420.800778899",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "state": "",
-      "new_cz_nic_handle": "jnovak",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "ident",
-        "vat",
-        "email",
-        "phone",
-        "fax",
-        "notify_email"
-      ]
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/4c3ba23f-5b58-4e3b-a29a-9e4d2d131da2
-< Content-Type: application/json; charset=utf-8
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": "Test a.s.",
-      "name_prefix": "Ing.",
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": "CSc.",
-      "identification_number": "12345678",
-      "vat_id": "CZ12345678",
-      "email": "novak@nic.cz",
-      "phone": "+420.800123456",
-      "fax": "+420.800778899",
-      "street": [
-        "U testu 5"
-      ],
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "state": null,
-      "new_cz_nic_handle": "jnovak",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "ident",
-        "vat",
-        "email",
-        "phone",
-        "fax",
-        "notify_email"
-      ],
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      },
-      "request": {
-        "id": "df95dab9-3e94-4c39-9c3e-43f05f9d3846",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/df95dab9-3e94-4c39-9c3e-43f05f9d3846"
-          }
-        },
-        "request_type": "register",
-        "responses": [],
-        "content": {
-          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-          "handle": "META:TEST",
-          "organization_name": "Test a.s.",
-          "name_prefix": "Ing.",
-          "first_name": "Jan",
-          "last_name": "Novák",
-          "name_suffix": "CSc.",
-          "identification_number": "12345678",
-          "vat_id": "CZ12345678",
-          "email": "novak@nic.cz",
-          "phone": "+420.800123456",
-          "fax": "+420.800778899",
-          "street": "U testu 5",
-          "city": "Testov 6",
-          "zip": "12310",
-          "country_code": "CZ",
-          "new_cz_nic_handle": "jnovak",
-          "cz_nic_notify_email": "jan.novak@nic.cz",
-          "cz_nic_hide": [
-            "ident",
-            "vat",
-            "email",
-            "phone",
-            "fax",
-            "notify_email"
-          ]
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
-Služba pro transfer CZ.NIC kontaktu.
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": "Test a.s.",
+                  "name_prefix": "Ing.",
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": "CSc.",
+                  "identification_number": "12345678",
+                  "vat_id": "CZ12345678",
+                  "email": "novak@nic.cz",
+                  "phone": "+420.800123456",
+                  "fax": "+420.800778899",
+                  "street": "U testu 5",
+                  "city": "Testov 6",
+                  "zip": "12310",
+                  "country_code": "CZ",
+                  "state": "",
+                  "new_cz_nic_handle": "jnovak",
+                  "cz_nic_notify_email": "jan.novak@nic.cz",
+                  "cz_nic_hide": [
+                    "ident",
+                    "vat",
+                    "email",
+                    "phone",
+                    "fax",
+                    "notify_email"
+                  ]
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/4c3ba23f-5b58-4e3b-a29a-9e4d2d131da2
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": "Test a.s.",
+                  "name_prefix": "Ing.",
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": "CSc.",
+                  "identification_number": "12345678",
+                  "vat_id": "CZ12345678",
+                  "email": "novak@nic.cz",
+                  "phone": "+420.800123456",
+                  "fax": "+420.800778899",
+                  "street": [
+                    "U testu 5"
+                  ],
+                  "city": "Testov 6",
+                  "zip": "12310",
+                  "country_code": "CZ",
+                  "state": null,
+                  "new_cz_nic_handle": "jnovak",
+                  "cz_nic_notify_email": "jan.novak@nic.cz",
+                  "cz_nic_hide": [
+                    "ident",
+                    "vat",
+                    "email",
+                    "phone",
+                    "fax",
+                    "notify_email"
+                  ],
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  },
+                  "request": {
+                    "id": "df95dab9-3e94-4c39-9c3e-43f05f9d3846",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/df95dab9-3e94-4c39-9c3e-43f05f9d3846"
+                      }
+                    },
+                    "request_type": "register",
+                    "responses": [],
+                    "content": {
+                      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                      "handle": "META:TEST",
+                      "organization_name": "Test a.s.",
+                      "name_prefix": "Ing.",
+                      "first_name": "Jan",
+                      "last_name": "Novák",
+                      "name_suffix": "CSc.",
+                      "identification_number": "12345678",
+                      "vat_id": "CZ12345678",
+                      "email": "novak@nic.cz",
+                      "phone": "+420.800123456",
+                      "fax": "+420.800778899",
+                      "street": "U testu 5",
+                      "city": "Testov 6",
+                      "zip": "12310",
+                      "country_code": "CZ",
+                      "new_cz_nic_handle": "jnovak",
+                      "cz_nic_notify_email": "jan.novak@nic.cz",
+                      "cz_nic_hide": [
+                        "ident",
+                        "vat",
+                        "email",
+                        "phone",
+                        "fax",
+                        "notify_email"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+
+## /contacts/transfer
+### POST
+
+Služba pro transfer CZ.NIC kontaktu. Založí nový zákaznický účet u registrátora, převede pod něj kontakt z registru a oprávní k němu subregistrátora.
 
 Parametry:
 
 * **handle** - identifikátor kontaktu
 * **cz_nic_handle** - identifikátor stávajícího kontaktu CZ.NIC
 * **authorization_key** - autorizační klíč kontaktu
-* **id** - universally unique identifier (UUID)
+* *id* - universally unique identifier (UUID)
 
-POST /contacts/transfer
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "cz_nic_handle": "TEST",
-      "authorization_key": "1234abcd"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/cc940839-0097-4482-ab0b-bc78a76c06b6
-< Content-Type: application/json; charset=utf-8
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": "Test a.s.",
-      "name_prefix": "Ing.",
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": "CSc.",
-      "identification_number": "12345678",
-      "vat_id": "CZ12345678",
-      "email": "novak@nic.cz",
-      "phone": "+420.800123456",
-      "fax": "+420.800778899",
-      "street": [
-        "U testu 5"
-      ],
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "state": "",
-      "new_cz_nic_handle": null,
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [],
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      },
-      "request": {
-        "id": "5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a"
-          }
-        },
-        "request_type": "transfer",
-        "responses": [],
-        "content": {
-          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-          "handle": "META:TEST",
-          "cz_nic_handle": "TEST",
-          "authorization_key": "1234abcd"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "cz_nic_handle": "TEST",
+                  "authorization_key": "1234abcd"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/cc940839-0097-4482-ab0b-bc78a76c06b6
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": "Test a.s.",
+                  "name_prefix": "Ing.",
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": "CSc.",
+                  "identification_number": "12345678",
+                  "vat_id": "CZ12345678",
+                  "email": "novak@nic.cz",
+                  "phone": "+420.800123456",
+                  "fax": "+420.800778899",
+                  "street": [
+                    "U testu 5"
+                  ],
+                  "city": "Testov 6",
+                  "zip": "12310",
+                  "country_code": "CZ",
+                  "state": "",
+                  "new_cz_nic_handle": null,
+                  "cz_nic_notify_email": "jan.novak@nic.cz",
+                  "cz_nic_hide": [],
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  },
+                  "request": {
+                    "id": "5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/5fcf5a0a-acab-47e5-9abd-72d7f7bcca9a"
+                      }
+                    },
+                    "request_type": "transfer",
+                    "responses": [],
+                    "content": {
+                      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                      "handle": "META:TEST",
+                      "cz_nic_handle": "TEST",
+                      "authorization_key": "1234abcd"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /contacts/update
+### POST
 
 Služba pro změnu kontaktu.
 
 Parametry:
 
 * **handle** - identifikátor kontaktu
-* **organization_name** - firma
-* **name_prefix** - titul před jménem
+* *organization_name* - firma
+* *name_prefix* - titul před jménem
 * **first_name** - jméno
 * **last_name** - příjmení
-* **name_suffix** - titul za jménem
-* **identification_number** - IČ
-* **vat_id** - DIČ
+* *name_suffix* - titul za jménem
+* *identification_number* - IČ
+* *vat_id* - DIČ
 * **email** - e-mail
 * **phone** - telefon
-* **fax** - fax
+* *fax* - fax
 * **street** - ulice, číslo popisné
 * **city** - město
 * **zip** - poštovní směrovací číslo
 * **country_code** - kód státu
-* **state** - region
-* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
-* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
-* **cz_nic_hide** - skryté údaje v registru CZ.NIC
+* *state* - region
+* *new_cz_nic_handle* - identifikátor nového kontaktu CZ.NIC
+* *cz_nic_notify_email* - e-mail pro oznámení CZ.NIC
+* *cz_nic_hide* - skryté údaje v registru CZ.NIC
 * **id** - universally unique identifier (UUID)
 
-POST /contacts/update
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": "Test a.s.",
-      "name_prefix": "Ing.",
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": "CSc.",
-      "identification_number": "12345678",
-      "vat_id": "CZ12345678",
-      "email": "novak@nic.cz",
-      "phone": "+420.800123456",
-      "fax": "+420.800778899",
-      "street": "U testu 5",
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "state": "",
-      "new_cz_nic_handle": "jnovak",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "ident",
-        "vat",
-        "email",
-        "phone",
-        "fax",
-        "notify_email"
-      ]
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/6b579b10-a0ab-461d-8695-a15edc294812
-< Content-Type: application/json; charset=utf-8
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": "Test a.s.",
-      "name_prefix": "Ing.",
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": "CSc.",
-      "identification_number": "12345678",
-      "vat_id": "CZ12345678",
-      "email": "novak@nic.cz",
-      "phone": "+420.800123456",
-      "fax": "+420.800778899",
-      "street": [
-        "U testu 5"
-      ],
-      "city": "Testov 6",
-      "zip": "12310",
-      "country_code": "CZ",
-      "state": null,
-      "new_cz_nic_handle": "jnovak",
-      "cz_nic_notify_email": "jan.novak@nic.cz",
-      "cz_nic_hide": [
-        "ident",
-        "vat",
-        "email",
-        "phone",
-        "fax",
-        "notify_email"
-      ],
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      },
-      "request": {
-        "id": "1f07456c-8eb6-458c-a461-024affb26eb4",
-        "status": "successful",
-        "last_response": {
-          "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
-          "code": "contact_updated",
-          "message": "Contact updated successfully"
-        },
-        "_links": {
-          "self": {
-            "href": "/requests/1f07456c-8eb6-458c-a461-024affb26eb4"
-          }
-        },
-        "request_type": "update",
-        "responses": [
-          {
-            "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
-            "code": "contact_updated",
-            "message": "Contact updated successfully"
-          }
-        ],
-        "content": {
-          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-          "handle": "META:TEST",
-          "organization_name": "Test a.s.",
-          "name_prefix": "Ing.",
-          "first_name": "Jan",
-          "last_name": "Novák",
-          "name_suffix": "CSc.",
-          "identification_number": "12345678",
-          "vat_id": "CZ12345678",
-          "email": "novak@nic.cz",
-          "phone": "+420.800123456",
-          "fax": "+420.800778899",
-          "street": "U testu 5",
-          "city": "Testov 6",
-          "zip": "12310",
-          "country_code": "CZ",
-          "new_cz_nic_handle": "jnovak",
-          "cz_nic_notify_email": "jan.novak@nic.cz",
-          "cz_nic_hide": [
-            "ident",
-            "vat",
-            "email",
-            "phone",
-            "fax",
-            "notify_email"
-          ]
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
-Služba pro odebrání kontaktu z účtu.
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": "Test a.s.",
+                  "name_prefix": "Ing.",
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": "CSc.",
+                  "identification_number": "12345678",
+                  "vat_id": "CZ12345678",
+                  "email": "novak@nic.cz",
+                  "phone": "+420.800123456",
+                  "fax": "+420.800778899",
+                  "street": "U testu 5",
+                  "city": "Testov 6",
+                  "zip": "12310",
+                  "country_code": "CZ",
+                  "state": "",
+                  "new_cz_nic_handle": "jnovak",
+                  "cz_nic_notify_email": "jan.novak@nic.cz",
+                  "cz_nic_hide": [
+                    "ident",
+                    "vat",
+                    "email",
+                    "phone",
+                    "fax",
+                    "notify_email"
+                  ]
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/6b579b10-a0ab-461d-8695-a15edc294812
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": "Test a.s.",
+                  "name_prefix": "Ing.",
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": "CSc.",
+                  "identification_number": "12345678",
+                  "vat_id": "CZ12345678",
+                  "email": "novak@nic.cz",
+                  "phone": "+420.800123456",
+                  "fax": "+420.800778899",
+                  "street": [
+                    "U testu 5"
+                  ],
+                  "city": "Testov 6",
+                  "zip": "12310",
+                  "country_code": "CZ",
+                  "state": null,
+                  "new_cz_nic_handle": "jnovak",
+                  "cz_nic_notify_email": "jan.novak@nic.cz",
+                  "cz_nic_hide": [
+                    "ident",
+                    "vat",
+                    "email",
+                    "phone",
+                    "fax",
+                    "notify_email"
+                  ],
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  },
+                  "request": {
+                    "id": "1f07456c-8eb6-458c-a461-024affb26eb4",
+                    "status": "successful",
+                    "last_response": {
+                      "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
+                      "code": "contact_updated",
+                      "message": "Contact updated successfully"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/1f07456c-8eb6-458c-a461-024affb26eb4"
+                      }
+                    },
+                    "request_type": "update",
+                    "responses": [
+                      {
+                        "id": "37b73bb3-df6b-477e-a626-3b4b2fffa2b5",
+                        "code": "contact_updated",
+                        "message": "Contact updated successfully"
+                      }
+                    ],
+                    "content": {
+                      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                      "handle": "META:TEST",
+                      "organization_name": "Test a.s.",
+                      "name_prefix": "Ing.",
+                      "first_name": "Jan",
+                      "last_name": "Novák",
+                      "name_suffix": "CSc.",
+                      "identification_number": "12345678",
+                      "vat_id": "CZ12345678",
+                      "email": "novak@nic.cz",
+                      "phone": "+420.800123456",
+                      "fax": "+420.800778899",
+                      "street": "U testu 5",
+                      "city": "Testov 6",
+                      "zip": "12310",
+                      "country_code": "CZ",
+                      "new_cz_nic_handle": "jnovak",
+                      "cz_nic_notify_email": "jan.novak@nic.cz",
+                      "cz_nic_hide": [
+                        "ident",
+                        "vat",
+                        "email",
+                        "phone",
+                        "fax",
+                        "notify_email"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+
+## /contacts/release
+### POST
+
+Služba pro odebrání kontaktu z účtu (zánik vztahu se zákazníkem).
 
 Parametry:
 
 * **handle** - identifikátor kontaktu
 * **id** - universally unique identifier (UUID)
 
-POST /contacts/release
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "contacts": [
-    {
-      "handle": "META:TEST"
-    },
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/3c6ab613-5ab7-4066-9d8c-c348fc2c967c
-< Content-Type: application/json; charset=utf-8
-{
-  "contacts": [
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": null,
-      "name_prefix": null,
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": null,
-      "identification_number": null,
-      "vat_id": null,
-      "email": "user@test.cz",
-      "phone": "800123456",
-      "fax": null,
-      "street": [
-        "Ulice 123"
-      ],
-      "city": "Město 5",
-      "zip": "12345",
-      "country_code": "CZ",
-      "state": null,
-      "new_cz_nic_handle": null,
-      "cz_nic_notify_email": null,
-      "cz_nic_hide": [],
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      },
-      "request": {
-        "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
-        "status": "failed",
-        "last_response": {
-          "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
-          "code": "contact_not_removed",
-          "message": "Contact can not be removed from account"
-        },
-        "_links": {
-          "self": {
-            "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
-          }
-        },
-        "request_type": "release",
-        "responses": [
-          {
-            "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
-            "code": "contact_not_removed",
-            "message": "Contact can not be removed from account"
-          }
-        ],
-        "content": {
-          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
-        }
-      }
-    },
-    {
-      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
-      "handle": "META:TEST",
-      "organization_name": null,
-      "name_prefix": null,
-      "first_name": "Jan",
-      "last_name": "Novák",
-      "name_suffix": null,
-      "identification_number": null,
-      "vat_id": null,
-      "email": "user@test.cz",
-      "phone": "800123456",
-      "fax": null,
-      "street": [
-        "Ulice 123"
-      ],
-      "city": "Město 5",
-      "zip": "12345",
-      "country_code": "CZ",
-      "state": null,
-      "new_cz_nic_handle": null,
-      "cz_nic_notify_email": null,
-      "cz_nic_hide": [],
-      "_links": {
-        "self": {
-          "href": "/contacts/META:TEST"
-        }
-      },
-      "request": {
-        "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
-        "status": "failed",
-        "last_response": {
-          "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
-          "code": "contact_not_removed",
-          "message": "Contact can not be removed from account"
-        },
-        "_links": {
-          "self": {
-            "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
-          }
-        },
-        "request_type": "release",
-        "responses": [
-          {
-            "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
-            "code": "contact_not_removed",
-            "message": "Contact can not be removed from account"
-          }
-        ],
-        "content": {
-          "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
---
-Nssets
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "handle": "META:TEST"
+                },
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/3c6ab613-5ab7-4066-9d8c-c348fc2c967c
+
+    + Body
+
+            {
+              "contacts": [
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": null,
+                  "name_prefix": null,
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": null,
+                  "identification_number": null,
+                  "vat_id": null,
+                  "email": "user@test.cz",
+                  "phone": "800123456",
+                  "fax": null,
+                  "street": [
+                    "Ulice 123"
+                  ],
+                  "city": "Město 5",
+                  "zip": "12345",
+                  "country_code": "CZ",
+                  "state": null,
+                  "new_cz_nic_handle": null,
+                  "cz_nic_notify_email": null,
+                  "cz_nic_hide": [],
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  },
+                  "request": {
+                    "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
+                    "status": "failed",
+                    "last_response": {
+                      "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
+                      "code": "contact_not_removed",
+                      "message": "Contact can not be removed from account"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
+                      }
+                    },
+                    "request_type": "release",
+                    "responses": [
+                      {
+                        "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
+                        "code": "contact_not_removed",
+                        "message": "Contact can not be removed from account"
+                      }
+                    ],
+                    "content": {
+                      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
+                    }
+                  }
+                },
+                {
+                  "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                  "handle": "META:TEST",
+                  "organization_name": null,
+                  "name_prefix": null,
+                  "first_name": "Jan",
+                  "last_name": "Novák",
+                  "name_suffix": null,
+                  "identification_number": null,
+                  "vat_id": null,
+                  "email": "user@test.cz",
+                  "phone": "800123456",
+                  "fax": null,
+                  "street": [
+                    "Ulice 123"
+                  ],
+                  "city": "Město 5",
+                  "zip": "12345",
+                  "country_code": "CZ",
+                  "state": null,
+                  "new_cz_nic_handle": null,
+                  "cz_nic_notify_email": null,
+                  "cz_nic_hide": [],
+                  "_links": {
+                    "self": {
+                      "href": "/contacts/META:TEST"
+                    }
+                  },
+                  "request": {
+                    "id": "2e9caf55-b42c-4267-b4c8-d9aba8ab5356",
+                    "status": "failed",
+                    "last_response": {
+                      "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
+                      "code": "contact_not_removed",
+                      "message": "Contact can not be removed from account"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/2e9caf55-b42c-4267-b4c8-d9aba8ab5356"
+                      }
+                    },
+                    "request_type": "release",
+                    "responses": [
+                      {
+                        "id": "eea45b38-ea00-4564-a1ca-afe16c1672cb",
+                        "code": "contact_not_removed",
+                        "message": "Contact can not be removed from account"
+                      }
+                    ],
+                    "content": {
+                      "id": "4f6e55ef-ba36-4c39-a101-242a0c003611"
+                    }
+                  }
+                }
+              ]
+            }
+
+
+# Group Nssets
 Tato část popisuje práci s nssety
---
+
+## /nssets/check
+### POST
 
 Služba pro ověření dostupnosti nssetu.
 
@@ -1333,47 +1515,63 @@ Parametry:
 
 * **handle** - identifikátor nssetu
 
-POST /nssets/check
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "nssets": [
-    {
-      "handle": "NSSET"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/742a950e-235f-4ddd-99f5-7a3e27b071ac
-< Content-Type: application/json; charset=utf-8
-{
-  "nssets": [
-    {
-      "name": "NSSET",
-      "status": "pending",
-      "_links": {
-        "self": {
-          "href": "/nssets/NSSET"
-        }
-      },
-      "request": {
-        "id": "2ae5338a-819c-423c-be4b-8fd701d52b70",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/2ae5338a-819c-423c-be4b-8fd701d52b70"
-          }
-        },
-        "request_type": "check",
-        "responses": [],
-        "content": {
-          "handle": "NSSET"
-        }
-      }
-    }
-  ]
-}
+Stavy odpovědi (v ["nssets"][0]["request"]["last_response"]["code"]):
+
+* **nsset_available** - identifikátor nssetu je volný pro novou registraci
+* **nsset_unavailable** - identifikátor nssetu není volný
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "handle": "NSSET"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/742a950e-235f-4ddd-99f5-7a3e27b071ac
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "name": "NSSET",
+                  "status": "pending",
+                  "_links": {
+                    "self": {
+                      "href": "/nssets/NSSET"
+                    }
+                  },
+                  "request": {
+                    "id": "2ae5338a-819c-423c-be4b-8fd701d52b70",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/2ae5338a-819c-423c-be4b-8fd701d52b70"
+                      }
+                    },
+                    "request_type": "check",
+                    "responses": [],
+                    "content": {
+                      "handle": "NSSET"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /nssets/register
+### POST
 
 Služba pro vytvoření nového nssetu.
 
@@ -1381,93 +1579,104 @@ Parametry:
 
 * **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
-* **techs** - identifikátory kontaktů oprávněných ke správě nssetu
-* **authorization_key** - autorizační klíč NSSETu
-* **report_level** - úroveň kontroly
+* **techs** - identifikátory kontaktů oprávněných ke správě nssetu (uuid, metahandle nebo id kontaktu v registru)
+* *authorization_key* - autorizační klíč NSSETu
+* *report_level* - úroveň kontroly
 
-POST /nssets/register
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "nssets": [
-    {
-      "handle": "NSSET",
-      "techs": [
-        "TECH1",
-        "TECH2"
-      ],
-      "nameservers": [
-        {
-          "hostname": "ns.kraxnet.cz",
-          "addresses": [
-            "1.2.3.4"
-          ]
-        },
-        {
-          "hostname": "ns.kraxnet.com",
-          "addresses": [
-            "5.6.7.8",
-            "9.10.11.12"
-          ]
-        }
-      ],
-      "authorization_key": "1234abcd",
-      "report_level": "7"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/c35a6011-625e-47a1-8d80-e0f5c95ea9ef
-< Content-Type: application/json; charset=utf-8
-{
-  "nssets": [
-    {
-      "name": "NSSET",
-      "status": "pending",
-      "_links": {
-        "self": {
-          "href": "/nssets/NSSET"
-        }
-      },
-      "request": {
-        "id": "9263ad69-163d-4d5a-ac34-3a2df52f8235",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/9263ad69-163d-4d5a-ac34-3a2df52f8235"
-          }
-        },
-        "request_type": "register",
-        "responses": [],
-        "content": {
-          "handle": "NSSET",
-          "techs": [
-            "TECH1",
-            "TECH2"
-          ],
-          "nameservers": [
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
             {
-              "hostname": "ns.kraxnet.cz",
-              "addresses": [
-                "1.2.3.4"
-              ]
-            },
-            {
-              "hostname": "ns.kraxnet.com",
-              "addresses": [
-                "5.6.7.8",
-                "9.10.11.12"
+              "nssets": [
+                {
+                  "handle": "NSSET",
+                  "techs": [
+                    "TECH1",
+                    "TECH2"
+                  ],
+                  "nameservers": [
+                    {
+                      "hostname": "ns.kraxnet.cz",
+                      "addresses": [
+                        "1.2.3.4"
+                      ]
+                    },
+                    {
+                      "hostname": "ns.kraxnet.com",
+                      "addresses": [
+                        "5.6.7.8",
+                        "9.10.11.12"
+                      ]
+                    }
+                  ],
+                  "authorization_key": "1234abcd",
+                  "report_level": "7"
+                }
               ]
             }
-          ],
-          "authorization_key": "1234abcd",
-          "report_level": "7"
-        }
-      }
-    }
-  ]
-}
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/c35a6011-625e-47a1-8d80-e0f5c95ea9ef
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "name": "NSSET",
+                  "status": "pending",
+                  "_links": {
+                    "self": {
+                      "href": "/nssets/NSSET"
+                    }
+                  },
+                  "request": {
+                    "id": "9263ad69-163d-4d5a-ac34-3a2df52f8235",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/9263ad69-163d-4d5a-ac34-3a2df52f8235"
+                      }
+                    },
+                    "request_type": "register",
+                    "responses": [],
+                    "content": {
+                      "handle": "NSSET",
+                      "techs": [
+                        "TECH1",
+                        "TECH2"
+                      ],
+                      "nameservers": [
+                        {
+                          "hostname": "ns.kraxnet.cz",
+                          "addresses": [
+                            "1.2.3.4"
+                          ]
+                        },
+                        {
+                          "hostname": "ns.kraxnet.com",
+                          "addresses": [
+                            "5.6.7.8",
+                            "9.10.11.12"
+                          ]
+                        }
+                      ],
+                      "authorization_key": "1234abcd",
+                      "report_level": "7"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /nssets/update
+### POST
 
 Služba pro aktualizaci nssetu.
 
@@ -1475,93 +1684,104 @@ Parametry:
 
 * **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
-* **techs** - identifikátory kontaktů oprávněných ke správě nssetu
-* **authorization_key** - autorizační klíč NSSETu
-* **report_level** - úroveň kontroly
+* **techs** - identifikátory kontaktů oprávněných ke správě nssetu (uuid, metahandle nebo id kontaktu v registru)
+* *authorization_key* - autorizační klíč NSSETu
+* *report_level* - úroveň kontroly
 
-POST /nssets/update
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "nssets": [
-    {
-      "handle": "NSSET",
-      "techs": [
-        "TECH1",
-        "TECH2"
-      ],
-      "nameservers": [
-        {
-          "hostname": "ns.kraxnet.cz",
-          "addresses": [
-            "1.2.3.4"
-          ]
-        },
-        {
-          "hostname": "ns.kraxnet.com",
-          "addresses": [
-            "5.6.7.8",
-            "9.10.11.12"
-          ]
-        }
-      ],
-      "authorization_key": "1234abcd",
-      "report_level": "7"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/ebf22ce0-5e2d-4b0c-97a3-c393000bc258
-< Content-Type: application/json; charset=utf-8
-{
-  "nssets": [
-    {
-      "name": "NSSET",
-      "status": "active",
-      "_links": {
-        "self": {
-          "href": "/nssets/NSSET"
-        }
-      },
-      "request": {
-        "id": "afa58cce-1b1f-4eb6-95c7-3093775fd770",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/afa58cce-1b1f-4eb6-95c7-3093775fd770"
-          }
-        },
-        "request_type": "update",
-        "responses": [],
-        "content": {
-          "handle": "NSSET",
-          "techs": [
-            "TECH1",
-            "TECH2"
-          ],
-          "nameservers": [
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
             {
-              "hostname": "ns.kraxnet.cz",
-              "addresses": [
-                "1.2.3.4"
-              ]
-            },
-            {
-              "hostname": "ns.kraxnet.com",
-              "addresses": [
-                "5.6.7.8",
-                "9.10.11.12"
+              "nssets": [
+                {
+                  "handle": "NSSET",
+                  "techs": [
+                    "TECH1",
+                    "TECH2"
+                  ],
+                  "nameservers": [
+                    {
+                      "hostname": "ns.kraxnet.cz",
+                      "addresses": [
+                        "1.2.3.4"
+                      ]
+                    },
+                    {
+                      "hostname": "ns.kraxnet.com",
+                      "addresses": [
+                        "5.6.7.8",
+                        "9.10.11.12"
+                      ]
+                    }
+                  ],
+                  "authorization_key": "1234abcd",
+                  "report_level": "7"
+                }
               ]
             }
-          ],
-          "authorization_key": "1234abcd",
-          "report_level": "7"
-        }
-      }
-    }
-  ]
-}
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/ebf22ce0-5e2d-4b0c-97a3-c393000bc258
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "name": "NSSET",
+                  "status": "active",
+                  "_links": {
+                    "self": {
+                      "href": "/nssets/NSSET"
+                    }
+                  },
+                  "request": {
+                    "id": "afa58cce-1b1f-4eb6-95c7-3093775fd770",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/afa58cce-1b1f-4eb6-95c7-3093775fd770"
+                      }
+                    },
+                    "request_type": "update",
+                    "responses": [],
+                    "content": {
+                      "handle": "NSSET",
+                      "techs": [
+                        "TECH1",
+                        "TECH2"
+                      ],
+                      "nameservers": [
+                        {
+                          "hostname": "ns.kraxnet.cz",
+                          "addresses": [
+                            "1.2.3.4"
+                          ]
+                        },
+                        {
+                          "hostname": "ns.kraxnet.com",
+                          "addresses": [
+                            "5.6.7.8",
+                            "9.10.11.12"
+                          ]
+                        }
+                      ],
+                      "authorization_key": "1234abcd",
+                      "report_level": "7"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /nssets/delete
+### POST
 
 Služba pro zrušení nssetu. Pouze pokud není navázán na doménu.
 
@@ -1569,58 +1789,64 @@ Parametry:
 
 * **handle** - identifikátor nssetu
 
-POST /nssets/delete
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "nssets": [
-    {
-      "handle": "NSSET"
-    }
-  ]
-}
-< 202
-< Location: http://api.1x.sk/orders/7477d40b-d8cb-4836-8593-bf7ebe6b3792
-< Content-Type: application/json; charset=utf-8
-{
-  "nssets": [
-    {
-      "name": "NSSET",
-      "status": "active",
-      "_links": {
-        "self": {
-          "href": "/nssets/NSSET"
-        }
-      },
-      "request": {
-        "id": "68acdd82-c40c-41d6-a2f1-48c01bd0d9be",
-        "status": "waiting_for_authorization",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/68acdd82-c40c-41d6-a2f1-48c01bd0d9be"
-          }
-        },
-        "request_type": "delete",
-        "responses": [],
-        "content": {
-          "handle": "NSSET"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
---
-Requests
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "handle": "NSSET"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/7477d40b-d8cb-4836-8593-bf7ebe6b3792
+
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "name": "NSSET",
+                  "status": "active",
+                  "_links": {
+                    "self": {
+                      "href": "/nssets/NSSET"
+                    }
+                  },
+                  "request": {
+                    "id": "68acdd82-c40c-41d6-a2f1-48c01bd0d9be",
+                    "status": "waiting_for_authorization",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/68acdd82-c40c-41d6-a2f1-48c01bd0d9be"
+                      }
+                    },
+                    "request_type": "delete",
+                    "responses": [],
+                    "content": {
+                      "handle": "NSSET"
+                    }
+                  }
+                }
+              ]
+            }
+
+
+# Group Requests
 Tato část popisuje práci s odpověďmi na požadavky
---
+
+## /requests/{id}/status
+### GET
 
 Služba pro zjištění aktuálního stavu požadavku.
-
-Parametry:
-
-* **id** - identifikátor požadavku
 
 Stavy požadavku:
 
@@ -1632,208 +1858,256 @@ Stavy požadavku:
 * **failed** - požadavek nebyl zpracován kvůli chybě
 * **cancelled** - požadavek byl stornován
 
-GET /requests/{id}/status
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "request": {
-    "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
-    "status": "successful",
-    "last_response": {
-      "id": "ea54eb52-7a90-44da-be12-5c694799f487",
-      "code": "domain_available",
-      "message": "Domain is available"
-    },
-    "_links": {
-      "self": {
-        "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
-      }
-    }
-  }
-}
++ Parameters
+    + id (required, string, `e4fb628f-5417-4977-99bd-b1cd13e26058`) ... identifikátor požadavku
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "request": {
+                "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
+                "status": "successful",
+                "last_response": {
+                  "id": "ea54eb52-7a90-44da-be12-5c694799f487",
+                  "code": "domain_available",
+                  "message": "Domain is available"
+                },
+                "_links": {
+                  "self": {
+                    "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
+                  }
+                }
+              }
+            }
+
+## /requests/{id}
+### GET
 
 Služba pro získání obsahu odeslaného požadavku.
 
-Parametry:
++ Parameters
+    + id (required, string, `e4fb628f-5417-4977-99bd-b1cd13e26058`) ... identifikátor požadavku
 
-* **id** - identifikátor požadavku
++ Request (application/json)
+    + Headers
 
-GET /requests/{id}
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "request": {
-    "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
-    "status": "successful",
-    "last_response": {
-      "id": "ea54eb52-7a90-44da-be12-5c694799f487",
-      "code": "domain_available",
-      "message": "Domain is available"
-    },
-    "_links": {
-      "self": {
-        "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
-      }
-    },
-    "object_type": "domain",
-    "request_type": "check",
-    "registry_object_name": "domena.cz",
-    "responses": [
-      {
-        "id": "ea54eb52-7a90-44da-be12-5c694799f487",
-        "code": "domain_available",
-        "message": "Domain is available"
-      }
-    ],
-    "content": {
-      "name": "domena.cz"
-    }
-  }
-}
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "request": {
+                "id": "e4fb628f-5417-4977-99bd-b1cd13e26058",
+                "status": "successful",
+                "last_response": {
+                  "id": "ea54eb52-7a90-44da-be12-5c694799f487",
+                  "code": "domain_available",
+                  "message": "Domain is available"
+                },
+                "_links": {
+                  "self": {
+                    "href": "/requests/e4fb628f-5417-4977-99bd-b1cd13e26058"
+                  }
+                },
+                "object_type": "domain",
+                "request_type": "check",
+                "registry_object_name": "domena.cz",
+                "responses": [
+                  {
+                    "id": "ea54eb52-7a90-44da-be12-5c694799f487",
+                    "code": "domain_available",
+                    "message": "Domain is available"
+                  }
+                ],
+                "content": {
+                  "name": "domena.cz"
+                }
+              }
+            }
+
+## /requests/{id}/cancel
+### POST
 
 Služba pro stornování požadavku, který se ještě nezpracovává.
 
-Parametry:
++ Parameters
+    + id (required, string, `6af092f2-1da1-47af-b3c9-9b85f50e2356`) ... identifikátor požadavku
 
-* **id** - identifikátor požadavku
++ Request (application/json)
+    + Headers
 
-POST /requests/{id}/cancel
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 201
-< Location: http://api.1x.sk/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356
-< Content-Type: application/json; charset=utf-8
-{
-  "request": {
-    "id": "6af092f2-1da1-47af-b3c9-9b85f50e2356",
-    "status": "cancelled",
-    "last_response": null,
-    "_links": {
-      "self": {
-        "href": "/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356"
-      }
-    }
-  }
-}
+            Accept: application/vnd.1x.common_v1+json
 
---
-Account
++ Response 201 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356
+
+    + Body
+
+            {
+              "request": {
+                "id": "6af092f2-1da1-47af-b3c9-9b85f50e2356",
+                "status": "cancelled",
+                "last_response": {
+                  "id": "2aa93d1a-ab3b-4f17-af25-5968eae0d007",
+                  "code": "cancelled",
+                  "message": "Cancelled"
+                },
+                "_links": {
+                  "self": {
+                    "href": "/requests/6af092f2-1da1-47af-b3c9-9b85f50e2356"
+                  }
+                }
+              }
+            }
+
+
+# Group Account
 Tato část popisuje práci se subregistrátorským účtem
---
+
+## /account/balance
+### GET
 
 Zjištění aktuálního stavu kreditu.
 
-GET /account/balance
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "balance": {
-    "currency": "CZK",
-    "amount": "0.0"
-  }
-}
++ Request (application/json)
+    + Headers
 
-Zálohové daňové doklady
+            Accept: application/vnd.1x.common_v1+json
 
-GET /account/credit_increases
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "credit_increases": [
-    {
-      "id": "5BA1A2D0-515D-0132-C150-080027772E71",
-      "accounting_number": "44010001",
-      "issue_date": "2014-10-28",
-      "amount": "999.96",
-      "tax": "200.04",
-      "total": "1200.0",
-      "currency": "CZK",
-      "_links": {
-        "isdoc": {
-          "href": "/account/credit_increases/44010001.isdoc"
-        },
-        "pdf": {
-          "href": "/account/credit_increases/44010001.pdf"
-        }
-      }
-    }
-  ]
-}
++ Response 200 (application/json; charset=utf-8)
+    + Body
 
-Zúčtovací faktury
+            {
+              "balance": {
+                "currency": "CZK",
+                "amount": "0.0"
+              }
+            }
 
-GET /account/credit_payment_invoices
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "credit_payment_invoices": [
-    {
-      "id": "5C3CEA80-515D-0132-C150-080027772E71",
-      "accounting_number": "44020001",
-      "from": "2014-10-01",
-      "to": "2014-10-31",
-      "issue_date": "2014-10-31",
-      "amount": "200.0",
-      "tax": "40.0",
-      "total": "240.0",
-      "currency": "CZK",
-      "_links": {
-        "isdoc": {
-          "href": "/account/credit_payment_invoices/44020001.isdoc"
-        },
-        "pdf": {
-          "href": "/account/credit_payment_invoices/44020001.pdf"
-        }
-      }
-    }
-  ]
-}
+## /account/credit_increases
+### GET
 
-Vydané faktury
+Seznam vystavených daňových dokladů k přijaté úplatě (záloze)
 
-GET /account/issued_invoices
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-< 200
-< Content-Type: application/json; charset=utf-8
-{
-  "issued_invoices": [
-    {
-      "id": "5CC47BC0-515D-0132-C150-080027772E71",
-      "accounting_number": "44010001",
-      "from": "2014-10-01",
-      "to": "2014-10-31",
-      "issue_date": "2014-10-31",
-      "amount": "200.0",
-      "tax": "40.0",
-      "total": "240.0",
-      "currency": "CZK",
-      "_links": {
-        "isdoc": {
-          "href": "/account/issued_invoices/44010001.isdoc"
-        },
-        "pdf": {
-          "href": "/account/issued_invoices/44010001.pdf"
-        }
-      }
-    }
-  ]
-}
++ Request (application/json)
+    + Headers
 
---
-Order
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "credit_increases": [
+                {
+                  "id": "5BA1A2D0-515D-0132-C150-080027772E71",
+                  "accounting_number": "44010001",
+                  "issue_date": "2014-10-28",
+                  "amount": "999.96",
+                  "tax": "200.04",
+                  "total": "1200.0",
+                  "currency": "CZK",
+                  "_links": {
+                    "isdoc": {
+                      "href": "/account/credit_increases/44010001.isdoc"
+                    },
+                    "pdf": {
+                      "href": "/account/credit_increases/44010001.pdf"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /account/credit_payment_invoices
+### GET
+
+Seznam vystavených měsíčních zúčtovacích faktur na čerpání zálohy
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "credit_payment_invoices": [
+                {
+                  "id": "5C3CEA80-515D-0132-C150-080027772E71",
+                  "accounting_number": "44020001",
+                  "from": "2014-10-01",
+                  "to": "2014-10-31",
+                  "issue_date": "2014-10-31",
+                  "amount": "200.0",
+                  "tax": "40.0",
+                  "total": "240.0",
+                  "currency": "CZK",
+                  "_links": {
+                    "isdoc": {
+                      "href": "/account/credit_payment_invoices/44020001.isdoc"
+                    },
+                    "pdf": {
+                      "href": "/account/credit_payment_invoices/44020001.pdf"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /account/issued_invoices
+### GET
+
+Seznam vydaných faktur
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "issued_invoices": [
+                {
+                  "id": "5CC47BC0-515D-0132-C150-080027772E71",
+                  "accounting_number": "44010001",
+                  "from": "2014-10-01",
+                  "to": "2014-10-31",
+                  "issue_date": "2014-10-31",
+                  "amount": "200.0",
+                  "tax": "40.0",
+                  "total": "240.0",
+                  "currency": "CZK",
+                  "_links": {
+                    "isdoc": {
+                      "href": "/account/issued_invoices/44010001.isdoc"
+                    },
+                    "pdf": {
+                      "href": "/account/issued_invoices/44010001.pdf"
+                    }
+                  }
+                }
+              ]
+            }
+
+
+# Group Order
 Tato část popisuje zadávání objednávek s více požadavky
---
+
+## /orders
+### POST
 
 Služba pro zadání objednávky s více požadavky naráz.
 
@@ -1842,7 +2116,7 @@ Základní parametry jednotlivých požadavků:
 * **request_type** - typ požadavku
 * **object_type** - typ objektu, kterého se požadavek týká
 * **name** - název objektu, které se požadavek týká (pouze pro domény)
-* **id** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
+* **handle** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
 
 Další parametry jsou shodné jako u příslušného typu requestu - viz výše.
 
@@ -1871,69 +2145,94 @@ Pro ostatní objekty navíc:
 
 * delete
 
-POST /orders
-> Content-Type: application/json
-> Accept: application/vnd.1x.common_v1+json
-{
-  "requests": [
-    {
-      "request_type": "check",
-      "object_type": "domain",
-      "name": "domena.cz"
-    },
-    {
-      "request_type": "check",
-      "object_type": "domain",
-      "name": "domena2.cz"
-    }
-  ]
-}
-< 202
-< Content-Type: application/json; charset=utf-8
-{
-  "order": {
-    "id": "53ec857b-7e37-44db-b827-d3b69dba8fe5",
-    "created_at": "2014-10-28T17:32:44+01:00",
-    "requests": [
-      {
-        "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/d3fae326-edab-4fa8-9699-c8f8dc386a4b"
-          }
-        },
-        "object_type": "domain",
-        "request_type": "check",
-        "registry_object_name": "domena.cz",
-        "responses": [],
-        "content": {
-          "name": "domena.cz"
-        }
-      },
-      {
-        "id": "77e6a49a-bae1-4992-9762-cefa6c6ed46b",
-        "status": "processing",
-        "last_response": null,
-        "_links": {
-          "self": {
-            "href": "/requests/77e6a49a-bae1-4992-9762-cefa6c6ed46b"
-          }
-        },
-        "object_type": "domain",
-        "request_type": "check",
-        "registry_object_name": "domena2.cz",
-        "responses": [],
-        "content": {
-          "name": "domena2.cz"
-        }
-      }
-    ],
-    "_links": {
-      "self": {
-        "href": "/orders/53ec857b-7e37-44db-b827-d3b69dba8fe5"
-      }
-    }
-  }
-}
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "requests": [
+                {
+                  "request_type": "check",
+                  "object_type": "domain",
+                  "name": "domena.cz"
+                },
+                {
+                  "request_type": "check",
+                  "object_type": "domain",
+                  "name": "domena2.cz"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "order": {
+                "id": "53ec857b-7e37-44db-b827-d3b69dba8fe5",
+                "created_at": "2014-10-28T17:32:44+01:00",
+                "requests": [
+                  {
+                    "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
+                    "status": "successful",
+                    "last_response": {
+                      "id": "fe7032f3-a51b-4bd8-8fef-040d8c77e75c",
+                      "code": "domain_unavailable",
+                      "message": "Domain is unavailable"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/d3fae326-edab-4fa8-9699-c8f8dc386a4b"
+                      }
+                    },
+                    "object_type": "domain",
+                    "request_type": "check",
+                    "registry_object_name": "domena.cz",
+                    "responses": [
+                      {
+                        "id": "fe7032f3-a51b-4bd8-8fef-040d8c77e75c",
+                        "code": "domain_unavailable",
+                        "message": "Domain is unavailable"
+                      }
+                    ],
+                    "content": {
+                      "name": "domena.cz"
+                    }
+                  },
+                  {
+                    "id": "77e6a49a-bae1-4992-9762-cefa6c6ed46b",
+                    "status": "successful",
+                    "last_response": {
+                      "id": "873e80e1-d919-4acc-ac5e-6dd3d7620a10",
+                      "code": "domain_available",
+                      "message": "Domain is available"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/requests/77e6a49a-bae1-4992-9762-cefa6c6ed46b"
+                      }
+                    },
+                    "object_type": "domain",
+                    "request_type": "check",
+                    "registry_object_name": "domena2.cz",
+                    "responses": [
+                      {
+                        "id": "873e80e1-d919-4acc-ac5e-6dd3d7620a10",
+                        "code": "domain_available",
+                        "message": "Domain is available"
+                      }
+                    ],
+                    "content": {
+                      "name": "domena2.cz"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "/orders/53ec857b-7e37-44db-b827-d3b69dba8fe5"
+                  }
+                }
+              }
+            }
