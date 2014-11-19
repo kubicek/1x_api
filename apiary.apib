@@ -146,13 +146,13 @@ Parametry:
 
 * **name** - jméno domény
 * **registrant** - identifikátor kontaktu držitele
-* **period** - počet let
-* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* *period* - počet let
+* *dns_zone_template_id* - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* *nsset* - identifikátor sady jmenných serverů (pouze pro cz domény)
 * **nameservers** - jména jmenných serverů (pro ostatní domény)
-* **admins** - administrativní kontakty domény
-* **keyset** - identifikátor sady klíčů
-* **authorization_key** - autorizační klíč domény
+* *admins* - administrativní kontakty domény
+* *keyset* - identifikátor sady klíčů
+* *authorization_key* - autorizační klíč domény
 
 + Request (application/json)
     + Headers
@@ -398,8 +398,8 @@ Služba pro prodloužení registrace doménového jména.
 Parametry:
 
 * **name** - jméno domény
-* **current_expiration_date** - datum expirace domény
-* **period** - počet let
+* *current_expiration_date* - datum expirace domény
+* *period* - počet let
 
 + Request (application/json)
     + Headers
@@ -464,8 +464,8 @@ Služba pro redelegaci domény na jiné jmenné servery.
 Parametry:
 
 * **name** - jméno domény
-* **dns_zone_template_id** - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
-* **nsset** - identifikátor sady jmenných serverů (pouze pro cz domény)
+* *dns_zone_template_id* - identifikátor šablony DNS záznamů (deleguje na náš NSSET)
+* *nsset* - identifikátor sady jmenných serverů (pouze pro cz domény)
 * **nameservers** - jména jmenných serverů (pro ostatní domény)
 
 + Request (application/json)
@@ -642,9 +642,9 @@ Služba pro obecnou změnu údajů domény. Neslouží ke změně držitele dom�
 Parametry:
 
 * **name** - jméno domény
-* **admins** - administrativní kontakty domény
-* **keyset** - identifikátor sady klíčů
-* **authorization_key** - autorizační klíč domény
+* *admins* - administrativní kontakty domény
+* *keyset* - identifikátor sady klíčů
+* *authorization_key* - autorizační klíč domény
 
 + Request (application/json)
     + Headers
@@ -936,25 +936,25 @@ Služba pro vytvoření nového kontaktu.
 Parametry:
 
 * **handle** - identifikátor kontaktu
-* **organization_name** - firma
-* **name_prefix** - titul před jménem
+* *organization_name* - firma
+* *name_prefix* - titul před jménem
 * **first_name** - jméno
 * **last_name** - příjmení
-* **name_suffix** - titul za jménem
-* **identification_number** - IČ
-* **vat_id** - DIČ
+* *name_suffix* - titul za jménem
+* *identification_number* - IČ
+* *vat_id* - DIČ
 * **email** - e-mail
 * **phone** - telefon
-* **fax** - fax
+* *fax* - fax
 * **street** - ulice, číslo popisné
 * **city** - město
 * **zip** - poštovní směrovací číslo
 * **country_code** - kód státu
-* **state** - region
-* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
-* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
-* **cz_nic_hide** - skryté údaje v registru CZ.NIC
-* **id** - universally unique identifier (UUID)
+* *state* - region
+* *new_cz_nic_handle* - identifikátor nového kontaktu CZ.NIC
+* *cz_nic_notify_email* - e-mail pro oznámení CZ.NIC
+* *cz_nic_hide* - skryté údaje v registru CZ.NIC
+* *id* - universally unique identifier (UUID)
 
 + Request (application/json)
     + Headers
@@ -1094,7 +1094,7 @@ Parametry:
 * **handle** - identifikátor kontaktu
 * **cz_nic_handle** - identifikátor stávajícího kontaktu CZ.NIC
 * **authorization_key** - autorizační klíč kontaktu
-* **id** - universally unique identifier (UUID)
+* *id* - universally unique identifier (UUID)
 
 + Request (application/json)
     + Headers
@@ -1180,24 +1180,24 @@ Služba pro změnu kontaktu.
 Parametry:
 
 * **handle** - identifikátor kontaktu
-* **organization_name** - firma
-* **name_prefix** - titul před jménem
+* *organization_name* - firma
+* *name_prefix* - titul před jménem
 * **first_name** - jméno
 * **last_name** - příjmení
-* **name_suffix** - titul za jménem
-* **identification_number** - IČ
-* **vat_id** - DIČ
+* *name_suffix* - titul za jménem
+* *identification_number* - IČ
+* *vat_id* - DIČ
 * **email** - e-mail
 * **phone** - telefon
-* **fax** - fax
+* *fax* - fax
 * **street** - ulice, číslo popisné
 * **city** - město
 * **zip** - poštovní směrovací číslo
 * **country_code** - kód státu
-* **state** - region
-* **new_cz_nic_handle** - identifikátor nového kontaktu CZ.NIC
-* **cz_nic_notify_email** - e-mail pro oznámení CZ.NIC
-* **cz_nic_hide** - skryté údaje v registru CZ.NIC
+* *state* - region
+* *new_cz_nic_handle* - identifikátor nového kontaktu CZ.NIC
+* *cz_nic_notify_email* - e-mail pro oznámení CZ.NIC
+* *cz_nic_hide* - skryté údaje v registru CZ.NIC
 * **id** - universally unique identifier (UUID)
 
 + Request (application/json)
@@ -1558,8 +1558,8 @@ Parametry:
 * **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
 * **techs** - identifikátory kontaktů oprávněných ke správě nssetu
-* **authorization_key** - autorizační klíč NSSETu
-* **report_level** - úroveň kontroly
+* *authorization_key* - autorizační klíč NSSETu
+* *report_level* - úroveň kontroly
 
 + Request (application/json)
     + Headers
@@ -1663,8 +1663,8 @@ Parametry:
 * **handle** - identifikátor nssetu
 * **nameservers** - výčet nameserverů
 * **techs** - identifikátory kontaktů oprávněných ke správě nssetu
-* **authorization_key** - autorizační klíč NSSETu
-* **report_level** - úroveň kontroly
+* *authorization_key* - autorizační klíč NSSETu
+* *report_level* - úroveň kontroly
 
 + Request (application/json)
     + Headers
@@ -2090,7 +2090,7 @@ Základní parametry jednotlivých požadavků:
 * **request_type** - typ požadavku
 * **object_type** - typ objektu, kterého se požadavek týká
 * **name** - název objektu, které se požadavek týká (pouze pro domény)
-* **id** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
+* **handle** - identifikátor objektu, kterého se požadavek týká (pro ostatní objekty)
 
 Další parametry jsou shodné jako u příslušného typu requestu - viz výše.
 
