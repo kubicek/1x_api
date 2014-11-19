@@ -120,15 +120,25 @@ Stavy odpovědi:
                   },
                   "request": {
                     "id": "5a86ed03-6917-47c4-905f-c3036f79d258",
-                    "status": "processing",
-                    "last_response": null,
+                    "status": "successful",
+                    "last_response": {
+                      "id": "cec73420-8dcf-4a62-919d-5ff0f631bef5",
+                      "code": "domain_unavailable",
+                      "message": "Domain is unavailable"
+                    },
                     "_links": {
                       "self": {
                         "href": "/requests/5a86ed03-6917-47c4-905f-c3036f79d258"
                       }
                     },
                     "request_type": "check",
-                    "responses": [],
+                    "responses": [
+                      {
+                        "id": "cec73420-8dcf-4a62-919d-5ff0f631bef5",
+                        "code": "domain_unavailable",
+                        "message": "Domain is unavailable"
+                      }
+                    ],
                     "content": {
                       "name": "domena.cz"
                     }
@@ -2150,8 +2160,12 @@ Pro ostatní objekty navíc:
                 "requests": [
                   {
                     "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
-                    "status": "processing",
-                    "last_response": null,
+                    "status": "successful",
+                    "last_response": {
+                      "id": "fe7032f3-a51b-4bd8-8fef-040d8c77e75c",
+                      "code": "domain_unavailable",
+                      "message": "Domain is unavailable"
+                    },
                     "_links": {
                       "self": {
                         "href": "/requests/d3fae326-edab-4fa8-9699-c8f8dc386a4b"
@@ -2160,15 +2174,25 @@ Pro ostatní objekty navíc:
                     "object_type": "domain",
                     "request_type": "check",
                     "registry_object_name": "domena.cz",
-                    "responses": [],
+                    "responses": [
+                      {
+                        "id": "fe7032f3-a51b-4bd8-8fef-040d8c77e75c",
+                        "code": "domain_unavailable",
+                        "message": "Domain is unavailable"
+                      }
+                    ],
                     "content": {
                       "name": "domena.cz"
                     }
                   },
                   {
                     "id": "77e6a49a-bae1-4992-9762-cefa6c6ed46b",
-                    "status": "processing",
-                    "last_response": null,
+                    "status": "successful",
+                    "last_response": {
+                      "id": "873e80e1-d919-4acc-ac5e-6dd3d7620a10",
+                      "code": "domain_available",
+                      "message": "Domain is available"
+                    },
                     "_links": {
                       "self": {
                         "href": "/requests/77e6a49a-bae1-4992-9762-cefa6c6ed46b"
@@ -2177,7 +2201,13 @@ Pro ostatní objekty navíc:
                     "object_type": "domain",
                     "request_type": "check",
                     "registry_object_name": "domena2.cz",
-                    "responses": [],
+                    "responses": [
+                      {
+                        "id": "873e80e1-d919-4acc-ac5e-6dd3d7620a10",
+                        "code": "domain_available",
+                        "message": "Domain is available"
+                      }
+                    ],
                     "content": {
                       "name": "domena2.cz"
                     }
