@@ -42,9 +42,8 @@ Tato část popisuje práci s doménami
 
 Detail domény
 
-Parametry:
-
-* **fqdnu** - název domény s tečkou (.) nahrazenou podtržítkem (_)
++ Parameters
+    + fqdnu (required, string, `1x_sk`) ... název domény s tečkou (.) nahrazenou podtržítkem (_)
 
 + Request (application/json)
     + Headers
@@ -881,9 +880,8 @@ Tato část popisuje práci s kontakty
 
 Detail kontaktu
 
-Parametry:
-
-* **id** - handle nebo UUID kontaktu
++ Parameters
+    + id (required, string, `META:TEST`) ... handle nebo UUID kontaktu
 
 + Request (application/json)
     + Headers
@@ -1828,10 +1826,6 @@ Tato část popisuje práci s odpověďmi na požadavky
 
 Služba pro zjištění aktuálního stavu požadavku.
 
-Parametry:
-
-* **id** - identifikátor požadavku
-
 Stavy požadavku:
 
 * **received** - požadavek přijat
@@ -1841,6 +1835,9 @@ Stavy požadavku:
 * **successful** - požadavek byl úspěšně zpracován
 * **failed** - požadavek nebyl zpracován kvůli chybě
 * **cancelled** - požadavek byl stornován
+
++ Parameters
+    + id (required, string, `e4fb628f-5417-4977-99bd-b1cd13e26058`) ... identifikátor požadavku
 
 + Request (application/json)
     + Headers
@@ -1872,9 +1869,8 @@ Stavy požadavku:
 
 Služba pro získání obsahu odeslaného požadavku.
 
-Parametry:
-
-* **id** - identifikátor požadavku
++ Parameters
+    + id (required, string, `e4fb628f-5417-4977-99bd-b1cd13e26058`) ... identifikátor požadavku
 
 + Request (application/json)
     + Headers
@@ -1919,9 +1915,8 @@ Parametry:
 
 Služba pro stornování požadavku, který se ještě nezpracovává.
 
-Parametry:
-
-* **id** - identifikátor požadavku
++ Parameters
+    + id (required, string, `6af092f2-1da1-47af-b3c9-9b85f50e2356`) ... identifikátor požadavku
 
 + Request (application/json)
     + Headers
