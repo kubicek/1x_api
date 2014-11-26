@@ -81,7 +81,7 @@ Parametry:
 
 * **name** - jméno domény
 
-Stavy odpovědi (v ["domains"][0]["request"]["last_response"]["code"]):
+Stavy odpovědi (v `["domains"][0]["request"]["last_response"]["code"]`):
 
 * **domain_available** - doména je volná pro novou registraci
 * **domain_unavailable** - doména není volná
@@ -1515,7 +1515,7 @@ Parametry:
 
 * **handle** - identifikátor nssetu
 
-Stavy odpovědi (v ["nssets"][0]["request"]["last_response"]["code"]):
+Stavy odpovědi (v `["nssets"][0]["request"]["last_response"]["code"]`):
 
 * **nsset_available** - identifikátor nssetu je volný pro novou registraci
 * **nsset_unavailable** - identifikátor nssetu není volný
@@ -1857,6 +1857,8 @@ Stavy požadavku:
 * **successful** - požadavek byl úspěšně zpracován
 * **failed** - požadavek nebyl zpracován kvůli chybě
 * **cancelled** - požadavek byl stornován
+
+Pokud v průběhu zpracovávání požadavku zadáte stejný požadavek ještě jednou, bude vyhodnocen jako duplicitní a nebude zpracován. Odpověď bude navíc obsahovat `duplicate_id` - id původního požadavku.
 
 + Parameters
     + id (required, string, `e4fb628f-5417-4977-99bd-b1cd13e26058`) ... identifikátor požadavku
