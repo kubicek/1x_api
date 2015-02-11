@@ -8,7 +8,7 @@ Společnost 1X je registrátorem domén. Prostřednictvím API nabízí služby 
 
 ## Koncoví zákazníci
 
-Koncový zákazník si zaregistruje účet (kontakt), pomocí kterého se přihlašuje do systému 1X a registruje pod ním domény. Údaje z kontaktu jsou automaticky propisovány do jednotlivých registrů, kde dochází k automatickému zakládání kontaktl při první registraci domény. Aktualizace údajů kontaktu (např. změna adresy zákazníka) se automaticky propisuje do všech registrů.
+Koncový zákazník si zaregistruje účet (kontakt), pomocí kterého se přihlašuje do systému 1X a registruje pod ním domény. Údaje z kontaktu jsou automaticky propisovány do jednotlivých registrů, kde dochází k automatickému zakládání kontaktů při první registraci domény. Aktualizace údajů kontaktu (např. změna adresy zákazníka) se automaticky propisuje do všech registrů.
 
 ## Subregistrátoři
 
@@ -1506,6 +1506,40 @@ Parametry:
 # Group Nssets
 Tato část popisuje práci s nssety
 
+## /nssets/{id}
+### GET
+
+Služba pro získání základních informací o NSSETu. Vrací informaci o stavu NSSETu a zákaznickém účtu, pod kterým je veden.
+
++ Parameters
+    + id (required, string, `NSSET`) ... identifikátor nssetu
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "nssets": [
+                {
+                  "name": "NSSET",
+                  "status": "active",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/nssets/NSSET"
+                    }
+                  }
+                }
+              ]
+            }
+
 ## /nssets/check
 ### POST
 
@@ -1833,6 +1867,343 @@ Parametry:
                     "responses": [],
                     "content": {
                       "handle": "NSSET"
+                    }
+                  }
+                }
+              ]
+            }
+
+
+# Group Keysets
+Tato část popisuje práci s keysety
+
+## /keysets/{id}
+### GET
+
+Služba pro získání základních informací o KEYSETu. Vrací informaci o stavu KEYSETu a zákaznickém účtu, pod kterým je veden.
+
++ Parameters
+    + id (required, string, `KEYSET`) ... identifikátor keysetu
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "name": "KEYSET",
+                  "status": "active",
+                  "account": {
+                    "id": "4f6e55ef-ba36-4c39-a101-242a0c003611",
+                    "handle": "META:TEST"
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/keysets/KEYSET"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /keysets/check
+### POST
+
+Služba pro ověření dostupnosti keysetu.
+
+Parametry:
+
+* **handle** - identifikátor keysetu
+
+Stavy odpovědi (v `["keysets"][0]["request"]["last_response"]["code"]`):
+
+* **keyset_available** - identifikátor keysetu je volný pro novou registraci
+* **keyset_unavailable** - identifikátor keysetu není volný
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "handle": "KEYSET"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/1cc8c7c5-b549-49ae-8112-c468ece25a5b
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "name": "KEYSET",
+                  "status": "pending",
+                  "_links": {
+                    "self": {
+                      "href": "/keysets/KEYSET"
+                    }
+                  },
+                  "request": {
+                    "id": "2502122c-1e9c-464e-9414-404260756783",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/2502122c-1e9c-464e-9414-404260756783"
+                      }
+                    },
+                    "request_type": "check",
+                    "responses": [],
+                    "content": {
+                      "handle": "KEYSET"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /keysets/register
+### POST
+
+Služba pro vytvoření nového keysetu.
+
+Parametry:
+
+* **handle** - identifikátor keysetu
+* **dns_keys** - klíče
+* **techs** - identifikátory kontaktů oprávněných ke správě keysetu (uuid, metahandle nebo id kontaktu v registru)
+* *authorization_key* - autorizační klíč KEYSETu
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "handle": "KEYSET",
+                  "techs": [
+                    "TECH1",
+                    "TECH2"
+                  ],
+                  "dns_keys": [
+                    {
+                      "flags": "256",
+                      "protocol": "3",
+                      "algorithm": "1",
+                      "public_key": "S0VZU0VU"
+                    }
+                  ],
+                  "authorization_key": "auth1234"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/f1619e76-618e-4a9d-937e-ca719fe69da2
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "name": "KEYSET",
+                  "status": "pending",
+                  "_links": {
+                    "self": {
+                      "href": "/keysets/KEYSET"
+                    }
+                  },
+                  "request": {
+                    "id": "5dea50d2-89a6-45b4-b3c7-2fd74086434d",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/5dea50d2-89a6-45b4-b3c7-2fd74086434d"
+                      }
+                    },
+                    "request_type": "register",
+                    "responses": [],
+                    "content": {
+                      "handle": "KEYSET",
+                      "techs": [
+                        "TECH1",
+                        "TECH2"
+                      ],
+                      "dns_keys": [
+                        {
+                          "flags": "256",
+                          "protocol": "3",
+                          "algorithm": "1",
+                          "public_key": "S0VZU0VU"
+                        }
+                      ],
+                      "authorization_key": "auth1234"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /keysets/update
+### POST
+
+Služba pro aktualizaci keysetu.
+
+Parametry:
+
+* **handle** - identifikátor keysetu
+* **dns_keys** - klíče
+* **techs** - identifikátory kontaktů oprávněných ke správě keysetu (uuid, metahandle nebo id kontaktu v registru)
+* *authorization_key* - autorizační klíč KEYSETu
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "handle": "KEYSET",
+                  "techs": [
+                    "TECH1",
+                    "TECH2"
+                  ],
+                  "dns_keys": [
+                    {
+                      "flags": "256",
+                      "protocol": "3",
+                      "algorithm": "1",
+                      "public_key": "S0VZU0VU"
+                    }
+                  ],
+                  "authorization_key": "auth1234"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/faa0d966-0255-488f-b842-71fba6b208c9
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "name": "KEYSET",
+                  "status": "active",
+                  "_links": {
+                    "self": {
+                      "href": "/keysets/KEYSET"
+                    }
+                  },
+                  "request": {
+                    "id": "c70f44cc-3f8a-45b8-a7db-be516f0af70b",
+                    "status": "processing",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/c70f44cc-3f8a-45b8-a7db-be516f0af70b"
+                      }
+                    },
+                    "request_type": "update",
+                    "responses": [],
+                    "content": {
+                      "handle": "KEYSET",
+                      "techs": [
+                        "TECH1",
+                        "TECH2"
+                      ],
+                      "dns_keys": [
+                        {
+                          "flags": "256",
+                          "protocol": "3",
+                          "algorithm": "1",
+                          "public_key": "S0VZU0VU"
+                        }
+                      ],
+                      "authorization_key": "auth1234"
+                    }
+                  }
+                }
+              ]
+            }
+
+## /keysets/delete
+### POST
+
+Služba pro zrušení keysetu. Pouze pokud není navázán na doménu.
+
+Parametry:
+
+* **handle** - identifikátor keysetu
+
++ Request (application/json)
+    + Headers
+
+            Accept: application/vnd.1x.common_v1+json
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "handle": "KEYSET"
+                }
+              ]
+            }
++ Response 202 (application/json; charset=utf-8)
+    + Headers
+
+            Location: http://api.1x.sk/orders/649ce18f-82cf-44e3-ad0c-0e37188bf79b
+
+    + Body
+
+            {
+              "keysets": [
+                {
+                  "name": "KEYSET",
+                  "status": "active",
+                  "_links": {
+                    "self": {
+                      "href": "/keysets/KEYSET"
+                    }
+                  },
+                  "request": {
+                    "id": "01cabafb-c045-44a8-a16f-9d7c1054cc9b",
+                    "status": "waiting_for_authorization",
+                    "last_response": null,
+                    "_links": {
+                      "self": {
+                        "href": "/requests/01cabafb-c045-44a8-a16f-9d7c1054cc9b"
+                      }
+                    },
+                    "request_type": "delete",
+                    "responses": [],
+                    "content": {
+                      "handle": "KEYSET"
                     }
                   }
                 }
@@ -2174,7 +2545,7 @@ Pro ostatní objekty navíc:
             {
               "order": {
                 "id": "53ec857b-7e37-44db-b827-d3b69dba8fe5",
-                "created_at": "2014-10-28T17:32:44+01:00",
+                "created_at": "2014-10-28T17:32:44.000+01:00",
                 "requests": [
                   {
                     "id": "d3fae326-edab-4fa8-9699-c8f8dc386a4b",
